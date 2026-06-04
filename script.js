@@ -1,5 +1,5 @@
 // Data structure
-let userPoints = 1000;
+let userPoints = 1000.000;
 let selectedBets = [];
 let matches = [
     { id: 1, teamA: "بەڕازیل", teamB: "ئەرجەنتین", oddsA: 1.85, oddsB: 2.10, status: "live" },
@@ -7,7 +7,45 @@ let matches = [
     { id: 3, teamA: "پورتوگال", teamB: "ئیسپانیا", oddsA: 2.40, oddsB: 1.70, status: "upcoming" },
 ];
 
-// ڕێنمایی یارییەکان
+// ========== فەنکشنی کۆین بە شێوەی currency ==========
+function formatPoints(points) {
+    let rounded = Math.round(points * 1000) / 1000;
+    let parts = rounded.toFixed(3).split('.');
+    let integerPart = parseInt(parts[0]).toLocaleString('en-US');
+    let decimalPart = parts[1];
+    return `${integerPart}.${decimalPart}`;
+}
+
+function updatePointsDisplay(newPoints) {
+    userPoints = newPoints;
+    const formatted = formatPoints(userPoints);
+    const pointsElements = document.querySelectorAll('.points-value');
+    pointsElements.forEach(el => {
+        if (el) el.innerText = formatted;
+    });
+    // هەروەها لە localStorage هەڵیبگرە
+    localStorage.setItem('userPoints', userPoints);
+}
+
+function addWinnings(amount) {
+    let newPoints = userPoints + amount;
+    newPoints = Math.round(newPoints * 1000) / 1000;
+    updatePointsDisplay(newPoints);
+    return newPoints;
+}
+
+// Load points from localStorage
+function loadUserPoints() {
+    const saved = localStorage.getItem('userPoints');
+    if(saved !== null && !isNaN(parseFloat(saved))) {
+        userPoints = parseFloat(saved);
+    } else {
+        userPoints = 1000.000;
+    }
+    updatePointsDisplay(userPoints);
+}
+
+// ========== ڕێنمایی یارییەکان ==========
 function renderMatches() {
     const container = document.getElementById('matchesList');
     if (!container) return;
@@ -46,6 +84,7 @@ function renderMatches() {
     // ئیڤێنت بۆ هەڵبژاردنی ئۆدەس
     document.querySelectorAll('.odd-box').forEach(box => {
         box.addEventListener('click', (e) => {
+            e.stopPropagation();
             const matchId = parseInt(box.dataset.match);
             const pick = box.dataset.pick;
             const odds = parseFloat(box.dataset.odds);
@@ -106,20 +145,20 @@ function placeMultibet() {
     
     let stake = 100;
     if (userPoints < stake) {
-        alert("پۆینتەکەت کەمە! 100 پۆینت پێویستە");
+        alert(`پۆینتەکەت کەمە! ${formatPoints(userPoints)} پۆینت هەیە، 100 پۆینت پێویستە`);
         return;
     }
     
     let totalOdds = 1;
     selectedBets.forEach(b => totalOdds *= b.odds);
-    let potentialWin = Math.floor(stake * totalOdds);
+    let potentialWin = (stake * totalOdds);
+    potentialWin = Math.round(potentialWin * 1000) / 1000;
     
-    if (confirm(`پێشبینی بکەیت بە ${stake} پۆینت؟\nئەگەر هەموو هەڵبژێردراوەکان دروست بن، ${potentialWin} پۆینت دەبەیتەوە.`)) {
-        userPoints -= stake;
-        document.getElementById('userPointsNav').innerText = userPoints;
-        alert(`پێشبینی تۆمارکرا! دوای یارییەکان ئەنجام دەردەکەوێت.\nئێستا پۆینتەکان: ${userPoints}`);
+    if (confirm(`پێشبینی بکەیت بە ${stake} پۆینت؟\nئەگەر هەموو هەڵبژێردراوەکان دروست بن، ${formatPoints(potentialWin)} پۆینت دەبەیتەوە.`)) {
+        userPoints = Math.round((userPoints - stake) * 1000) / 1000;
+        updatePointsDisplay(userPoints);
+        alert(`✅ پێشبینی تۆمارکرا! دوای یارییەکان ئەنجام دەردەکەوێت.\nئێستا پۆینتەکان: ${formatPoints(userPoints)}`);
         
-        // پاککردنەوەی هەڵبژاردنەکان
         selectedBets = [];
         updateMultibar();
         renderMatches();
@@ -147,13 +186,12 @@ function addMatch() {
     
     renderMatches();
     
-    // پاککردنەوەی فۆرم
     document.getElementById('teamA').value = '';
     document.getElementById('teamB').value = '';
     document.getElementById('oddsA').value = '';
     document.getElementById('oddsB').value = '';
     
-    alert(`یاری ${teamA} vs ${teamB} زیادکرا`);
+    alert(`✅ یاری ${teamA} vs ${teamB} زیادکرا`);
 }
 
 // ناردنی چات
@@ -170,7 +208,7 @@ function sendChatMessage() {
         
         setTimeout(() => {
             const reply = document.createElement('div');
-            reply.innerHTML = `<span class="admin-badge">پشتگیری</span> سوپاس، بەم زوانە وەڵامت دەدەمەوە`;
+            reply.innerHTML = `<span class="admin-badge">پشتگیری</span> سوپاس، بەم زوانە وەڵامت دەدەمەوە ✨`;
             chatDiv.appendChild(reply);
             chatDiv.scrollTop = chatDiv.scrollHeight;
         }, 800);
@@ -193,7 +231,7 @@ function initTabs() {
     });
 }
 
-// مێنوو کردن و داخستن
+// مێنوو کردن و داخستن (لە خوار بانەڕەوە)
 function initMenu() {
     const menuBtn = document.getElementById('menuToggleBtn');
     const sideMenu = document.getElementById('sideMenu');
@@ -204,26 +242,53 @@ function initMenu() {
         overlay.classList.remove('active');
     }
     
-    menuBtn?.addEventListener('click', () => {
-        sideMenu.classList.toggle('open');
-        overlay.classList.toggle('active');
-    });
+    if(menuBtn) {
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sideMenu.classList.toggle('open');
+            overlay.classList.toggle('active');
+        });
+    }
     
-    overlay?.addEventListener('click', closeMenu);
+    if(overlay) overlay.addEventListener('click', closeMenu);
+    
+    document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape' && sideMenu.classList.contains('open')) {
+            closeMenu();
+        }
+    });
 }
 
-// Initialization
+// دەستپێکردن
 document.addEventListener('DOMContentLoaded', () => {
+    loadUserPoints();
     renderMatches();
     updateMultibar();
     initTabs();
     initMenu();
     
-    document.getElementById('userPointsNav').innerText = userPoints;
-    document.getElementById('placeMultibetBtn').addEventListener('click', placeMultibet);
-    document.getElementById('addMatchBtnAdmin')?.addEventListener('click', addMatch);
-    document.getElementById('sendChatBtn')?.addEventListener('click', sendChatMessage);
-    document.getElementById('chatInput')?.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendChatMessage();
-    });
+    const placeBtn = document.getElementById('placeMultibetBtn');
+    if(placeBtn) placeBtn.addEventListener('click', placeMultibet);
+    
+    const addBtn = document.getElementById('addMatchBtnAdmin');
+    if(addBtn) addBtn.addEventListener('click', addMatch);
+    
+    const sendBtn = document.getElementById('sendChatBtn');
+    if(sendBtn) sendBtn.addEventListener('click', sendChatMessage);
+    
+    const chatInput = document.getElementById('chatInput');
+    if(chatInput) {
+        chatInput.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') sendChatMessage();
+        });
+    }
+    
+    const updateResultBtn = document.getElementById('updateResultBtn');
+    if(updateResultBtn) {
+        updateResultBtn.addEventListener('click', () => {
+            const result = document.getElementById('matchResult').value;
+            if(result) alert(`ئەنجامەکە نوێکرایەوە: ${result} (دیمۆ)`);
+            else alert('تکایە ئەنجامێک بنووسە');
+        });
+    }
 });
