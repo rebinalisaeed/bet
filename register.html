@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ku">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خۆتۆمارکردن - پێشبڕکێی گەل</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-auth.css">
+</head>
+<body class="auth-body">
+    <div class="auth-container register-container">
+        <div class="auth-card register-card">
+            <div class="auth-header">
+                <img src="images/logo.png" alt="Logo" class="auth-logo" onerror="this.src='https://placehold.co/100x40?text=🏆'">
+                <h1>📝 خۆتۆمارکردن</h1>
+                <p>بەخێربێیت! هەژمارێکی نوێ دروست بکە</p>
+            </div>
+
+            <form id="registerForm">
+                <!-- ناوەکان -->
+                <div class="form-row">
+                    <div class="input-group half">
+                        <label>📛 ناوی یەکەم</label>
+                        <input type="text" id="firstName" placeholder="ناوی یەکەم" required>
+                    </div>
+                    <div class="input-group half">
+                        <label>📛 ناوی دووەم</label>
+                        <input type="text" id="lastName" placeholder="ناوی دووەم" required>
+                    </div>
+                </div>
+
+                <!-- یوزەرنەیم -->
+                <div class="input-group">
+                    <label>👤 یوزەرنەیم (بۆ چوونەژوورەوە)</label>
+                    <input type="text" id="username" placeholder="یوزەرنەیمێکی تایبەت" required>
+                    <small id="usernameCheck"></small>
+                </div>
+
+                <!-- پاسوۆرد -->
+                <div class="form-row">
+                    <div class="input-group half">
+                        <label>🔒 پاسوۆرد</label>
+                        <input type="password" id="password" placeholder="پاسوۆرد" required>
+                    </div>
+                    <div class="input-group half">
+                        <label>🔄 دووبارە پاسوۆرد</label>
+                        <input type="password" id="confirmPassword" placeholder="دووبارە پاسوۆرد" required>
+                    </div>
+                </div>
+
+                <!-- ژمارەی مۆبایل -->
+                <div class="input-group">
+                    <label>📱 ژمارەی مۆبایل</label>
+                    <div class="phone-wrapper">
+                        <span class="phone-code">+964</span>
+                        <input type="tel" id="phoneNumber" placeholder="٧٧٠٠٠٠٠٠٠٠" required>
+                    </div>
+                    <button type="button" id="sendPhoneCodeBtn" class="small-btn">📲 ناردنی کۆد</button>
+                    <div class="code-row">
+                        <input type="text" id="phoneCode" placeholder="کۆدی پشتڕاستکردنەوە">
+                        <button type="button" id="verifyPhoneBtn" class="verify-btn">پشتڕاستکردنەوە</button>
+                    </div>
+                    <small id="phoneVerified" class="verified-badge"></small>
+                </div>
+
+                <!-- کارتی نیشتیمانی -->
+                <div class="input-group">
+                    <label>🪪 کۆدی کارتی نیشتیمانی عێراق</label>
+                    <input type="text" id="nationalId" placeholder="١٢ رقمەکەی کارتەکەت" required>
+                </div>
+
+                <!-- ئیمەیڵ -->
+                <div class="input-group">
+                    <label>📧 ئیمەیڵ</label>
+                    <input type="email" id="email" placeholder="example@domain.com" required>
+                    <button type="button" id="sendEmailCodeBtn" class="small-btn">✉️ ناردنی کۆد</button>
+                    <div class="code-row">
+                        <input type="text" id="emailCode" placeholder="کۆدی پشتڕاستکردنەوە">
+                        <button type="button" id="verifyEmailBtn" class="verify-btn">پشتڕاستکردنەوە</button>
+                    </div>
+                    <small id="emailVerified" class="verified-badge"></small>
+                </div>
+
+                <!-- سەپۆرتی کۆڕەک و ئاسیاسێل -->
+                <div class="form-row">
+                    <div class="input-group half">
+                        <label>🏢 سەپۆرتی</label>
+                        <input type="text" id="support" placeholder="سەپۆرت (ئارامۆ)" required>
+                    </div>
+                    <div class="input-group half">
+                        <label>🏘️ کۆڕەک</label>
+                        <input type="text" id="korak" placeholder="کۆڕەک" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group half">
+                        <label>🌍 ئاسیاسێل</label>
+                        <input type="text" id="asiasel" placeholder="ئاسیاسێل" required>
+                    </div>
+                    <div class="input-group half">
+                        <label>📍 زەین</label>
+                        <input type="text" id="zain" placeholder="زەین" required>
+                    </div>
+                    <div class="input-group half">
+                        <label>💳 بکات</label>
+                        <input type="text" id="bkat" placeholder="بکات (ئارامۆ)">
+                    </div>
+                </div>
+
+                <!-- مەرج و ڕێسا -->
+                <label class="checkbox-label full-width">
+                    <input type="checkbox" id="termsCheckbox" required>
+                    من <strong>مەرج و ڕێساکانی سایتی پێشبینی</strong>م خوێندووەتەوە و ڕازیم
+                </label>
+
+                <button type="submit" class="auth-btn" id="submitRegisterBtn">✅ تۆمارکردن</button>
+
+                <div class="auth-footer">
+                    هەژمارت هەیە؟ <a href="login.html">چوونەژوورەوە</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // پشتڕاستکردنەوەکانی دیمۆ
+        let phoneVerified = false;
+        let emailVerified = false;
+
+        // ناردنی کۆد بۆ مۆبایل
+        document.getElementById('sendPhoneCodeBtn').addEventListener('click', () => {
+            const phone = document.getElementById('phoneNumber').value;
+            if(phone.length < 9) {
+                alert('تکایە ژمارەی مۆبایلی تەواو بنووسە (لە دوای +964)');
+                return;
+            }
+            alert(`کۆدێکی 6 ژمارەی بۆ تەلەفۆنی ${phone} نێردرا (دیمۆ: 123456)`);
+            document.getElementById('phoneCode').disabled = false;
+            document.getElementById('verifyPhoneBtn').disabled = false;
+        });
+
+        document.getElementById('verifyPhoneBtn').addEventListener('click', () => {
+            const code = document.getElementById('phoneCode').value;
+            if(code === '123456') {
+                phoneVerified = true;
+                document.getElementById('phoneVerified').innerHTML = '✅ ژمارەی مۆبایل پشتڕاستکرایەوە';
+                document.getElementById('phoneVerified').style.color = '#4caf50';
+            } else {
+                alert('کۆدەکە هەڵەیە! کۆدە ڕاستەقینەکە 123456');
+            }
+        });
+
+        // ناردنی کۆد بۆ ئیمەیڵ
+        document.getElementById('sendEmailCodeBtn').addEventListener('click', () => {
+            const email = document.getElementById('email').value;
+            if(!email.includes('@')) {
+                alert('ئیمەیڵێکی ڕاستەقینە بنووسە');
+                return;
+            }
+            alert(`کۆدێک بۆ ئیمەیڵی ${email} نێردرا (دیمۆ: 654321)`);
+        });
+
+        document.getElementById('verifyEmailBtn').addEventListener('click', () => {
+            const code = document.getElementById('emailCode').value;
+            if(code === '654321') {
+                emailVerified = true;
+                document.getElementById('emailVerified').innerHTML = '✅ ئیمەیڵ پشتڕاستکرایەوە';
+                document.getElementById('emailVerified').style.color = '#4caf50';
+            } else {
+                alert('کۆدەکە هەڵەیە! کۆدە ڕاستەقینەکە 654321');
+            }
+        });
+
+        // پشتڕاستکردنەوەی پاسوۆرد
+        function validatePasswords() {
+            const pass = document.getElementById('password').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            if(pass !== confirm && confirm !== '') {
+                document.getElementById('confirmPassword').style.border = '2px solid #ff4444';
+                return false;
+            } else {
+                document.getElementById('confirmPassword').style.border = '1px solid #2e3448';
+                return true;
+            }
+        }
+        document.getElementById('password').addEventListener('input', validatePasswords);
+        document.getElementById('confirmPassword').addEventListener('input', validatePasswords);
+
+        // تۆمارکردن
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+            const phone = document.getElementById('phoneNumber').value;
+            const nationalId = document.getElementById('nationalId').value;
+            const email = document.getElementById('email').value;
+            const terms = document.getElementById('termsCheckbox').checked;
+
+            if(!firstName || !lastName || !username || !password || !phone || !nationalId || !email) {
+                alert('تکایە هەموو خانە پێویستەکان پڕبکەوە');
+                return;
+            }
+            if(password !== confirmPass) {
+                alert('پاسوۆردەکان یەکسان نین');
+                return;
+            }
+            if(!phoneVerified) {
+                alert('تکایە یەکەمجار ژمارەی مۆبایل پشتڕاستبکەوە');
+                return;
+            }
+            if(!emailVerified) {
+                alert('تکایە ئیمەیڵ پشتڕاستبکەوە');
+                return;
+            }
+            if(!terms) {
+                alert('تکایە ڕازی بن بە مەرج و ڕێساکان');
+                return;
+            }
+            if(password.length < 6) {
+                alert('پاسوۆرد دەبێت لانیکەم 6 پیت بێت');
+                return;
+            }
+
+            // هەموو شتێک باشە
+            alert(`بەخێربێیت ${firstName} ${lastName}!\nتۆمارکردن سەرکەوتوو بوو. ئێستا دەچیتەوە پەڕەی چوونەژوورەوە`);
+            localStorage.setItem('registeredUser', username);
+            window.location.href = 'login.html';
+        });
+
+        // پشتڕاستکردنەوەی یوزەرنەیم
+        document.getElementById('username').addEventListener('input', (e) => {
+            const val = e.target.value;
+            if(val.length < 4) {
+                document.getElementById('usernameCheck').innerHTML = '⚠️ لانیکەم 4 پیت';
+                document.getElementById('usernameCheck').style.color = '#ffaa44';
+            } else {
+                document.getElementById('usernameCheck').innerHTML = '✅ بەردەستە';
+                document.getElementById('usernameCheck').style.color = '#4caf50';
+            }
+        });
+    </script>
+</body>
+</html>
