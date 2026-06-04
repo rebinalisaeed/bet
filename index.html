@@ -2,563 +2,567 @@
 <html dir="rtl" lang="ku">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>پێشبڕکێی خۆڕایی - مۆندیالی 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>پێشبڕکێی گەل - مۆندیال 2026</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: system-ui, 'Segoe UI', 'Tahoma', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #0a2f1f 0%, #0a3b2a 100%);
-            min-height: 100vh;
-            padding: 1rem;
-            color: #f5f2e0;
+            font-family: 'Segoe UI', system-ui, -apple-system, 'Tahoma', sans-serif;
+            background: #0a0c12;
+            color: #eef2ff;
+            padding-bottom: 75px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        /* scrollbar جوان */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #1e1f2c; }
+        ::-webkit-scrollbar-thumb { background: #f5b042; border-radius: 10px; }
 
-        /* header */
-        .hero {
-            text-align: center;
-            padding: 1.5rem 0.5rem;
-            background: rgba(0,0,0,0.3);
-            border-radius: 2rem;
-            margin-bottom: 2rem;
-            backdrop-filter: blur(4px);
+        /* navbar سەرەوە */
+        .top-nav {
+            background: #0f1119;
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2a2d3a;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-
-        .hero h1 {
-            font-size: 2.2rem;
-            background: linear-gradient(135deg, #FFD966, #FFB347);
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FFD966, #FF8C42);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            margin-bottom: 0.5rem;
         }
-
-        .hero p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .countdown {
-            background: #1e2a1f;
-            display: inline-block;
-            padding: 0.5rem 1.2rem;
-            border-radius: 3rem;
-            margin-top: 0.8rem;
+        .points-badge {
+            background: #1f2538;
+            padding: 6px 14px;
+            border-radius: 40px;
             font-weight: bold;
-            border: 1px solid #ffb347;
+            font-size: 0.9rem;
+            border: 1px solid #f5b042;
         }
-
-        /* بطاقات */
-        .stats-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: #1f3629;
-            border-radius: 1.5rem;
-            padding: 1rem 1.5rem;
-            text-align: center;
-            flex: 1;
-            min-width: 130px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            border-bottom: 3px solid #FFB347;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
+        .points-badge span {
             color: #FFD966;
+            font-size: 1.2rem;
         }
 
-        /* جدول المباريات */
-        .matches-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.2rem;
-            margin-bottom: 2.5rem;
+        /* container */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 16px;
         }
 
+        /* swipe tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            background: #11131f;
+            padding: 8px;
+            border-radius: 48px;
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #aaa;
+            padding: 10px 0;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: #f5b042;
+            color: #0a0c12;
+            box-shadow: 0 2px 8px rgba(245,176,66,0.3);
+        }
+
+        /* کۆمێنتاری لایڤ + هێد تو هێد */
+        .live-strip {
+            background: linear-gradient(95deg, #1a1e2c, #0f1220);
+            border-radius: 24px;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-right: 4px solid #f5b042;
+        }
+        .match-mini {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+        .commentary {
+            font-size: 0.7rem;
+            color: #bbb;
+            margin-top: 8px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* کارتی یاری */
         .match-card {
-            background: #1f2a1b;
-            border-radius: 1.5rem;
-            padding: 1rem;
+            background: #141824;
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 16px;
             transition: 0.2s;
-            border: 1px solid #4a6741;
+            border: 1px solid #262b3c;
         }
-
         .match-teams {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-weight: 800;
             font-size: 1.1rem;
-            font-weight: bold;
-            background: #0e1e14;
-            padding: 0.6rem;
-            border-radius: 1rem;
-            margin-bottom: 0.8rem;
         }
-
-        .team {
+        .odds-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+            gap: 12px;
+        }
+        .odd-box {
+            background: #1e2335;
             text-align: center;
             flex: 1;
-        }
-
-        .vs {
-            background: #FFB347;
-            color: #1f2a1b;
-            padding: 0.2rem 0.5rem;
-            border-radius: 2rem;
-            font-size: 0.7rem;
-            font-weight: bold;
-        }
-
-        .bet-area {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            margin: 0.8rem 0;
-        }
-
-        .pick-buttons {
-            display: flex;
-            gap: 0.8rem;
-            justify-content: center;
-        }
-
-        .pick-btn {
-            background: #2e4228;
-            border: none;
-            color: white;
-            padding: 0.4rem 1rem;
-            border-radius: 2rem;
+            padding: 8px;
+            border-radius: 20px;
             cursor: pointer;
             transition: 0.1s;
+            border: 1px solid #2e3448;
+        }
+        .odd-box.selected {
+            border: 2px solid #f5b042;
+            background: #2a2f44;
+            box-shadow: 0 0 0 1px #f5b042;
+        }
+        .team-name {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        .odd-value {
             font-weight: bold;
+            font-size: 1.1rem;
+            color: #FFD966;
         }
-
-        .pick-btn.active {
-            background: #FFB347;
-            color: #1e2a1f;
-            box-shadow: 0 0 0 2px #ffd966;
-        }
-
-        .points-input {
+        .bet-check {
+            margin-top: 12px;
             display: flex;
+            justify-content: flex-end;
+        }
+        .bet-check input {
+            width: 24px;
+            height: 24px;
+            accent-color: #f5b042;
+        }
+
+        /* multibet bar لە خوارەوە */
+        .bottom-bet-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0b0e18;
+            backdrop-filter: blur(20px);
+            border-top: 1px solid #f5b042;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 0.5rem;
-            justify-content: center;
+            z-index: 200;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
         }
-
-        .points-input input {
-            width: 90px;
-            padding: 0.3rem;
-            border-radius: 1rem;
-            border: none;
-            text-align: center;
-            font-weight: bold;
-            background: #efe8d0;
-        }
-
-        .bet-btn {
-            background: #2c7a47;
-            border: none;
-            color: white;
-            padding: 0.5rem;
-            border-radius: 2rem;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .bet-btn:disabled {
-            background: #5a5a4a;
-            cursor: not-allowed;
-        }
-
-        /* رانكينگ */
-        .rank-section {
-            background: #10261b;
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            margin-top: 1rem;
-        }
-
-        .rank-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 0.5rem;
-        }
-
-        .rank-table th, .rank-table td {
-            padding: 0.7rem;
-            text-align: center;
-            border-bottom: 1px solid #3b5a3a;
-        }
-
-        .top3 {
-            background: #f5b34220;
-            font-weight: bold;
-        }
-
-        .fake-login {
-            background: #2f4429;
-            border-radius: 1.5rem;
-            padding: 1rem;
-            margin-bottom: 2rem;
+        .multibet-info {
             display: flex;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-            align-items: flex-end;
+            flex-direction: column;
+        }
+        .multibet-count {
+            font-size: 0.7rem;
+            color: #aaa;
+        }
+        .multibet-odds {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #FFD966;
+        }
+        .place-bet-btn {
+            background: #f5b042;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: #0a0c12;
+            font-size: 0.9rem;
         }
 
-        .input-group {
+        /* چات */
+        .chat-section {
+            background: #11131f;
+            border-radius: 24px;
+            margin: 20px 0;
+            padding: 12px;
+        }
+        .chat-messages {
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+        .chat-input {
+            display: flex;
+            gap: 8px;
+        }
+        .chat-input input {
+            flex: 1;
+            background: #1e2335;
+            border: none;
+            padding: 10px;
+            border-radius: 40px;
+            color: white;
+        }
+        .admin-badge {
+            background: #8b3c2c;
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.6rem;
+        }
+
+        /* ئادمین پانێل (دیزاین) */
+        .admin-panel {
+            background: #0f111f;
+            border-radius: 24px;
+            padding: 14px;
+            margin: 20px 0;
+            border: 1px dashed #f5b042;
+        }
+        .admin-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .admin-input {
+            background: #1e2335;
+            border: none;
+            padding: 8px;
+            border-radius: 16px;
+            color: white;
             flex: 1;
         }
-
-        .input-group label {
-            display: block;
-            font-size: 0.7rem;
-            opacity: 0.7;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 0.5rem;
-            border-radius: 1rem;
-            border: none;
-        }
-
         button {
-            background: #ffb347;
+            background: #2e3a4e;
             border: none;
-            padding: 0.5rem 1.2rem;
-            border-radius: 2rem;
-            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 28px;
+            color: white;
             cursor: pointer;
         }
 
-        .user-points-badge {
-            background: #1e2a1f;
-            padding: 0.3rem 1rem;
-            border-radius: 2rem;
-            font-size: 1.1rem;
-        }
-
-        @media (max-width: 640px) {
-            .hero h1 { font-size: 1.6rem; }
-            .matches-grid { grid-template-columns: 1fr; }
+        /* هێد تو هێد و ئامار */
+        .stats-grid {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            font-size: 0.75rem;
+            background: #0c0f18;
+            padding: 10px;
+            border-radius: 20px;
         }
     </style>
 </head>
 <body>
+
+<!-- نێویگەیشن سەرەوە -->
+<div class="top-nav">
+    <div class="logo">⚽ پێشبڕکێی گەل</div>
+    <div class="points-badge">⭐ <span id="userPoints">1000</span> پۆینت</div>
+</div>
+
 <div class="container">
-    <div class="hero">
-        <h1>🏆 پێشبڕکێی خۆڕایی مۆندیال 2026</h1>
-        <p>1000 پۆینتی خۆڕایی هەموو ئەکاونتێک • بەبێ پارە • بەرزترین ڕانک ببەرەوە</p>
-        <div class="countdown" id="countdownText"></div>
+    <!-- تاب سوییچ -->
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="matches">🏟 یارییەکان</button>
+        <button class="tab-btn" data-tab="stats">📊 ئامار & H2H</button>
+        <button class="tab-btn" data-tab="chat">💬 چات</button>
+        <button class="tab-btn" data-tab="admin">🛠 ئادمین</button>
     </div>
 
-    <!-- login / register fake (دیمۆ) -->
-    <div class="fake-login">
-        <div class="input-group">
-            <label>ناوی بەکارهێنەر (تەنها لەم دیمۆدا)</label>
-            <input type="text" id="usernameInput" placeholder="نمونە: Salah">
+    <!-- تاب: یارییەکان + مولتی بێت -->
+    <div id="matchesTab" class="tab-content">
+        <div class="live-strip">
+            <div class="match-mini">
+                <span>🏆 ئەمڕۆ: بەڕازیل vs ئەرجەنتین (18:00)</span>
+                <span style="color:#f5b042;">لایڤ</span>
+            </div>
+            <div class="commentary">
+                <span>📢 کۆمێنتاری: هێرشی چڕی بەڕازیل...</span>
+                <span>📋 لاینەپ: نێیمار، مێسی، فێرنانس</span>
+            </div>
         </div>
-        <button id="loginBtn">🔓 دەستپێکردن / گۆڕینی ئەکاونت</button>
-        <div class="user-points-badge" id="pointsDisplay">⭐ 0 پۆینت</div>
+
+        <div id="matchesList"></div>
     </div>
 
-    <!-- ئامار -->
-    <div class="stats-row">
-        <div class="stat-card"><div class="stat-number" id="totalUsers">0</div><div>بەشداربوو</div></div>
-        <div class="stat-card"><div class="stat-number" id="myRank">-</div><div>ڕیزبەندی من</div></div>
-        <div class="stat-card"><div class="stat-number" id="totalBets">0</div><div>پێشبینی کراوە</div></div>
+    <!-- تاب: ئامار و H2H -->
+    <div id="statsTab" class="tab-content" style="display:none;">
+        <div class="stats-grid">
+            <div style="flex:1">🔥 شێوەی بەڕازیل: 5 بردەوە<br>🎯 گۆڵ: 12</div>
+            <div style="flex:1">⚡ شێوەی ئەرجەنتین: 4 بردەوە<br>🎯 گۆڵ: 9</div>
+        </div>
+        <div class="match-card">
+            <h4>📜 H2H - دواین 5 دیدار</h4>
+            <div>🇧🇷 2 - 1 🇦🇷</div>
+            <div>🇦🇷 1 - 0 🇧🇷</div>
+            <div>🇧🇷 3 - 1 🇦🇷</div>
+            <div>🏟 پێشبینی: بەڕازیل 54% - 46% ئەرجەنتین</div>
+        </div>
     </div>
 
-    <!-- پێڕستی یاریەکان -->
-    <h2>📅 یارییەکانی ڕۆژ (پێشبینی بکە)</h2>
-    <div class="matches-grid" id="matchesContainer"></div>
+    <!-- تاب: چات (پشتگیری) -->
+    <div id="chatTab" class="tab-content" style="display:none;">
+        <div class="chat-section">
+            <div class="chat-messages" id="chatMessages">
+                <div><span class="admin-badge">پشتگیری</span> سڵاو! چۆن یارمەتیت بدەم؟</div>
+                <div><strong>سارا:</strong> پێشبینی من چۆن ببینم؟</div>
+                <div><span class="admin-badge">ئادمین</span> لەسەر ڕانکینگ بەشی پێشەنگان دەردەکەوێت</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="پرسیار یان پشتیوانی ...">
+                <button id="sendChatBtn">ناردن</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- رانکینگ -->
-    <div class="rank-section">
-        <h2>🥇 ڕیزبەندی پێشەنگان</h2>
-        <table class="rank-table" id="rankTable">
-            <thead><tr><th>#</th><th>بەکارهێنەر</th><th>پۆینت</th></tr></thead>
-            <tbody id="rankBody"></tbody>
-        </table>
+    <!-- تاب: ئادمین پانێل (تەنها دیزاین) -->
+    <div id="adminTab" class="tab-content" style="display:none;">
+        <div class="admin-panel">
+            <h4>➕ زیادکردنی یاری / ئۆدەس</h4>
+            <div class="admin-row">
+                <input class="admin-input" placeholder="تیمی یەکەم" id="teamA">
+                <input class="admin-input" placeholder="تیمی دووەم" id="teamB">
+                <input class="admin-input" placeholder="ئۆدەس A" id="oddsA">
+                <input class="admin-input" placeholder="ئۆدەس B" id="oddsB">
+                <button id="addMatchBtnAdmin">زیادکردن</button>
+            </div>
+            <div style="margin-top:15px">
+                <h5>📋 ئەنجامی یاری (ڕاستەوخۆ)</h5>
+                <div class="admin-row">
+                    <input id="matchResult" placeholder="ئەنجام: 2-1">
+                    <button id="updateResultBtn">نوێکردنەوەی ئامار</button>
+                </div>
+            </div>
+            <small>ئاگاداری: لەم دیمۆدا هەموو داتاکان لە browserدا هەڵدەگیرێن</small>
+        </div>
     </div>
 </div>
 
+<!-- بار خوارەوە بۆ مەڵتای بێت -->
+<div class="bottom-bet-bar" id="multibar">
+    <div class="multibet-info">
+        <span class="multibet-count" id="selectedCount">0 یاری هەڵبژێردراوە</span>
+        <span class="multibet-odds" id="totalOdds">کۆی ئۆدەس: 1.00x</span>
+    </div>
+    <button class="place-bet-btn" id="placeMultibetBtn">🚀 پێشبینی بکە (بەخۆڕایی)</button>
+</div>
+
 <script>
-    // ---------------------------
-    //  دیمۆی تەواو بۆ دیزاین + لۆجیکی سادە (بەبێ Firebase)
-    //  لە کاتی ڕاستەقینەدا داتاکان دەچنە Firebase
-    // ---------------------------
-    let currentUser = null;
-    let users = [];        // { id, name, points }
-    let matches = [];
-    let bets = [];         // { userId, matchId, pick, pointsBet }
+    // ------ Data structure ------
+    let userPoints = 1000;
+    let selectedBets = []; // { matchId, pick, odds }
+    let matches = [
+        { id: 1, teamA: "بەڕازیل", teamB: "ئەرجەنتین", oddsA: 1.85, oddsB: 2.10, status: "live", result: null },
+        { id: 2, teamA: "فەڕەنسا", teamB: "ئینگلتەرا", oddsA: 2.00, oddsB: 1.95, status: "upcoming", result: null },
+        { id: 3, teamA: "پورتوگال", teamB: "ئیسپانیا", oddsA: 2.40, oddsB: 1.70, status: "upcoming", result: null },
+    ];
 
-    // دیتای نموونەیی سەرەتا
-    function initDemoData() {
-        // بەکارهێنەری default بۆ دیمۆ
-        if(users.length === 0) {
-            users.push({ id: "u1", name: "ئەحمەد", points: 1000 });
-            users.push({ id: "u2", name: "سارا", points: 870 });
-            users.push({ id: "u3", name: "ڕێبین", points: 1240 });
-            users.push({ id: "u4", name: "ژینان", points: 560 });
-        }
-        // یارییەکان (تەنها چەند نموونەیەک بۆ مۆندیال)
-        if(matches.length === 0) {
-            matches = [
-                { id: "m1", teamA: "بەڕازیل", teamB: "فەڕەنسا", date: "2026-06-11", status: "upcoming" },
-                { id: "m2", teamA: "ئەرجەنتین", teamB: "ئەڵمانیا", date: "2026-06-12", status: "upcoming" },
-                { id: "m3", teamA: "پورتوگال", teamB: "ئیسپانیا", date: "2026-06-13", status: "upcoming" },
-                { id: "m4", teamA: "ئینگلتەرا", teamB: "ھۆڵەندا", date: "2026-06-14", status: "upcoming" },
-                { id: "m5", teamA: "مەغریب", teamB: "کرواتیا", date: "2026-06-15", status: "upcoming" }
-            ];
-        }
-        // هەندێک پێشبینی نموونەیی
-        if(bets.length === 0 && users.length) {
-            // ئەحمەد پێشبینی بەڕازیل
-            bets.push({ userId: "u1", matchId: "m1", pick: "بەڕازیل", pointsBet: 200 });
-            // سارا پێشبینی ئەرجەنتین
-            bets.push({ userId: "u2", matchId: "m2", pick: "ئەرجەنتین", pointsBet: 150 });
-        }
-    }
-
-    // هەڵگرتنی داتا لە LocalStorage بۆ ماوەی دیمۆ
-    function saveData() {
-        const data = { users, matches, bets };
-        localStorage.setItem("worldCupBetDemo", JSON.stringify(data));
-    }
-
-    function loadData() {
-        const raw = localStorage.getItem("worldCupBetDemo");
-        if(raw) {
-            try {
-                const data = JSON.parse(raw);
-                users = data.users || [];
-                matches = data.matches || [];
-                bets = data.bets || [];
-            } catch(e) { initDemoData(); }
-        } else {
-            initDemoData();
-        }
-        // هەر users بوونی نەبوو
-        if(users.length === 0) initDemoData();
-    }
-
-    // هەژمارکردنی رانک
-    function getRankedUsers() {
-        return [...users].sort((a,b) => b.points - a.points);
-    }
-
-    function updateUI() {
-        // نمایش پۆینتی بەکارهێنەری ئێستا
-        if(currentUser) {
-            const userObj = users.find(u => u.id === currentUser.id);
-            if(userObj) document.getElementById("pointsDisplay").innerHTML = `⭐ ${userObj.points} پۆینت`;
-            else document.getElementById("pointsDisplay").innerHTML = `⭐ 0 پۆینت`;
-        } else {
-            document.getElementById("pointsDisplay").innerHTML = `⭐ 0 پۆینت (چالاک بکە)`;
-        }
-
-        // ژمارەی بەکارهێنەران
-        document.getElementById("totalUsers").innerText = users.length;
-        const totalBetsCount = bets.filter(b => b.userId === currentUser?.id).length;
-        document.getElementById("totalBets").innerText = totalBetsCount;
-
-        // ڕیزبەندی من
-        if(currentUser) {
-            const ranked = getRankedUsers();
-            const pos = ranked.findIndex(u => u.id === currentUser.id) + 1;
-            document.getElementById("myRank").innerText = pos ? pos : '-';
-        } else {
-            document.getElementById("myRank").innerText = '-';
-        }
-
-        // نمایش ڕانکینگ تەیبڵ
-        const rankBody = document.getElementById("rankBody");
-        const topUsers = getRankedUsers().slice(0, 10);
-        rankBody.innerHTML = "";
-        topUsers.forEach((u, idx) => {
-            const tr = document.createElement("tr");
-            if(idx < 3) tr.classList.add("top3");
-            tr.innerHTML = `<td>${idx+1}</td><td>${u.name}</td><td>${u.points}</td>`;
-            rankBody.appendChild(tr);
-        });
-
-        // دروستکردنی کارتەکانی یاری
-        renderMatches();
-        saveData();
-    }
-
+    // ڕێنمایی بۆ ئۆدەسی بەهێز (داینامیک) - تیمی لاوازتر ئۆدەسی بەرزتر
     function renderMatches() {
-        const container = document.getElementById("matchesContainer");
+        const container = document.getElementById('matchesList');
         if(!container) return;
-        container.innerHTML = "";
+        container.innerHTML = '';
         matches.forEach(match => {
-            const matchDiv = document.createElement("div");
-            matchDiv.className = "match-card";
-
-            const userBet = currentUser ? bets.find(b => b.userId === currentUser.id && b.matchId === match.id) : null;
-            const selectedPick = userBet ? userBet.pick : "";
-
-            matchDiv.innerHTML = `
+            const isSelected = selectedBets.some(s => s.matchId === match.id);
+            const card = document.createElement('div');
+            card.className = 'match-card';
+            card.innerHTML = `
                 <div class="match-teams">
-                    <div class="team">${match.teamA}</div>
-                    <div class="vs">VS</div>
-                    <div class="team">${match.teamB}</div>
+                    <span>${match.teamA}</span>
+                    <span style="color:#f5b042;">vs</span>
+                    <span>${match.teamB}</span>
                 </div>
-                <div class="bet-area">
-                    <div class="pick-buttons">
-                        <button class="pick-btn ${selectedPick === match.teamA ? 'active' : ''}" data-match="${match.id}" data-pick="${match.teamA}">🏅 ${match.teamA}</button>
-                        <button class="pick-btn ${selectedPick === match.teamB ? 'active' : ''}" data-match="${match.id}" data-pick="${match.teamB}">🏅 ${match.teamB}</button>
+                <div class="odds-row">
+                    <div class="odd-box ${isSelected && selectedBets.find(s=>s.matchId===match.id)?.pick === match.teamA ? 'selected' : ''}" data-match="${match.id}" data-pick="${match.teamA}" data-odds="${match.oddsA}">
+                        <div class="team-name">${match.teamA}</div>
+                        <div class="odd-value">${match.oddsA}</div>
                     </div>
-                    <div class="points-input">
-                        <span>📊 پۆینت بخە:</span>
-                        <input type="number" id="points-${match.id}" min="10" max="${currentUser ? (users.find(u=>u.id===currentUser.id)?.points || 0) : 0}" value="${userBet ? userBet.pointsBet : 50}" placeholder="پۆینت">
+                    <div class="odd-box ${isSelected && selectedBets.find(s=>s.matchId===match.id)?.pick === match.teamB ? 'selected' : ''}" data-match="${match.id}" data-pick="${match.teamB}" data-odds="${match.oddsB}">
+                        <div class="team-name">${match.teamB}</div>
+                        <div class="odd-value">${match.oddsB}</div>
                     </div>
-                    <button class="bet-btn" data-match="${match.id}">✅ پێشبینی بکە / نوێ بکە</button>
+                </div>
+                <div class="bet-check">
+                    <label>🔘 زیاد بکە بۆ مولتی‌بێت</label>
+                    <input type="checkbox" class="multicheck" data-match="${match.id}" ${isSelected ? 'checked' : ''}>
                 </div>
             `;
-
-            container.appendChild(matchDiv);
+            container.appendChild(card);
         });
 
-        // ئێستا ئیڤێنت بۆ هەموو دوگمەکان
-        document.querySelectorAll(".bet-btn").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                if(!currentUser) {
-                    alert("تکایە یەکەمجار ناوی بەکارهێنەرێک هەڵبژێرە!");
-                    return;
+        // attach events
+        document.querySelectorAll('.odd-box').forEach(box => {
+            box.addEventListener('click', (e) => {
+                const matchId = parseInt(box.dataset.match);
+                const pick = box.dataset.pick;
+                const odds = parseFloat(box.dataset.odds);
+                const existing = selectedBets.find(s => s.matchId === matchId);
+                if(existing) {
+                    existing.pick = pick;
+                    existing.odds = odds;
+                } else {
+                    selectedBets.push({ matchId, pick, odds });
                 }
-                const matchId = btn.getAttribute("data-match");
-                const match = matches.find(m => m.id === matchId);
-                if(!match) return;
-                const pickA = btn.parentElement.querySelector(".pick-btn:first-child");
-                const pickB = btn.parentElement.querySelector(".pick-btn:nth-child(2)");
-                let selectedPick = "";
-                if(pickA.classList.contains("active")) selectedPick = match.teamA;
-                else if(pickB.classList.contains("active")) selectedPick = match.teamB;
-                else {
-                    alert("هیچ تیمێکت هەڵنەبژاردووە بۆ پێشبینی!");
-                    return;
-                }
-                const pointsInput = document.getElementById(`points-${matchId}`);
-                let pointsVal = parseInt(pointsInput.value);
-                const currentUserObj = users.find(u => u.id === currentUser.id);
-                if(isNaN(pointsVal) || pointsVal < 10) pointsVal = 10;
-                if(pointsVal > currentUserObj.points) {
-                    alert(`پۆینتی تەنها ${currentUserObj.points} ماوە!`);
-                    return;
-                }
-
-                // پێشبینی هەبوو بیگۆڕە یان زیاد بکە
-                const existingBetIndex = bets.findIndex(b => b.userId === currentUser.id && b.matchId === matchId);
-                if(existingBetIndex !== -1) {
-                    const oldBet = bets[existingBetIndex];
-                    // گەڕاندنەوەی پۆینتی کۆن (بۆ ئەوەی دووبارە زیاد نەبێت)
-                    currentUserObj.points += oldBet.pointsBet;
-                    bets.splice(existingBetIndex,1);
-                }
-                if(pointsVal > currentUserObj.points) {
-                    alert("پۆینت بەردەست نیە دوای هەژمارکردن");
-                    return;
-                }
-                currentUserObj.points -= pointsVal;
-                bets.push({ userId: currentUser.id, matchId: matchId, pick: selectedPick, pointsBet: pointsVal });
-                updateUI();
-                alert(`پێشبینی تۆمارکرا: ${selectedPick} بە ${pointsVal} پۆینت`);
+                // هاوکات چێکبۆکسی هاوتا active بکە
+                const chk = document.querySelector(`.multicheck[data-match='${matchId}']`);
+                if(chk) chk.checked = true;
+                updateMultibar();
+                renderMatches(); // refresh style
             });
         });
 
-        // ئیڤێنت بۆ دوگمەکانی هەڵبژاردنی تیم (pick)
-        document.querySelectorAll(".pick-btn").forEach(pickBtn => {
-            pickBtn.addEventListener("click", (e) => {
-                if(!currentUser) { alert("یەکەمجار ناو هەڵبژێرە"); return; }
-                const matchCard = pickBtn.closest(".match-card");
-                const btns = matchCard.querySelectorAll(".pick-btn");
-                btns.forEach(btn => btn.classList.remove("active"));
-                pickBtn.classList.add("active");
+        document.querySelectorAll('.multicheck').forEach(chk => {
+            chk.addEventListener('change', (e) => {
+                const matchId = parseInt(chk.dataset.match);
+                if(!chk.checked) {
+                    selectedBets = selectedBets.filter(s => s.matchId !== matchId);
+                } else {
+                    // ئەگەر هەڵنەبژێردرابوو بەڵام چێک کراوە بەڵام هیچ پیکێک نیە
+                    const already = selectedBets.find(s => s.matchId === matchId);
+                    if(!already) {
+                        const match = matches.find(m => m.id === matchId);
+                        if(match) {
+                            selectedBets.push({ matchId, pick: match.teamA, odds: match.oddsA });
+                        }
+                    }
+                }
+                updateMultibar();
+                renderMatches();
             });
         });
     }
 
-    // چالاککردنی بەکارهێنەر
-    function setUser(username) {
-        if(!username.trim()) username = "میوان" + Math.floor(Math.random()*1000);
-        let existing = users.find(u => u.name === username);
-        if(existing) {
-            currentUser = { id: existing.id, name: existing.name };
-        } else {
-            const newId = "u_" + Date.now() + "_" + Math.floor(Math.random()*10000);
-            const newUser = { id: newId, name: username, points: 1000 };
-            users.push(newUser);
-            currentUser = { id: newId, name: username };
-        }
-        updateUI();
+    function updateMultibar() {
+        const count = selectedBets.length;
+        document.getElementById('selectedCount').innerText = count + " یاری هەڵبژێردراوە";
+        let totalOddsProduct = 1;
+        selectedBets.forEach(b => totalOddsProduct *= b.odds);
+        document.getElementById('totalOdds').innerHTML = `کۆی ئۆدەس: ${totalOddsProduct.toFixed(2)}x`;
     }
 
-    // کاونت داون
-    function updateCountdown() {
-        const worldCupStart = new Date(2026, 5, 11); // مانگی 6 (0-index)
-        const now = new Date();
-        const diff = worldCupStart - now;
-        if(diff <= 0) {
-            document.getElementById("countdownText").innerHTML = "🏆 مۆندیال دەستی پێکردووە! پێشبینی بکە";
+    // پێشبینی مولتی بێت (بەکارهێنانی پۆینت)
+    function placeMultibet() {
+        if(selectedBets.length === 0) {
+            alert("هیچ یاریەکت هەڵنەبژاردووە بۆ پێشبینی!");
             return;
         }
-        const days = Math.floor(diff / (1000*60*60*24));
-        const hours = Math.floor((diff % (86400000))/3600000);
-        document.getElementById("countdownText").innerHTML = `⏳ ماوە ${days} ڕۆژ و ${hours} کاتژمێر بۆ دەستپێکردن`;
+        let stake = 100; // هەر پێشبینییەک 100 پۆینت
+        if(userPoints < stake) {
+            alert("پۆینتەکەت کەمە! 100 پۆینت پێویستە");
+            return;
+        }
+        let totalOdds = 1;
+        selectedBets.forEach(b => totalOdds *= b.odds);
+        let potentialWin = Math.floor(stake * totalOdds);
+        if(confirm(`پێشبینی بکەیت بە ${stake} پۆینت؟ ئەگەر هەموو هەڵبژێردراوەکان دروست بن، ${potentialWin} پۆینت دەبەیتەوە.`)){
+            // لە دیمۆدا تەنها پۆینت دەکەینەوە بەڵام بردەوە ڕاستەقینە نیە (بۆ دیزاین)
+            userPoints -= stake;
+            alert(`پێشبینی تۆمارکرا! دوای یارییەکان ئەنجام دەردەکەوێت. ئێستا پۆینتەکان: ${userPoints}`);
+            document.getElementById('userPoints').innerText = userPoints;
+            // پاککردنەوەی هەڵبژاردنەکان
+            selectedBets = [];
+            updateMultibar();
+            renderMatches();
+        }
     }
 
-    document.getElementById("loginBtn").addEventListener("click", () => {
-        const nameInput = document.getElementById("usernameInput").value.trim();
-        if(nameInput === "") setUser("میوان" + Math.floor(Math.random()*900));
-        else setUser(nameInput);
+    // تێکستی چات (فەیک)
+    document.getElementById('sendChatBtn')?.addEventListener('click', () => {
+        const input = document.getElementById('chatInput');
+        const msg = input.value.trim();
+        if(msg) {
+            const chatDiv = document.getElementById('chatMessages');
+            const newMsg = document.createElement('div');
+            newMsg.innerHTML = `<strong>تۆ:</strong> ${msg}`;
+            chatDiv.appendChild(newMsg);
+            input.value = '';
+            setTimeout(() => {
+                const reply = document.createElement('div');
+                reply.innerHTML = `<span class="admin-badge">پشتگیری</span> سوپاس، بەم زوانە وەڵامت دەدەمەوە`;
+                chatDiv.appendChild(reply);
+            }, 800);
+        }
     });
 
-    // هەڵگرتنی لۆجین لە ریلۆددا
-    if(localStorage.getItem("lastUser")) {
-        const last = localStorage.getItem("lastUser");
-        const found = users.find(u => u.name === last);
-        if(found) currentUser = { id: found.id, name: found.name };
-    }
+    // زیادکردنی یاری لە ئادمین پانێل (دیمۆ)
+    document.getElementById('addMatchBtnAdmin')?.addEventListener('click', () => {
+        const teamA = document.getElementById('teamA').value;
+        const teamB = document.getElementById('teamB').value;
+        let oddsA = parseFloat(document.getElementById('oddsA').value);
+        let oddsB = parseFloat(document.getElementById('oddsB').value);
+        if(!teamA || !teamB || isNaN(oddsA) || isNaN(oddsB)) {
+            alert("تکایە هەموو خانەکان پڕبکەوە");
+            return;
+        }
+        const newId = matches.length + 1;
+        matches.push({
+            id: newId,
+            teamA, teamB, oddsA, oddsB,
+            status: "upcoming", result: null
+        });
+        renderMatches();
+        document.getElementById('teamA').value = '';
+        document.getElementById('teamB').value = '';
+        document.getElementById('oddsA').value = '';
+        document.getElementById('oddsB').value = '';
+        alert(`یاری ${teamA} vs ${teamB} زیادکرا`);
+    });
 
-    function persistCurrentUser() {
-        if(currentUser) localStorage.setItem("lastUser", currentUser.name);
-        else localStorage.removeItem("lastUser");
-    }
+    // tab گۆڕین
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const tabId = btn.dataset.tab;
+            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+            if(tabId === 'matches') document.getElementById('matchesTab').style.display = 'block';
+            if(tabId === 'stats') document.getElementById('statsTab').style.display = 'block';
+            if(tabId === 'chat') document.getElementById('chatTab').style.display = 'block';
+            if(tabId === 'admin') document.getElementById('adminTab').style.display = 'block';
+        });
+    });
 
-    // ڕاپێچکردنی updateUI دوای گۆڕانکاری
-    const origUpdate = updateUI;
-    updateUI = function() {
-        origUpdate();
-        persistCurrentUser();
-    };
+    document.getElementById('placeMultibetBtn').addEventListener('click', placeMultibet);
 
-    loadData();
-    if(!currentUser && users.length) currentUser = { id: users[0].id, name: users[0].name };
-    updateUI();
-    updateCountdown();
-    setInterval(updateCountdown, 3600000);
+    // start
+    renderMatches();
+    updateMultibar();
+    document.getElementById('userPoints').innerText = userPoints;
 </script>
 </body>
 </html>
