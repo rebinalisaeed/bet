@@ -8,36 +8,41 @@
 </head>
 <body>
 
-<!-- بانەڕی سەرەوە -->
+<!-- بانەڕی سەرەوە - کۆین لە ڕاست، هەمبەرگر لە چەپ -->
 <div class="top-nav">
+    <!-- لای چەپ: هەمبەرگر -->
     <div class="nav-left">
-        <div class="coin-icon">
-            <img src="images/coinicon.png" alt="Coin" class="coin-img" onerror="this.src='https://placehold.co/28x28?text=🪙'">
-            <span class="points-value" id="userPointsNav">1000</span>
-        </div>
-    </div>
-    <div class="nav-center">
-        <img src="images/logo.png" alt="Logo" class="logo-img" onerror="this.src='https://placehold.co/100x40?text=🏆'">
-    </div>
-    <div class="nav-right">
         <button class="menu-toggle" id="menuToggleBtn">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="3" y1="12" x2="21" y2="12"></line>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
         </button>
     </div>
+
+    <!-- ناوەڕاست: لۆگۆ (گەورەتر) -->
+    <div class="nav-center">
+        <img src="images/logo.png" alt="Logo" class="logo-img" onerror="this.src='https://placehold.co/120x68?text=🏆'">
+    </div>
+
+    <!-- لای ڕاست: کۆین -->
+    <div class="nav-right">
+        <div class="coin-icon">
+            <img src="images/coinicon.png" alt="Coin" class="coin-img" onerror="this.src='https://placehold.co/32x32?text=🪙'">
+            <span class="points-value" id="userPointsNav">1,000.000</span>
+        </div>
+    </div>
 </div>
 
-<!-- ساید مێنوو -->
+<!-- ساید مێنوو (لە خوار بانەڕەوە) -->
 <div class="side-menu" id="sideMenu">
     <a href="#">🏠 پێشەکی</a>
     <a href="#">🏆 ڕانکینگ</a>
     <a href="#">📋 مێژووی پێشبینییەکان</a>
     <a href="#">💬 پشتگیری</a>
     <a href="#">⚙ ڕێکخستن</a>
-    <a href="#">🚪 دەرچوون</a>
+    <a href="login.html">🚪 چوونەدەرەوە</a>
 </div>
 <div class="overlay" id="overlay"></div>
 
