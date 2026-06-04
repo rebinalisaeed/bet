@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ku">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>چوونەژوورەوە - پێشبڕکێی گەل</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-auth.css">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <img src="images/logo.png" alt="Logo" class="auth-logo" onerror="this.src='https://placehold.co/100x40?text=🏆'">
+                <h1>✨ چوونەژوورەوە</h1>
+                <p>بەخێربێیتەوە! تکایە هەژمارەکەت بەکاربهێنە</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>📱 یوزەرنەیم یان ژمارەی مۆبایل</label>
+                    <input type="text" id="loginUsername" placeholder="یوزەرنەیم یان +964XXXXXXXXX" required>
+                </div>
+
+                <div class="input-group">
+                    <label>🔒 پاسوۆرد</label>
+                    <input type="password" id="loginPassword" placeholder="پاسوۆردەکەت بنووسە" required>
+                    <span class="toggle-password" onclick="togglePassword('loginPassword')">👁️</span>
+                </div>
+
+                <div class="auth-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe"> لەبیرم مەکە
+                    </label>
+                    <a href="#" id="forgotPasswordLink">پاسوۆردت لەبیرکردووە؟</a>
+                </div>
+
+                <button type="submit" class="auth-btn">🚀 چوونەژوورەوە</button>
+
+                <div class="auth-footer">
+                    هەژمارت نییە؟ <a href="register.html">ئێستا تۆمار بکە</a>
+                </div>
+            </form>
+
+            <div class="auth-divider">
+                <span>یان</span>
+            </div>
+
+            <div class="social-login">
+                <button class="social-btn google" id="googleLogin">🌐 Google</button>
+                <button class="social-btn facebook" id="facebookLogin">📘 Facebook</button>
+            </div>
+        </div>
+
+        <!-- مۆدالی پاسوۆرد لەبیرچوو -->
+        <div id="forgotModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h3>🔐 پاسوۆردت لەبیرکردووە؟</h3>
+                <p>ژمارەی مۆبایل یان ئیمەیڵەکەت بنووسە، کۆدی پشتڕاستکردنەوە بۆت دەنێرین</p>
+                <input type="text" id="forgotContact" placeholder="+964XXXXXXXXX یان ایمەیڵ">
+                <button id="sendResetCodeBtn">ناردنی کۆد</button>
+                <div id="resetMessage"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        // Login handler
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if(!username || !password) {
+                alert('تکایە یوزەرنەیم و پاسوۆرد پڕبکەوە');
+                return;
+            }
+            
+            // دیمۆ: هەر یوزەر و پاسوۆردێک بێت دەچێتە ماڵپەڕ
+            alert(`بەخێربێیت ${username}! چوونەژوورەوە سەرکەوتوو بوو`);
+            window.location.href = 'index.html';
+        });
+
+        // مۆدالی پاسوۆرد لەبیرچوو
+        const modal = document.getElementById('forgotModal');
+        document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.style.display = 'flex';
+        });
+        document.querySelector('.close-modal').addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        document.getElementById('sendResetCodeBtn').addEventListener('click', () => {
+            const contact = document.getElementById('forgotContact').value;
+            if(contact) {
+                document.getElementById('resetMessage').innerHTML = '✅ کۆدەکە بۆ نارد! سکرینی خۆت بپشکنە';
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    document.getElementById('resetMessage').innerHTML = '';
+                }, 2000);
+            } else {
+                alert('تکایە ژمارەی مۆبایل یان ئیمەیڵ بنووسە');
+            }
+        });
+        window.onclick = (e) => { if(e.target === modal) modal.style.display = 'none'; };
+
+        // دیمۆ بۆ سۆشیال مێدیا
+        document.getElementById('googleLogin')?.addEventListener('click', () => alert('پەیوەندی بە Google (دیمۆ)'));
+        document.getElementById('facebookLogin')?.addEventListener('click', () => alert('پەیوەندی بە Facebook (دیمۆ)'));
+    </script>
+</body>
+</html>
