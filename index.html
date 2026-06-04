@@ -3,168 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پێشبڕکێی مۆندیالی 2026</title>
+    <title>مۆندیالی ٢٠٢٦ | پێشبڕکێی مەزن</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #8a1538; /* ڕەنگی فەرمی مۆندیال */
-            --dark: #1a1a1a;
-            --light: #f4f4f4;
-            --gold: #ffd700;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --primary: #9d174d; /* ڕەنگی مۆندیالی شاهانە */
+            --primary-light: #be185d;
+            --accent: #f59e0b; /* ڕەنگی زێڕینی درەوشاوە */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             margin: 0;
             padding: 0;
+            padding-bottom: 120px; /* بۆ ئەوەی بەشی خوارەوە یارییەکان نەشارێتەوە */
         }
-        /* سەرەوەی سایتەکە */
+
+        /* ستایلی سەرەوەی ماڵپەڕ */
         header {
-            background-color: var(--primary);
-            color: white;
-            padding: 15px 20px;
+            background: linear-gradient(135deg, var(--primary), #4c0519);
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-bottom: 3px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .logo { font-size: 24px; font-weight: bold; }
-        .points-box {
-            background: rgba(255,255,255,0.2);
-            padding: 8px 15px;
-            border-radius: 20px;
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .user-status {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 18px;
+            border-radius: 30px;
+            border: 1px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-weight: bold;
-            border: 1px solid var(--gold);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
         }
+
+        .user-status i {
+            color: var(--accent);
+            font-size: 18px;
+        }
+
         /* بەشی ناوەڕۆک */
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 10px;
+        .main-wrapper {
+            max-width: 650px;
+            margin: 25px auto;
+            padding: 0 15px;
         }
-        h2 { color: var(--dark); text-align: center; }
-        /* کارتی یارییەکان */
-        .match-card {
-            background: white;
-            border-radius: 12px;
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+            border-right: 4px solid var(--accent);
+            padding-right: 10px;
+        }
+
+        /* کارتی یارییە مۆدێرنەکان */
+        .match-box {
+            background-color: var(--card-bg);
+            border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .match-box:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .match-info {
             text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .teams {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .vs { color: #888; font-size: 16px; }
-        /* دوگمەکانی Odds */
-        .odds-container {
+
+        .team-row {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
-            gap: 10px;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 10px;
         }
-        .odds-btn {
-            flex: 1;
-            background: #eef2f3;
-            border: 2px solid #ddd;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 35%;
         }
-        .odds-btn:hover, .odds-btn.active {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
+
+        .team-flag {
+            font-size: 40px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
         }
-        .odds-btn span {
-            display: block;
-            color: #666;
+
+        .team-name {
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .match-vs {
+            background: rgba(255,255,255,0.05);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 800;
+            color: var(--accent);
             font-size: 14px;
         }
-        .odds-btn:hover span, .odds-btn.active span { color: var(--gold); }
-        /* بەشی لێدانی پۆینت (Bet Slip) */
-        .bet-slip {
-            background: #fff;
-            border-top: 4px solid var(--gold);
+
+        /* دوگمەکانی ڕێژەی بردنەوە (Odds) */
+        .prediction-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .predict-btn {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            padding: 12px;
             border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .predict-btn:hover {
+            border-color: var(--accent);
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .predict-btn.selected {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-color: var(--primary-light);
+            box-shadow: 0 0 15px rgba(157, 23, 77, 0.4);
+        }
+
+        .odds-val {
+            color: var(--accent);
+            font-size: 15px;
+        }
+        .predict-btn.selected .odds-val {
+            color: white;
+        }
+
+        .predict-label {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .predict-btn.selected .predict-label {
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* پانێڵی خوارەوە (Floating Bet Slip) */
+        .bottom-panel {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            max-width: 800px;
-            margin: 0 auto;
+            background: #111827;
+            border-top: 3px solid var(--primary);
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+            padding: 15px 20px;
+            z-index: 99;
         }
-        .slip-flex {
+
+        .panel-container {
+            max-width: 650px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
-        input[type="number"] {
-            width: 120px;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
+
+        .slip-details h4 {
+            margin: 0 0 5px 0;
+            font-size: 15px;
+        }
+        .slip-details span {
+            color: var(--success);
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #1e293b;
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .input-group label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .input-group input {
+            background: transparent;
+            border: none;
+            color: white;
+            width: 80px;
             font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
         }
-        .submit-btn {
-            background: #27ae60;
+
+        .action-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 15px;
             font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            transition: all 0.2s;
         }
-        .submit-btn:hover { background: #219653; }
+
+        .action-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">🏆 مۆندیال ٢٠٢٦</div>
-        <div class="points-box">🌟 پۆینتەکانت: 1,000</div>
+        <div class="logo-area">
+            <i class="fa-solid fa-trophy" style="color: var(--accent);"></i>
+            <span>مۆندیال ٢٠٢٦</span>
+        </div>
+        <div class="user-status">
+            <i class="fa-solid fa-star"></i>
+            <span>١,٠٠٠ پۆینت</span>
+        </div>
     </header>
 
-    <div class="container">
-        <h2>یارییەکانی ئەمڕۆ</h2>
+    <div class="main-wrapper">
+        <div class="section-title">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>یارییەکانی قۆناغی کۆمەڵەکان</span>
+        </div>
 
-        <div class="match-card">
-            <div class="teams">
-                <div>🇦🇷 ئەرجەنتین</div>
-                <div class="vs">دانەی یەکەم - کاتژمێر ٢٢:٠٠</div>
-                <div>🇫🇷 فەڕەنسا</div>
+        <div class="match-box">
+            <div class="match-info">
+                <i class="fa-regular fa-clock"></i> ١١ی حوزەیران - کاتژمێر ٢٢:٠٠
+            </div>
+            <div class="team-row">
+                <div class="team">
+                    <span class="team-flag">🇲🇽</span>
+                    <span class="team-name">مەکسیک</span>
+                </div>
+                <div class="match-vs">VS</div>
+                <div class="team">
+                    <span class="team-flag">🇺🇸</span>
+                    <span class="team-name">ئەمریکا</span>
+                </div>
             </div>
             
-            <div class="odds-container">
-                <button class="odds-btn">بردنەوەی ئەرجەنتین <span>1.85</span></button>
-                <button class="odds-btn">یەکسانبوون <span>3.40</span></button>
-                <button class="odds-btn">بردنەوەی فەڕەنسا <span>2.10</span></button>
+            <div class="prediction-row">
+                <button class="predict-btn selected">
+                    <span class="odds-val">2.40</span>
+                    <span class="predict-label">بردنەوەی مەکسیک</span>
+                </button>
+                <button class="predict-btn">
+                    <span class="odds-val">3.10</span>
+                    <span class="predict-label">یەکسانبوون</span>
+                </button>
+                <button class="predict-btn">
+                    <span class="odds-val">1.95</span>
+                    <span class="predict-label">بردنەوەی ئەمریکا</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="match-box">
+            <div class="match-info">
+                <i class="fa-regular fa-clock"></i> ١٢ی حوزەیران - کاتژمێر ١٩:٠٠
+            </div>
+            <div class="team-row">
+                <div class="team">
+                    <span class="team-flag">🇦ر</span>
+                    <span class="team-name">ئەرجەنتین</span>
+                </div>
+                <div class="match-vs">VS</div>
+                <div class="team">
+                    <span class="team-flag">🇩🇪</span>
+                    <span class="team-name">ئەڵمانیا</span>
+                </div>
+            </div>
+            
+            <div class="prediction-row">
+                <button class="predict-btn">
+                    <span class="odds-val">1.75</span>
+                    <span class="predict-label">بردنەوەی ئەرجەنتین</span>
+                </button>
+                <button class="predict-btn">
+                    <span class="odds-val">3.50</span>
+                    <span class="predict-label">یەکسانبوون</span>
+                </button>
+                <button class="predict-btn">
+                    <span class="odds-val">2.80</span>
+                    <span class="predict-label">بردنەوەی ئەڵمانیا</span>
+                </button>
             </div>
         </div>
     </div>
 
-    <div class="bet-slip">
-        <div class="slip-flex">
-            <div>
-                <strong>یارییە هەڵبژێردراوەکان:</strong> <span id="selected-matches">١ یاری</span> <br>
-                <small style="color: green;">کۆی گشتی Odds: 1.85</small>
+    <div class="bottom-panel">
+        <div class="panel-container">
+            <div class="slip-details">
+                <h4>١ یاری دەستنیشانکراوە</h4>
+                <span>کۆی گشتی Odds: 2.40</span>
             </div>
-            <div>
-                <label>بڕی پۆینت: </label>
+            <div class="input-group">
+                <label>پۆینت:</label>
                 <input type="number" value="100" min="10">
             </div>
-            <div>
-                <button class="submit-btn">ناردنی پێشبینی</button>
-            </div>
+            <button class="action-btn">تۆمارکردنی پێشبینی</button>
         </div>
     </div>
 
