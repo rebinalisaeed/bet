@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پێشبڕکێی مۆندیالی 2026</title>
+    <style>
+        :root {
+            --primary: #8a1538; /* ڕەنگی فەرمی مۆندیال */
+            --dark: #1a1a1a;
+            --light: #f4f4f4;
+            --gold: #ffd700;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            margin: 0;
+            padding: 0;
+        }
+        /* سەرەوەی سایتەکە */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .logo { font-size: 24px; font-weight: bold; }
+        .points-box {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            border: 1px solid var(--gold);
+        }
+        /* بەشی ناوەڕۆک */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        h2 { color: var(--dark); text-align: center; }
+        /* کارتی یارییەکان */
+        .match-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .teams {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .vs { color: #888; font-size: 16px; }
+        /* دوگمەکانی Odds */
+        .odds-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        .odds-btn {
+            flex: 1;
+            background: #eef2f3;
+            border: 2px solid #ddd;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        .odds-btn:hover, .odds-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .odds-btn span {
+            display: block;
+            color: #666;
+            font-size: 14px;
+        }
+        .odds-btn:hover span, .odds-btn.active span { color: var(--gold); }
+        /* بەشی لێدانی پۆینت (Bet Slip) */
+        .bet-slip {
+            background: #fff;
+            border-top: 4px solid var(--gold);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .slip-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+        input[type="number"] {
+            width: 120px;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .submit-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .submit-btn:hover { background: #219653; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">🏆 مۆندیال ٢٠٢٦</div>
+        <div class="points-box">🌟 پۆینتەکانت: 1,000</div>
+    </header>
+
+    <div class="container">
+        <h2>یارییەکانی ئەمڕۆ</h2>
+
+        <div class="match-card">
+            <div class="teams">
+                <div>🇦🇷 ئەرجەنتین</div>
+                <div class="vs">دانەی یەکەم - کاتژمێر ٢٢:٠٠</div>
+                <div>🇫🇷 فەڕەنسا</div>
+            </div>
+            
+            <div class="odds-container">
+                <button class="odds-btn">بردنەوەی ئەرجەنتین <span>1.85</span></button>
+                <button class="odds-btn">یەکسانبوون <span>3.40</span></button>
+                <button class="odds-btn">بردنەوەی فەڕەنسا <span>2.10</span></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bet-slip">
+        <div class="slip-flex">
+            <div>
+                <strong>یارییە هەڵبژێردراوەکان:</strong> <span id="selected-matches">١ یاری</span> <br>
+                <small style="color: green;">کۆی گشتی Odds: 1.85</small>
+            </div>
+            <div>
+                <label>بڕی پۆینت: </label>
+                <input type="number" value="100" min="10">
+            </div>
+            <div>
+                <button class="submit-btn">ناردنی پێشبینی</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
