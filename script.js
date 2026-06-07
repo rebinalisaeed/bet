@@ -65,11 +65,22 @@ function updateMenuUsername() {
     }
 }
 
+// ========== ناچالاک کردنی بۆکسی پێشبینیەکانی پێشوو ==========
+function updatePastBetsCard() {
+    const pastBetsCard = document.getElementById('pastBetsCard');
+    if(pastBetsCard) {
+        if(!currentUser) {
+            pastBetsCard.classList.add('disabled');
+        } else {
+            pastBetsCard.classList.remove('disabled');
+        }
+    }
+}
+
 // ========== سیستەمی چوونەژوورەوە ==========
 function updateAuthUI() {
     const authSection = document.getElementById('authSection');
     const myBetsCard = document.getElementById('myBetsCard');
-    const loginMessage = document.getElementById('loginMessage');
     
     if(!authSection) return;
     
@@ -90,10 +101,6 @@ function updateAuthUI() {
         if(myBetsCard) {
             myBetsCard.classList.remove('disabled');
         }
-        
-        if(loginMessage) {
-            loginMessage.style.display = 'none';
-        }
     } else {
         authSection.innerHTML = `
             <button class="login-btn-nav" id="showLoginBtn">🔑 چوونەژوورەوە</button>
@@ -101,10 +108,6 @@ function updateAuthUI() {
         
         if(myBetsCard) {
             myBetsCard.classList.add('disabled');
-        }
-        
-        if(loginMessage) {
-            loginMessage.style.display = 'block';
         }
         
         const loginBtn = document.getElementById('showLoginBtn');
@@ -116,6 +119,7 @@ function updateAuthUI() {
     }
     
     updateMenuUsername();
+    updatePastBetsCard();
 }
 
 function logout() {
@@ -141,7 +145,7 @@ function loadUserFromStorage() {
     updateAuthUI();
 }
 
-// ========== مێنوو (ئەنیمەیشنی هامبەرگەر بۆ X) ==========
+// ========== مێنوو ==========
 function initMenu() {
     const menuBtn = document.getElementById('menuToggleBtn');
     const hamburgerIcon = document.getElementById('hamburgerIcon');
@@ -283,9 +287,15 @@ function initDashboardCards() {
     const cards = document.querySelectorAll('.dashboard-card');
     cards.forEach(card => {
         card.addEventListener('click', () => {
-            if(card.classList.contains('disabled') && card.id === 'myBetsCard') {
-                alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە بۆ بینینی پێشبینیەکانت!');
-                window.location.href = 'login.html';
+            // پشکنینی بۆکسی ناچالاک
+            if(card.classList.contains('disabled')) {
+                if(card.id === 'myBetsCard') {
+                    alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە بۆ بینینی پێشبینیەکانت!');
+                    window.location.href = 'login.html';
+                } else if(card.id === 'pastBetsCard') {
+                    alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە بۆ بینینی مێژووی پێشبینیەکانت!');
+                    window.location.href = 'login.html';
+                }
                 return;
             }
             
@@ -314,9 +324,6 @@ function initDashboardCards() {
                 case 'pastbets':
                     if(currentUser) {
                         alert('📋 پێشبینیەکانی پێشوو: هیچ مێژوویەک نییە');
-                    } else {
-                        alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە');
-                        window.location.href = 'login.html';
                     }
                     break;
                 case 'sponsors':
@@ -330,16 +337,6 @@ function initDashboardCards() {
     });
 }
 
-// ========== دەستپێکردنی پیامی چوونەژوورەوە ==========
-function initLoginPrompt() {
-    const promptBtn = document.getElementById('promptLoginBtn');
-    if(promptBtn) {
-        promptBtn.addEventListener('click', () => {
-            window.location.href = 'login.html';
-        });
-    }
-}
-
 // ========== دەستپێکردن ==========
 document.addEventListener('DOMContentLoaded', () => {
     loadUserFromStorage();
@@ -347,5 +344,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initSlider();
     initBottomNav();
     initDashboardCards();
-    initLoginPrompt();
 });
