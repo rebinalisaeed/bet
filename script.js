@@ -1,5 +1,6 @@
 // Data structure
 let userPoints = 1000.000;
+let userDiamonds = 0;
 let currentUser = null;
 
 // ========== فەنکشنی کۆین بە شێوەی currency ==========
@@ -9,6 +10,10 @@ function formatPoints(points) {
     let integerPart = parseInt(parts[0]).toLocaleString('en-US');
     let decimalPart = parts[1];
     return `${integerPart}.${decimalPart}`;
+}
+
+function formatDiamonds(diamonds) {
+    return Math.floor(diamonds).toLocaleString('en-US');
 }
 
 function updatePointsDisplay(newPoints) {
@@ -24,6 +29,34 @@ function updatePointsDisplay(newPoints) {
     });
 }
 
+function updateDiamondsDisplay(newDiamonds) {
+    userDiamonds = newDiamonds;
+    if(currentUser) {
+        currentUser.diamonds = userDiamonds;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    }
+    const formatted = formatDiamonds(userDiamonds);
+    const diamondElements = document.querySelectorAll('.diamond-value');
+    diamondElements.forEach(el => {
+        if (el) el.innerText = formatted;
+    });
+}
+
+// ========== سیستەمی ئەڵماس ==========
+// کاتێک پێشبینی دەکرێت، پۆینتەکان کەم دەبنەوە
+// ئەگەر پێشبینی ڕاست بوو، ئەو پۆینتانەی کە مەترسی لەسەر بوون دەبنە ئەڵماس
+function placeBet(betAmount, isWin) {
+    if(isWin) {
+        // ئەگەر بردەوە، ئەو پۆینتەی کە خستوویەتی بەر مەترسی دەبێتە ئەڵماس
+        let newDiamonds = userDiamonds + betAmount;
+        updateDiamondsDisplay(newDiamonds);
+        return true;
+    } else {
+        // ئەگەر دۆڕا، پۆینتەکان کەم دەبنەوە و ئەڵماس زیاد ناکات
+        return false;
+    }
+}
+
 // ========== سیستەمی چوونەژوورەوە ==========
 function updateAuthUI() {
     const authSection = document.getElementById('authSection');
@@ -35,9 +68,15 @@ function updateAuthUI() {
     if(currentUser) {
         authSection.innerHTML = `
             <div class="user-info">
-                <div class="coin-icon-nav">
-                    <img src="images/coinicon.png" alt="Coin" class="coin-img-nav" onerror="this.src='https://placehold.co/28x28?text=🪙'">
-                    <span class="points-value" id="userPointsNav">${formatPoints(currentUser.points)}</span>
+                <div class="coin-diamond-row">
+                    <div class="coin-icon-nav">
+                        <img src="images/coinicon.png" alt="Coin" class="coin-img-nav" onerror="this.src='https://placehold.co/22x22?text=🪙'">
+                        <span class="points-value" id="userPointsNav">${formatPoints(currentUser.points || 1000)}</span>
+                    </div>
+                    <div class="diamond-icon-nav">
+                        <span style="font-size:1rem;">💎</span>
+                        <span class="diamond-value" id="userDiamondsNav">${formatDiamonds(currentUser.diamonds || 0)}</span>
+                    </div>
                 </div>
                 <span class="username-display">👤 ${currentUser.username}</span>
             </div>
@@ -76,6 +115,7 @@ function logout() {
     currentUser = null;
     localStorage.removeItem('currentUser');
     userPoints = 1000.000;
+    userDiamonds = 0;
     updateAuthUI();
     alert('سەرکەوتوو دەرچوویت!');
 }
@@ -86,6 +126,7 @@ function loadUserFromStorage() {
         try {
             currentUser = JSON.parse(savedUser);
             userPoints = currentUser.points || 1000.000;
+            userDiamonds = currentUser.diamonds || 0;
         } catch(e) {
             currentUser = null;
         }
@@ -93,32 +134,17 @@ function loadUserFromStorage() {
     updateAuthUI();
 }
 
-// ========== مێنوو (گۆڕینی ئایکۆن بۆ X) ==========
+// ========== مێنوو (ئەنیمەیشنی هامبەرگەر بۆ X) ==========
 function initMenu() {
     const menuBtn = document.getElementById('menuToggleBtn');
+    const hamburgerIcon = document.getElementById('hamburgerIcon');
     const sideMenu = document.getElementById('sideMenu');
     const overlay = document.getElementById('overlay');
-    const menuIcon = document.getElementById('menuIcon');
-    
-    function updateMenuIcon(isOpen) {
-        if(isOpen) {
-            menuIcon.innerHTML = `
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            `;
-        } else {
-            menuIcon.innerHTML = `
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            `;
-        }
-    }
     
     function closeMenu() {
         sideMenu.classList.remove('open');
         overlay.classList.remove('active');
-        updateMenuIcon(false);
+        if(hamburgerIcon) hamburgerIcon.classList.remove('open');
     }
     
     if(menuBtn) {
@@ -127,7 +153,9 @@ function initMenu() {
             const isOpening = !sideMenu.classList.contains('open');
             sideMenu.classList.toggle('open');
             overlay.classList.toggle('active');
-            updateMenuIcon(isOpening);
+            if(hamburgerIcon) {
+                hamburgerIcon.classList.toggle('open');
+            }
         });
     }
     
@@ -147,11 +175,9 @@ function initMenu() {
             closeMenu();
         });
     }
-    
-    updateMenuIcon(false);
 }
 
-// ========== سلایدەر (تەواو چاککراو) ==========
+// ========== سلایدەر (بێ دوگمە) ==========
 let currentSlideIndex = 0;
 let slideInterval;
 let totalSlides;
@@ -159,14 +185,11 @@ let totalSlides;
 function initSlider() {
     const slides = document.querySelectorAll('.slide');
     const dotsContainer = document.getElementById('sliderDots');
-    const prevBtn = document.getElementById('sliderPrev');
-    const nextBtn = document.getElementById('sliderNext');
     
     if(!slides.length) return;
     
     totalSlides = slides.length;
     
-    // دروستکردنی دۆتەکان
     if(dotsContainer) {
         dotsContainer.innerHTML = '';
         for(let i = 0; i < totalSlides; i++) {
@@ -200,10 +223,6 @@ function initSlider() {
         goToSlide(currentSlideIndex + 1);
     }
     
-    function prevSlide() {
-        goToSlide(currentSlideIndex - 1);
-    }
-    
     window.goToSlide = function(index) {
         showSlide(index);
         resetInterval();
@@ -214,20 +233,6 @@ function initSlider() {
         slideInterval = setInterval(() => {
             nextSlide();
         }, 5000);
-    }
-    
-    if(prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            resetInterval();
-        });
-    }
-    
-    if(nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            resetInterval();
-        });
     }
     
     showSlide(0);
@@ -258,15 +263,15 @@ function initBottomNav() {
                         alert('🎯 پێشبینیەکانت: هیچ پێشبینیەکت نییە');
                     }
                     break;
-                case 'support':
-                    alert('💬 پشتگیری: بۆ یارمەتی پەیوەندی بکە بە پشتگیری');
+                case 'rank':
+                    alert('🏆 ڕێزبەندی بەکارهێنەران: ڕیزبەندی مانگانە بەپێی ئەڵماس');
                     break;
             }
         });
     });
 }
 
-// ========== بۆکسەکان ==========
+// ========== 9 بۆکسەکان ==========
 function initDashboardCards() {
     const cards = document.querySelectorAll('.dashboard-card');
     cards.forEach(card => {
@@ -293,8 +298,22 @@ function initDashboardCards() {
                         alert('🎯 پێشبینیەکانت: هیچ پێشبینیەکت نییە');
                     }
                     break;
+                case 'rank':
+                    alert('🏆 ڕێزبەندی بەکارهێنەران: ڕیزبەندی مانگانە بەپێی ئەڵماس\nسەرەتا: هیچ ئەڵماسێک نییە');
+                    break;
+                case 'rules':
+                    alert('📜 مەرج و ڕێساکان:\n1. هەر بەکارهێنەر 1000 پۆینت وەردەگرێت\n2. پێشبینی بە پۆینت بکە\n3. ئەگەر بردەوە، پۆینتەکان دەبنە ئەڵماس\n4. ڕیزبەندی مانگانە بەپێی ئەڵماس');
+                    break;
+                case 'pastbets':
+                    if(currentUser) {
+                        alert('📋 پێشبینیەکانی پێشوو: هیچ مێژوویەک نییە');
+                    } else {
+                        alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە');
+                        window.location.href = 'login.html';
+                    }
+                    break;
                 case 'sponsors':
-                    alert('🤝 سپۆنسەرەکان: پشتگیری لە پڕۆژەکەمان دەکەن 💝');
+                    alert('🤝 سپۆنسەرەکان: ئاسیاسێل - Zain Cash - بکات کارتی');
                     break;
                 case 'about':
                     alert('ℹ️ دەربارە: پێشبڕکێی خۆڕایی بۆ مۆندیال 2026 - هەموو بەکارهێنەر 1000 پۆینت وەردەگرێت');
