@@ -26,7 +26,7 @@ body {
     min-height: 100vh;
 }
 
-h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
+h1, h2, h3, h4, .bold-text, button, .odd-value {
     font-family: 'Kurdliga Bold', 'Segoe UI', sans-serif;
 }
 
@@ -74,22 +74,16 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
     min-width: auto;
 }
 
-/* کۆین و یوزەر - بە شێوازی ستونی */
+/* کۆین و ئەڵماس - پێکەوە لە ڕیزدا */
 .user-info {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    background: #1f2538;
-    padding: 6px 15px;
-    border-radius: 50px;
-    border: 1px solid #f5b04250;
-}
-
-.coin-diamond-row {
-    display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 12px;
+    background: #1f2538;
+    padding: 6px 18px;
+    border-radius: 50px;
+    border: 1px solid #f5b04250;
 }
 
 .coin-icon-nav {
@@ -105,39 +99,29 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
 }
 
 .coin-img-nav {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.diamond-img-nav {
     width: 22px;
     height: 22px;
     object-fit: contain;
 }
 
-.diamond-img-nav {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
-}
-
 .points-value {
     font-weight: bold;
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #FFD966;
     font-family: 'Kurdliga Bold', monospace;
 }
 
 .diamond-value {
     font-weight: bold;
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #88ccff;
     font-family: 'Kurdliga Bold', monospace;
-}
-
-.username-display {
-    font-size: 0.7rem;
-    color: #ddd;
-    font-family: 'Kurdliga Regular', sans-serif;
-    text-align: center;
-    border-top: 1px solid #f5b04230;
-    padding-top: 4px;
-    width: 100%;
 }
 
 .login-btn-nav {
@@ -157,7 +141,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
     background: #ff8c42;
 }
 
-/* ========== هامبەرگەر مێنوو (ئەنیمەیشن بۆ X) ========== */
+/* ========== هامبەرگەر مێنوو (گەورەتر - 4 نمرە) ========== */
 .menu-toggle {
     background: transparent;
     border: none;
@@ -169,8 +153,8 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
 }
 
 .hamburger-icon {
-    width: 26px;
-    height: 20px;
+    width: 34px;
+    height: 26px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -180,15 +164,15 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
 .hamburger-icon span {
     display: block;
     width: 100%;
-    height: 3px;
+    height: 4px;
     background-color: #f5f2e0;
-    border-radius: 3px;
+    border-radius: 4px;
     transition: all 0.3s ease-in-out;
 }
 
 /* ئەنیمەیشنی گۆڕان بۆ X */
 .hamburger-icon.open span:nth-child(1) {
-    transform: translateY(8.5px) rotate(45deg);
+    transform: translateY(11px) rotate(45deg);
 }
 
 .hamburger-icon.open span:nth-child(2) {
@@ -197,7 +181,75 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
 }
 
 .hamburger-icon.open span:nth-child(3) {
-    transform: translateY(-8.5px) rotate(-45deg);
+    transform: translateY(-11px) rotate(-45deg);
+}
+
+/* ========== ساید مێنوو (ناوی یوزەر لە سەرەوە) ========== */
+.side-menu {
+    position: fixed;
+    top: 65px;
+    right: -300px;
+    width: 280px;
+    height: calc(100% - 65px);
+    background: #0f111fe6;
+    backdrop-filter: blur(16px);
+    z-index: 99;
+    transition: 0.3s ease;
+    padding: 20px;
+    border-left: 1px solid #f5b042;
+    box-shadow: -4px 0 30px rgba(0,0,0,0.5);
+    overflow-y: auto;
+}
+
+.side-menu.open {
+    right: 0;
+}
+
+.menu-username {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #1f2538;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    border: 1px solid #f5b04250;
+    font-family: 'Kurdliga Bold', sans-serif;
+    font-size: 1rem;
+    color: #FFD966;
+}
+
+.side-menu a {
+    display: block;
+    padding: 12px 16px;
+    color: #f5f2e0;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 40px;
+    margin-bottom: 8px;
+    transition: 0.2s;
+    font-family: 'Kurdliga Regular', sans-serif;
+}
+
+.side-menu a:hover {
+    background: #f5b04230;
+    color: #FFD966;
+    transform: translateX(-8px);
+}
+
+.overlay {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 65px);
+    background: rgba(0,0,0,0.6);
+    z-index: 98;
+    display: none;
+}
+
+.overlay.active {
+    display: block;
 }
 
 /* ========== سلایدەر ========== */
@@ -273,7 +325,6 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
     font-family: 'Kurdliga Regular', sans-serif;
 }
 
-/* دۆتەکان */
 .slider-dots {
     position: absolute;
     bottom: 8px;
@@ -299,63 +350,9 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
     border-radius: 10px;
 }
 
-/* ========== ساید مێنوو ========== */
-.side-menu {
-    position: fixed;
-    top: 65px;
-    right: -300px;
-    width: 280px;
-    height: calc(100% - 65px);
-    background: #0f111fe6;
-    backdrop-filter: blur(16px);
-    z-index: 99;
-    transition: 0.3s ease;
-    padding: 20px;
-    border-left: 1px solid #f5b042;
-    box-shadow: -4px 0 30px rgba(0,0,0,0.5);
-    overflow-y: auto;
-}
-
-.side-menu.open {
-    right: 0;
-}
-
-.side-menu a {
-    display: block;
-    padding: 12px 16px;
-    color: #f5f2e0;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 40px;
-    margin-bottom: 8px;
-    transition: 0.2s;
-    font-family: 'Kurdliga Regular', sans-serif;
-}
-
-.side-menu a:hover {
-    background: #f5b04230;
-    color: #FFD966;
-    transform: translateX(-8px);
-}
-
-.overlay {
-    position: fixed;
-    top: 65px;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 65px);
-    background: rgba(0,0,0,0.6);
-    z-index: 98;
-    display: none;
-}
-
-.overlay.active {
-    display: block;
-}
-
 /* ========== پەڕەی سەرەکی - 9 بۆکس ========== */
 .homepage-container {
-    max-width: 800px;
+    max-width: 850px;
     margin: 0 auto;
     padding: 30px 20px;
     min-height: calc(100vh - 230px);
@@ -364,24 +361,29 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 18px;
 }
 
 .dashboard-card {
     background: linear-gradient(135deg, #141824cc, #0f1220cc);
     backdrop-filter: blur(8px);
-    border-radius: 20px;
-    padding: 20px 10px;
+    border-radius: 24px;
+    padding: 28px 12px;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
     border: 1px solid #2a2d3a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
 }
 
 .dashboard-card:hover:not(.disabled) {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
     border-color: #f5b042;
-    box-shadow: 0 10px 25px rgba(245,176,66,0.2);
+    box-shadow: 0 12px 28px rgba(245,176,66,0.25);
 }
 
 .dashboard-card.disabled {
@@ -391,20 +393,20 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
 }
 
 .dashboard-icon {
-    font-size: 2.3rem;
-    margin-bottom: 10px;
+    font-size: 2.8rem;
+    margin-bottom: 14px;
     display: inline-block;
 }
 
 .dashboard-card h3 {
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #FFD966;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-family: 'Kurdliga Bold', sans-serif;
 }
 
 .dashboard-card p {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     color: #aaa;
     font-family: 'Kurdliga Regular', sans-serif;
 }
@@ -468,7 +470,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
     background: #0f1119e6;
     backdrop-filter: blur(20px);
     border-top: 1px solid #f5b042;
-    padding: 8px 16px;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -480,23 +482,23 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     background: transparent;
     border: none;
     color: #aaa;
     cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 30px;
+    padding: 8px 16px;
+    border-radius: 40px;
     transition: 0.2s;
     font-family: 'Kurdliga Regular', sans-serif;
 }
 
 .nav-item span:first-child {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
 }
 
 .nav-item span:last-child {
-    font-size: 0.65rem;
+    font-size: 0.85rem;
     font-weight: bold;
 }
 
@@ -507,35 +509,39 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
 
 .nav-item:hover {
     color: #FFD966;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 }
 
 /* responsive */
-@media (max-width: 600px) {
+@media (max-width: 650px) {
     .dashboard-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        gap: 12px;
     }
     .dashboard-card {
-        padding: 12px 6px;
+        padding: 20px 8px;
+        min-height: 120px;
     }
     .dashboard-icon {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
     }
     .dashboard-card h3 {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
     }
-    .dashboard-card p {
-        font-size: 0.55rem;
+}
+
+@media (max-width: 550px) {
+    .top-nav {
+        padding: 6px 12px;
+    }
+    .nav-center .logo-img {
+        max-height: 38px;
     }
     .user-info {
-        padding: 4px 10px;
-    }
-    .coin-diamond-row {
+        padding: 4px 12px;
         gap: 8px;
     }
     .points-value, .diamond-value {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
     }
     .slider-container {
         height: 100px;
@@ -546,17 +552,38 @@ h1, h2, h3, h4, .bold-text, button, .odd-value, .points-value {
     .slide-content h3 {
         font-size: 0.85rem;
     }
-    .slide-content p {
-        font-size: 0.6rem;
+    .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    .dashboard-card {
+        padding: 14px 6px;
+        min-height: 100px;
+    }
+    .dashboard-icon {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
+    .dashboard-card h3 {
+        font-size: 0.7rem;
+    }
+    .dashboard-card p {
+        font-size: 0.55rem;
+    }
+    .nav-item span:first-child {
+        font-size: 1.4rem;
+    }
+    .nav-item span:last-child {
+        font-size: 0.7rem;
+    }
+    .nav-item {
+        padding: 5px 10px;
     }
 }
 
 @media (max-width: 450px) {
     .dashboard-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-    .nav-item span:last-child {
-        font-size: 0.55rem;
+        gap: 10px;
     }
 }
