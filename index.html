@@ -23,7 +23,6 @@
         <img src="images/logo.png" alt="Logo" class="logo-img" onerror="this.src='https://placehold.co/100x60?text=🏆'">
     </div>
     <div class="nav-right" id="navRight">
-        <!-- دینامیکی لە لۆگین دەگۆڕێت -->
         <div id="authSection"></div>
     </div>
 </div>
@@ -39,7 +38,7 @@
 </div>
 <div class="overlay" id="overlay"></div>
 
-<div class="container">
+<div class="container homepage-container">
     
     <!-- 6 بۆکسەکەی ناوەڕاست -->
     <div class="dashboard-grid">
@@ -58,7 +57,7 @@
             <h3>ئەنجامەکان</h3>
             <p>ئەنجامی یارییەکان</p>
         </div>
-        <div class="dashboard-card" data-page="mybets">
+        <div class="dashboard-card" id="myBetsCard" data-page="mybets">
             <div class="dashboard-icon">🎯</div>
             <h3>پێشبینیەکانم</h3>
             <p>پێشبینیەکانی من</p>
@@ -75,81 +74,15 @@
         </div>
     </div>
 
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="matches">🏟 یارییەکان</button>
-        <button class="tab-btn" data-tab="stats">📊 ئامار & H2H</button>
-        <button class="tab-btn" data-tab="chat">💬 چات</button>
-        <button class="tab-btn" data-tab="admin">🛠 ئادمین</button>
-    </div>
-
-    <div id="matchesTab" class="tab-content">
-        <div class="live-strip">
-            <div class="match-mini">
-                <span>🏆 ئەمڕۆ: بەڕازیل vs ئەرجەنتین (18:00)</span>
-                <span style="color:#f5b042;">لایڤ</span>
-            </div>
-            <div class="commentary">📢 کۆمێنتاری: هێرشی چڕی بەڕازیل... 📋 لاینەپ: نێیمار، مێسی</div>
-        </div>
-        <div id="matchesList"></div>
-    </div>
-
-    <div id="statsTab" class="tab-content" style="display:none;">
-        <div class="stats-grid">
-            <div style="flex:1">🔥 بەڕازیل: 5 بردەوە<br>🎯 گۆڵ: 12</div>
-            <div style="flex:1">⚡ ئەرجەنتین: 4 بردەوە<br>🎯 گۆڵ: 9</div>
-        </div>
-        <div class="match-card">
-            <h4>📜 H2H - دواین 5 دیدار</h4>
-            <div>🇧🇷 بەڕازیل 2 - 1 ئەرجەنتین 🇦🇷</div>
-            <div>🇦🇷 ئەرجەنتین 1 - 0 بەڕازیل 🇧🇷</div>
-            <div>🇧🇷 بەڕازیل 3 - 1 ئەرجەنتین 🇦🇷</div>
-            <div>🏟 پێشبینی: بەڕازیل 54% - 46% ئەرجەنتین</div>
+    <!-- پیام بۆ ئەوەی چوونەژوورەوە نەکات -->
+    <div class="login-message" id="loginMessage" style="display: none;">
+        <div class="message-card">
+            <span class="message-icon">🔐</span>
+            <h3>تکایە چوونەژوورەوە بکە</h3>
+            <p>بۆ بینینی پێشبینیەکانت و بەشداریکردن لە پێشبڕکێکەدا</p>
+            <button class="login-prompt-btn" id="promptLoginBtn">🔑 چوونەژوورەوە</button>
         </div>
     </div>
-
-    <div id="chatTab" class="tab-content" style="display:none;">
-        <div class="chat-section">
-            <div class="chat-messages" id="chatMessages">
-                <div><span class="admin-badge">پشتگیری</span> سڵاو! چۆن یارمەتیت بدەم؟</div>
-                <div><strong>سارا:</strong> پێشبینی من چۆن ببینم؟</div>
-                <div><span class="admin-badge">ئادمین</span> لەسەر ڕانکینگ بەشی پێشەنگان دەردەکەوێت</div>
-            </div>
-            <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="پرسیار یان پشتیوانی ...">
-                <button id="sendChatBtn">ناردن</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="adminTab" class="tab-content" style="display:none;">
-        <div class="admin-panel">
-            <h4>➕ زیادکردنی یاری / ئۆدەس</h4>
-            <div class="admin-row">
-                <input class="admin-input" placeholder="تیمی یەکەم" id="teamA">
-                <input class="admin-input" placeholder="تیمی دووەم" id="teamB">
-                <input class="admin-input" placeholder="ئۆدەس A" id="oddsA">
-                <input class="admin-input" placeholder="ئۆدەس B" id="oddsB">
-                <button id="addMatchBtnAdmin">زیادکردن</button>
-            </div>
-            <div style="margin-top:15px">
-                <h5>📋 ئەنجامی یاری (ڕاستەوخۆ)</h5>
-                <div class="admin-row">
-                    <input id="matchResult" placeholder="ئەنجام: 2-1">
-                    <button id="updateResultBtn">نوێکردنەوەی ئامار</button>
-                </div>
-            </div>
-            <small>ئاگاداری: لەم دیمۆدا هەموو داتاکان لە browserدا هەڵدەگیرێن</small>
-        </div>
-    </div>
-</div>
-
-<!-- بار خوارەوە بۆ مەڵتای بێت -->
-<div class="bottom-bet-bar" id="multibar">
-    <div class="multibet-info">
-        <span class="multibet-count" id="selectedCount">0 یاری هەڵبژێردراوە</span>
-        <span class="multibet-odds" id="totalOdds">کۆی ئۆدەس: 1.00x</span>
-    </div>
-    <button class="place-bet-btn" id="placeMultibetBtn">🚀 پێشبینی بکە (بەخۆڕایی)</button>
 </div>
 
 <!-- تاسک باری خوارەوە (Bottom Navigation) -->
