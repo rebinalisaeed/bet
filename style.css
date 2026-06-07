@@ -141,7 +141,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     background: #ff8c42;
 }
 
-/* ========== هامبەرگەر مێنوو (گەورەتر - 4 نمرە) ========== */
+/* ========== هامبەرگەر مێنوو ========== */
 .menu-toggle {
     background: transparent;
     border: none;
@@ -170,7 +170,6 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     transition: all 0.3s ease-in-out;
 }
 
-/* ئەنیمەیشنی گۆڕان بۆ X */
 .hamburger-icon.open span:nth-child(1) {
     transform: translateY(11px) rotate(45deg);
 }
@@ -184,7 +183,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     transform: translateY(-11px) rotate(-45deg);
 }
 
-/* ========== ساید مێنوو (ناوی یوزەر لە سەرەوە) ========== */
+/* ========== ساید مێنوو ========== */
 .side-menu {
     position: fixed;
     top: 65px;
@@ -355,7 +354,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     max-width: 850px;
     margin: 0 auto;
     padding: 30px 20px;
-    min-height: calc(100vh - 230px);
+    min-height: calc(100vh - 200px);
 }
 
 .dashboard-grid {
@@ -392,6 +391,11 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     filter: grayscale(0.2);
 }
 
+.dashboard-card.disabled:hover {
+    transform: none;
+    border-color: #2a2d3a;
+}
+
 .dashboard-icon {
     font-size: 2.8rem;
     margin-bottom: 14px;
@@ -409,56 +413,6 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     font-size: 0.7rem;
     color: #aaa;
     font-family: 'Kurdliga Regular', sans-serif;
-}
-
-/* پیامی چوونەژوورەوە */
-.login-message {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.message-card {
-    background: #0f1119cc;
-    backdrop-filter: blur(8px);
-    border-radius: 28px;
-    padding: 25px 20px;
-    border: 1px solid #f5b04240;
-}
-
-.message-icon {
-    font-size: 2.5rem;
-    display: block;
-    margin-bottom: 12px;
-}
-
-.message-card h3 {
-    font-size: 1.2rem;
-    color: #FFD966;
-    margin-bottom: 8px;
-}
-
-.message-card p {
-    color: #bbb;
-    margin-bottom: 18px;
-    font-size: 0.85rem;
-}
-
-.login-prompt-btn {
-    background: linear-gradient(95deg, #f5b042, #ff8c42);
-    border: none;
-    padding: 10px 24px;
-    border-radius: 40px;
-    font-weight: bold;
-    color: #0a0c12;
-    font-size: 0.9rem;
-    cursor: pointer;
-    font-family: 'Kurdliga Bold', sans-serif;
-    transition: 0.2s;
-}
-
-.login-prompt-btn:hover {
-    transform: scale(0.96);
-    box-shadow: 0 0 12px #f5b042;
 }
 
 /* ========== تاسک باری خوارەوە ========== */
