@@ -1,3 +1,18 @@
+/* ========== فۆنتەکانی Kurdliga ========== */
+@font-face {
+    font-family: 'Kurdliga Bold';
+    src: url('fonts/kurdliga-bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Kurdliga Regular';
+    src: url('fonts/kurdliga-Reg.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,10 +20,14 @@
 }
 
 body {
-    font-family: 'Segoe UI', system-ui, -apple-system, 'Tahoma', sans-serif;
+    font-family: 'Kurdliga Regular', 'Segoe UI', system-ui, sans-serif;
     background: #0a0c12;
     color: #eef2ff;
     padding-bottom: 75px;
+}
+
+h1, h2, h3, h4, .bold-text, button, .tab-btn, .odd-value, .points-value {
+    font-family: 'Kurdliga Bold', 'Segoe UI', sans-serif;
 }
 
 /* scrollbar */
@@ -16,12 +35,12 @@ body {
 ::-webkit-scrollbar-track { background: #1e1f2c; }
 ::-webkit-scrollbar-thumb { background: #f5b042; border-radius: 10px; }
 
-/* ========== بانەڕی سەرەوە (نوێ - کۆین لە ڕاست، هەمبەرگر لە چەپ) ========== */
+/* ========== بانەڕی سەرەوە ========== */
 .top-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 20px;
+    padding: 10px 20px;
     background: #0f1119;
     backdrop-filter: blur(12px);
     position: sticky;
@@ -30,14 +49,12 @@ body {
     border-bottom: 1px solid #2a2d3a;
 }
 
-/* لای چەپ: هەمبەرگر */
 .nav-left {
     display: flex;
     align-items: center;
-    min-width: 60px;
+    min-width: 50px;
 }
 
-/* ناوەڕاست: لۆگۆ (گەورەتر - 8 نمرە) */
 .nav-center {
     flex: 1;
     display: flex;
@@ -45,41 +62,70 @@ body {
 }
 
 .nav-center .logo-img {
-    max-height: 68px;
+    max-height: 60px;
     width: auto;
     object-fit: contain;
 }
 
-/* لای ڕاست: کۆین */
 .nav-right {
     display: flex;
     align-items: center;
-    min-width: 130px;
-    justify-content: flex-end;
+    gap: 12px;
+    min-width: auto;
 }
 
-.coin-icon {
+/* کۆین و یوزەر - شێوازی گونجاو */
+.user-info {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     background: #1f2538;
-    padding: 6px 16px;
-    border-radius: 40px;
+    padding: 5px 15px;
+    border-radius: 50px;
     border: 1px solid #f5b04250;
 }
 
-.coin-img {
-    width: 32px;
-    height: 32px;
+.coin-icon-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.coin-img-nav {
+    width: 28px;
+    height: 28px;
     object-fit: contain;
 }
 
 .points-value {
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #FFD966;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 0.5px;
+    font-family: 'Kurdliga Bold', monospace;
+}
+
+.username-display {
+    font-size: 0.85rem;
+    color: #ddd;
+    border-right: 1px solid #f5b04250;
+    padding-right: 12px;
+}
+
+.login-btn-nav {
+    background: #f5b042;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 40px;
+    font-weight: bold;
+    color: #0a0c12;
+    cursor: pointer;
+    font-family: 'Kurdliga Bold', sans-serif;
+    transition: 0.2s;
+}
+
+.login-btn-nav:hover {
+    transform: scale(0.96);
+    background: #ff8c42;
 }
 
 .menu-toggle {
@@ -90,21 +136,15 @@ body {
     display: flex;
     align-items: center;
     padding: 8px;
-    transition: 0.2s;
 }
 
-.menu-toggle:hover {
-    color: #FFD966;
-    transform: scale(1.05);
-}
-
-/* ========== ساید مێنوو (لە خوار بانەڕەوە) ========== */
+/* ========== ساید مێنوو ========== */
 .side-menu {
     position: fixed;
-    top: 72px;
+    top: 70px;
     right: -300px;
     width: 280px;
-    height: calc(100% - 72px);
+    height: calc(100% - 70px);
     background: #0f111fe6;
     backdrop-filter: blur(16px);
     z-index: 99;
@@ -128,6 +168,7 @@ body {
     border-radius: 40px;
     margin-bottom: 8px;
     transition: 0.2s;
+    font-family: 'Kurdliga Regular', sans-serif;
 }
 
 .side-menu a:hover {
@@ -138,10 +179,10 @@ body {
 
 .overlay {
     position: fixed;
-    top: 72px;
+    top: 70px;
     left: 0;
     width: 100%;
-    height: calc(100% - 72px);
+    height: calc(100% - 70px);
     background: rgba(0,0,0,0.6);
     z-index: 98;
     display: none;
@@ -151,14 +192,110 @@ body {
     display: block;
 }
 
+/* ========== 6 بۆکسەکەی ناوەڕاست ========== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+    padding: 0 8px;
+}
+
+.dashboard-card {
+    background: linear-gradient(135deg, #141824, #0f1220);
+    border-radius: 20px;
+    padding: 20px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid #2a2d3a;
+    backdrop-filter: blur(4px);
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    border-color: #f5b042;
+    box-shadow: 0 8px 25px rgba(245,176,66,0.2);
+}
+
+.dashboard-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    display: inline-block;
+}
+
+.dashboard-card h3 {
+    font-size: 1rem;
+    color: #FFD966;
+    margin-bottom: 6px;
+    font-family: 'Kurdliga Bold', sans-serif;
+}
+
+.dashboard-card p {
+    font-size: 0.7rem;
+    color: #aaa;
+    font-family: 'Kurdliga Regular', sans-serif;
+}
+
+/* ========== تاسک باری خوارەوە (Bottom Navigation) ========== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #0f1119e6;
+    backdrop-filter: blur(20px);
+    border-top: 1px solid #f5b042;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 200;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 30px;
+    transition: 0.2s;
+    font-family: 'Kurdliga Regular', sans-serif;
+}
+
+.nav-item span:first-child {
+    font-size: 1.3rem;
+}
+
+.nav-item span:last-child {
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.nav-item.active {
+    color: #f5b042;
+    background: #f5b04220;
+}
+
+.nav-item:hover {
+    color: #FFD966;
+    transform: translateY(-3px);
+}
+
 /* container */
 .container {
-    max-width: 600px;
+    max-width: 650px;
     margin: 0 auto;
     padding: 16px;
 }
 
-/* tabs */
+/* tabs (بۆ پێشتر) */
 .tabs {
     display: flex;
     gap: 8px;
@@ -179,6 +316,7 @@ body {
     font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.2s;
+    font-family: 'Kurdliga Bold', sans-serif;
 }
 
 .tab-btn.active {
@@ -257,12 +395,14 @@ body {
 .team-name {
     font-size: 0.8rem;
     opacity: 0.8;
+    font-family: 'Kurdliga Regular', sans-serif;
 }
 
 .odd-value {
     font-weight: bold;
     font-size: 1.1rem;
     color: #FFD966;
+    font-family: 'Kurdliga Bold', sans-serif;
 }
 
 .bet-check {
@@ -280,21 +420,22 @@ body {
     cursor: pointer;
 }
 
-/* multibet bar لە خوارەوە */
+/* multibet bar (باری سەرەکی پێشبینی) */
 .bottom-bet-bar {
     position: fixed;
-    bottom: 0;
+    bottom: 70px;
     left: 0;
     right: 0;
     background: #0b0e18;
     backdrop-filter: blur(20px);
     border-top: 1px solid #f5b042;
-    padding: 12px 20px;
+    border-bottom: 1px solid #2a2d3a;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 200;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+    z-index: 199;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
 }
 
 .multibet-info {
@@ -309,20 +450,21 @@ body {
 
 .multibet-odds {
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #FFD966;
 }
 
 .place-bet-btn {
     background: linear-gradient(95deg, #f5b042, #ff8c42);
     border: none;
-    padding: 10px 24px;
+    padding: 8px 20px;
     border-radius: 40px;
     font-weight: bold;
     color: #0a0c12;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     cursor: pointer;
     transition: 0.2s;
+    font-family: 'Kurdliga Bold', sans-serif;
 }
 
 .place-bet-btn:hover {
@@ -366,6 +508,7 @@ body {
     border-radius: 40px;
     color: white;
     outline: none;
+    font-family: 'Kurdliga Regular', sans-serif;
 }
 
 .chat-input input:focus {
@@ -405,6 +548,7 @@ body {
     color: white;
     flex: 1;
     outline: none;
+    font-family: 'Kurdliga Regular', sans-serif;
 }
 
 .admin-input:focus {
@@ -419,6 +563,7 @@ button {
     color: white;
     cursor: pointer;
     transition: 0.2s;
+    font-family: 'Kurdliga Bold', sans-serif;
 }
 
 button:hover {
@@ -442,28 +587,52 @@ button:hover {
     .top-nav {
         padding: 8px 12px;
     }
-    .coin-icon {
-        padding: 4px 12px;
-    }
-    .coin-img {
-        width: 24px;
-        height: 24px;
-    }
     .nav-center .logo-img {
-        max-height: 48px;
+        max-height: 45px;
+    }
+    .user-info {
+        padding: 4px 10px;
+        gap: 6px;
+    }
+    .username-display {
+        font-size: 0.7rem;
+        padding-right: 8px;
     }
     .points-value {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
-    .tab-btn {
-        font-size: 0.65rem;
-        padding: 8px 0;
+    .login-btn-nav {
+        padding: 5px 12px;
+        font-size: 0.75rem;
+    }
+    .dashboard-grid {
+        gap: 10px;
+    }
+    .dashboard-card {
+        padding: 12px 8px;
+    }
+    .dashboard-icon {
+        font-size: 1.8rem;
+    }
+    .dashboard-card h3 {
+        font-size: 0.8rem;
+    }
+    .nav-item span:last-child {
+        font-size: 0.6rem;
     }
     .bottom-bet-bar {
-        padding: 8px 12px;
+        bottom: 60px;
+        padding: 6px 12px;
     }
     .place-bet-btn {
-        padding: 6px 16px;
-        font-size: 0.8rem;
+        padding: 5px 12px;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 450px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 }
