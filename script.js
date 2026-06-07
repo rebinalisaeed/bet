@@ -1,6 +1,7 @@
 // Data structure
 let userPoints = 1000.000;
 let selectedBets = [];
+let currentUser = null;  // { username, points }
 let matches = [
     { id: 1, teamA: "بەڕازیل", teamB: "ئەرجەنتین", oddsA: 1.85, oddsB: 2.10, status: "live" },
     { id: 2, teamA: "فەڕەنسا", teamB: "ئینگلتەرا", oddsA: 2.00, oddsB: 1.95, status: "upcoming" },
@@ -18,13 +19,15 @@ function formatPoints(points) {
 
 function updatePointsDisplay(newPoints) {
     userPoints = newPoints;
+    if(currentUser) {
+        currentUser.points = userPoints;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    }
     const formatted = formatPoints(userPoints);
     const pointsElements = document.querySelectorAll('.points-value');
     pointsElements.forEach(el => {
         if (el) el.innerText = formatted;
     });
-    // هەروەها لە localStorage هەڵیبگرە
-    localStorage.setItem('userPoints', userPoints);
 }
 
 function addWinnings(amount) {
@@ -34,15 +37,58 @@ function addWinnings(amount) {
     return newPoints;
 }
 
-// Load points from localStorage
-function loadUserPoints() {
-    const saved = localStorage.getItem('userPoints');
-    if(saved !== null && !isNaN(parseFloat(saved))) {
-        userPoints = parseFloat(saved);
+// ========== سیستەمی چوونەژوورەوە ==========
+function updateAuthUI() {
+    const authSection = document.getElementById('authSection');
+    if(!authSection) return;
+    
+    if(currentUser) {
+        // نمایش کۆین + ناوی یوزەر
+        authSection.innerHTML = `
+            <div class="user-info">
+                <div class="coin-icon-nav">
+                    <img src="images/coinicon.png" alt="Coin" class="coin-img-nav" onerror="this.src='https://placehold.co/28x28?text=🪙'">
+                    <span class="points-value" id="userPointsNav">${formatPoints(currentUser.points)}</span>
+                </div>
+                <span class="username-display">👤 ${currentUser.username}</span>
+            </div>
+        `;
     } else {
-        userPoints = 1000.000;
+        // نمایش دوگمەی چوونەژوورەوە
+        authSection.innerHTML = `
+            <button class="login-btn-nav" id="showLoginBtn">🔑 چوونەژوورەوە</button>
+        `;
+        const loginBtn = document.getElementById('showLoginBtn');
+        if(loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                window.location.href = 'login.html';
+            });
+        }
     }
-    updatePointsDisplay(userPoints);
+}
+
+function logout() {
+    currentUser = null;
+    localStorage.removeItem('currentUser');
+    userPoints = 1000.000;
+    selectedBets = [];
+    updateAuthUI();
+    updateMultibar();
+    renderMatches();
+    alert('سەرکەوتوو دەرچوویت!');
+}
+
+function loadUserFromStorage() {
+    const savedUser = localStorage.getItem('currentUser');
+    if(savedUser) {
+        try {
+            currentUser = JSON.parse(savedUser);
+            userPoints = currentUser.points || 1000.000;
+        } catch(e) {
+            currentUser = null;
+        }
+    }
+    updateAuthUI();
 }
 
 // ========== ڕێنمایی یارییەکان ==========
@@ -81,10 +127,13 @@ function renderMatches() {
         container.appendChild(card);
     });
 
-    // ئیڤێنت بۆ هەڵبژاردنی ئۆدەس
     document.querySelectorAll('.odd-box').forEach(box => {
         box.addEventListener('click', (e) => {
             e.stopPropagation();
+            if(!currentUser) {
+                alert('تکایە یەکەمجار چوونەژوورەوە بکە!');
+                return;
+            }
             const matchId = parseInt(box.dataset.match);
             const pick = box.dataset.pick;
             const odds = parseFloat(box.dataset.odds);
@@ -105,13 +154,17 @@ function renderMatches() {
         });
     });
 
-    // ئیڤێنت بۆ چێکبۆکسەکان
     document.querySelectorAll('.multicheck').forEach(chk => {
         chk.addEventListener('change', (e) => {
             const matchId = parseInt(chk.dataset.match);
             if (!chk.checked) {
                 selectedBets = selectedBets.filter(s => s.matchId !== matchId);
             } else {
+                if(!currentUser) {
+                    alert('تکایە یەکەمجار چوونەژوورەوە بکە!');
+                    chk.checked = false;
+                    return;
+                }
                 const already = selectedBets.find(s => s.matchId === matchId);
                 if (!already) {
                     const match = matches.find(m => m.id === matchId);
@@ -126,7 +179,6 @@ function renderMatches() {
     });
 }
 
-// نوێکردنەوەی multibar
 function updateMultibar() {
     const count = selectedBets.length;
     document.getElementById('selectedCount').innerHTML = count + " یاری هەڵبژێردراوە";
@@ -136,8 +188,13 @@ function updateMultibar() {
     document.getElementById('totalOdds').innerHTML = `کۆی ئۆدەس: ${totalOddsProduct.toFixed(2)}x`;
 }
 
-// پێشبینی کردن
 function placeMultibet() {
+    if(!currentUser) {
+        alert('تکایە یەکەمجار چوونەژوورەوە بکە!');
+        window.location.href = 'login.html';
+        return;
+    }
+    
     if (selectedBets.length === 0) {
         alert("هیچ یاریەکت هەڵنەبژاردووە بۆ پێشبینی!");
         return;
@@ -165,7 +222,6 @@ function placeMultibet() {
     }
 }
 
-// زیادکردنی یاری لە ئادمین پانێل
 function addMatch() {
     const teamA = document.getElementById('teamA').value;
     const teamB = document.getElementById('teamB').value;
@@ -194,7 +250,6 @@ function addMatch() {
     alert(`✅ یاری ${teamA} vs ${teamB} زیادکرا`);
 }
 
-// ناردنی چات
 function sendChatMessage() {
     const input = document.getElementById('chatInput');
     const msg = input.value.trim();
@@ -217,7 +272,6 @@ function sendChatMessage() {
     }
 }
 
-// Tab گۆڕین
 function initTabs() {
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -231,7 +285,6 @@ function initTabs() {
     });
 }
 
-// مێنوو کردن و داخستن (لە خوار بانەڕەوە)
 function initMenu() {
     const menuBtn = document.getElementById('menuToggleBtn');
     const sideMenu = document.getElementById('sideMenu');
@@ -257,15 +310,81 @@ function initMenu() {
             closeMenu();
         }
     });
+    
+    const logoutLink = document.getElementById('logoutLink');
+    if(logoutLink) {
+        logoutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            logout();
+            closeMenu();
+        });
+    }
+}
+
+function initBottomNav() {
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const navType = item.dataset.nav;
+            navItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            
+            switch(navType) {
+                case 'home':
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    break;
+                case 'live':
+                    document.querySelector('.tab-btn[data-tab="matches"]')?.click();
+                    break;
+                case 'mybets':
+                    alert('پێشبینیەکانم: ئێستا هیچ پێشبینیەکت نییە');
+                    break;
+                case 'support':
+                    document.querySelector('.tab-btn[data-tab="chat"]')?.click();
+                    break;
+            }
+        });
+    });
+}
+
+function initDashboardCards() {
+    const cards = document.querySelectorAll('.dashboard-card');
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const page = card.dataset.page;
+            switch(page) {
+                case 'sports':
+                    document.querySelector('.tab-btn[data-tab="matches"]')?.click();
+                    break;
+                case 'live':
+                    alert('ڕاستەوخۆکان: بەم زوانە بەش بەمزوانی زیاد دەکرێت');
+                    break;
+                case 'results':
+                    alert('ئەنجامەکان: دوای کۆتایی یارییەکان نمایش دەکرێن');
+                    break;
+                case 'mybets':
+                    alert('پێشبینیەکانم: پێشبینیەکانی تۆ لێرە دەردەکەون');
+                    break;
+                case 'sponsors':
+                    alert('سپۆنسەرەکان: پشتگیری لە پڕۆژەکەمان دەکەن 💝');
+                    break;
+                case 'about':
+                    alert('دەربارە: پێشبڕکێی خۆڕایی بۆ مۆندیال 2026');
+                    break;
+            }
+        });
+    });
 }
 
 // دەستپێکردن
 document.addEventListener('DOMContentLoaded', () => {
-    loadUserPoints();
+    loadUserFromStorage();
     renderMatches();
     updateMultibar();
     initTabs();
     initMenu();
+    initBottomNav();
+    initDashboardCards();
     
     const placeBtn = document.getElementById('placeMultibetBtn');
     if(placeBtn) placeBtn.addEventListener('click', placeMultibet);
