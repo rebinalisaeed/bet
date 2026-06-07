@@ -33,7 +33,6 @@ function updateAuthUI() {
     if(!authSection) return;
     
     if(currentUser) {
-        // نمایش کۆین لە سەرەوە و ناوی یوزەر لە ژێرەوە
         authSection.innerHTML = `
             <div class="user-info">
                 <div class="coin-icon-nav">
@@ -44,27 +43,22 @@ function updateAuthUI() {
             </div>
         `;
         
-        // چالاک کردنی بۆکسی پێشبینیەکانم
         if(myBetsCard) {
             myBetsCard.classList.remove('disabled');
         }
         
-        // شاردنەوەی پیامی چوونەژوورەوە
         if(loginMessage) {
             loginMessage.style.display = 'none';
         }
     } else {
-        // نمایش دوگمەی چوونەژوورەوە
         authSection.innerHTML = `
             <button class="login-btn-nav" id="showLoginBtn">🔑 چوونەژوورەوە</button>
         `;
         
-        // ناچالاک کردنی بۆکسی پێشبینیەکانم
         if(myBetsCard) {
             myBetsCard.classList.add('disabled');
         }
         
-        // نمایش پیامی چوونەژوورەوە
         if(loginMessage) {
             loginMessage.style.display = 'block';
         }
@@ -99,22 +93,41 @@ function loadUserFromStorage() {
     updateAuthUI();
 }
 
-// ========== مێنوو ==========
+// ========== مێنوو (گۆڕینی ئایکۆن بۆ X) ==========
 function initMenu() {
     const menuBtn = document.getElementById('menuToggleBtn');
     const sideMenu = document.getElementById('sideMenu');
     const overlay = document.getElementById('overlay');
+    const menuIcon = document.getElementById('menuIcon');
+    
+    function updateMenuIcon(isOpen) {
+        if(isOpen) {
+            menuIcon.innerHTML = `
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            `;
+        } else {
+            menuIcon.innerHTML = `
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            `;
+        }
+    }
     
     function closeMenu() {
         sideMenu.classList.remove('open');
         overlay.classList.remove('active');
+        updateMenuIcon(false);
     }
     
     if(menuBtn) {
         menuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+            const isOpening = !sideMenu.classList.contains('open');
             sideMenu.classList.toggle('open');
             overlay.classList.toggle('active');
+            updateMenuIcon(isOpening);
         });
     }
     
@@ -134,6 +147,78 @@ function initMenu() {
             closeMenu();
         });
     }
+    
+    updateMenuIcon(false);
+}
+
+// ========== سلایدەر ==========
+let currentSlide = 0;
+let slideInterval;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelector('.slider-dots');
+
+function initSlider() {
+    const slidesCount = document.querySelectorAll('.slide').length;
+    if(slidesCount === 0) return;
+    
+    // دروستکردنی دۆتەکان
+    const dotsContainer = document.getElementById('sliderDots');
+    if(dotsContainer) {
+        dotsContainer.innerHTML = '';
+        for(let i = 0; i < slidesCount; i++) {
+            const dot = document.createElement('span');
+            dot.classList.add('dot');
+            if(i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+    }
+    
+    function showSlide(index) {
+        const allSlides = document.querySelectorAll('.slide');
+        const allDots = document.querySelectorAll('.dot');
+        if(allSlides.length === 0) return;
+        
+        if(index >= allSlides.length) index = 0;
+        if(index < 0) index = allSlides.length - 1;
+        
+        allSlides.forEach(slide => slide.classList.remove('active'));
+        allDots.forEach(dot => dot.classList.remove('active'));
+        
+        allSlides[index].classList.add('active');
+        if(allDots[index]) allDots[index].classList.add('active');
+        
+        currentSlide = index;
+    }
+    
+    function nextSlide() {
+        goToSlide(currentSlide + 1);
+    }
+    
+    function prevSlide() {
+        goToSlide(currentSlide - 1);
+    }
+    
+    window.goToSlide = function(index) {
+        showSlide(index);
+        resetInterval();
+    };
+    
+    function resetInterval() {
+        if(slideInterval) clearInterval(slideInterval);
+        slideInterval = setInterval(() => {
+            nextSlide();
+        }, 5000);
+    }
+    
+    const prevBtn = document.getElementById('sliderPrev');
+    const nextBtn = document.getElementById('sliderNext');
+    
+    if(prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
+    if(nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
+    
+    showSlide(0);
+    resetInterval();
 }
 
 // ========== تاسک بار ==========
@@ -173,7 +258,6 @@ function initDashboardCards() {
     const cards = document.querySelectorAll('.dashboard-card');
     cards.forEach(card => {
         card.addEventListener('click', () => {
-            // ئەگەر کارتەکە disabled بێت و پێشبینیەکانم بێت
             if(card.classList.contains('disabled') && card.id === 'myBetsCard') {
                 alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە بۆ بینینی پێشبینیەکانت!');
                 window.location.href = 'login.html';
@@ -221,6 +305,7 @@ function initLoginPrompt() {
 document.addEventListener('DOMContentLoaded', () => {
     loadUserFromStorage();
     initMenu();
+    initSlider();
     initBottomNav();
     initDashboardCards();
     initLoginPrompt();
