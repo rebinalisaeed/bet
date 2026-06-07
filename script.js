@@ -33,7 +33,7 @@ function updateAuthUI() {
     if(!authSection) return;
     
     if(currentUser) {
-        // نمایش کۆین + ناوی یوزەر
+        // نمایش کۆین لە سەرەوە و ناوی یوزەر لە ژێرەوە
         authSection.innerHTML = `
             <div class="user-info">
                 <div class="coin-icon-nav">
