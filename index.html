@@ -12,22 +12,22 @@
 <div class="top-nav">
     <div class="nav-left">
         <button class="menu-toggle" id="menuToggleBtn">
-            <svg id="menuIcon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
+            <div class="hamburger-icon" id="hamburgerIcon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </button>
     </div>
     <div class="nav-center">
-        <img src="images/logo.png" alt="Logo" class="logo-img" onerror="this.src='https://placehold.co/100x60?text=🏆'">
+        <img src="images/logo.png" alt="Logo" class="logo-img" onerror="this.src='https://placehold.co/80x50?text=🏆'">
     </div>
     <div class="nav-right" id="navRight">
         <div id="authSection"></div>
     </div>
 </div>
 
-<!-- سلایدەری ڕێکلام و سپۆنسەرەکان -->
+<!-- سلایدەری ڕێکلام و سپۆنسەرەکان (بێ دوگمە) -->
 <div class="slider-container">
     <div class="slider" id="sponsorSlider">
         <div class="slide active">
@@ -65,23 +65,7 @@
                 <p>پێشبینی یارییەکان بکە و ببەرەوە!</p>
             </div>
         </div>
-        <div class="slide">
-            <div class="slide-content">
-                <span class="slide-icon">🪙</span>
-                <h3>پۆینتی خۆڕایی</h3>
-                <p>هەر ئەکاونتێک 1000 پۆینت وەردەگرێت</p>
-            </div>
-        </div>
-        <div class="slide">
-            <div class="slide-content">
-                <span class="slide-icon">🎯</span>
-                <h3>پێشبینی بکە و ببەرەوە</h3>
-                <p>باشترین پێشبینی کار لە کۆتایی مۆندیالدا خەڵات دەکرێت</p>
-            </div>
-        </div>
     </div>
-    <button class="slider-btn prev" id="sliderPrev">❮</button>
-    <button class="slider-btn next" id="sliderNext">❯</button>
     <div class="slider-dots" id="sliderDots"></div>
 </div>
 
@@ -98,7 +82,7 @@
 
 <div class="container homepage-container">
     
-    <!-- 6 بۆکسەکەی ناوەڕاست -->
+    <!-- 9 بۆکسەکەی ناوەڕاست -->
     <div class="dashboard-grid">
         <div class="dashboard-card" data-page="sports">
             <div class="dashboard-icon">⚽</div>
@@ -119,6 +103,21 @@
             <div class="dashboard-icon">🎯</div>
             <h3>پێشبینیەکانم</h3>
             <p>پێشبینیەکانی من</p>
+        </div>
+        <div class="dashboard-card" data-page="rank">
+            <div class="dashboard-icon">🏆</div>
+            <h3>ڕێزبەندی بەکارهێنەران</h3>
+            <p>پێشەنگانی ئەڵماس</p>
+        </div>
+        <div class="dashboard-card" data-page="rules">
+            <div class="dashboard-icon">📜</div>
+            <h3>مەرج و ڕێساکان</h3>
+            <p>ڕێسا و یاساکان</p>
+        </div>
+        <div class="dashboard-card" data-page="pastbets">
+            <div class="dashboard-icon">📋</div>
+            <h3>پێشبینیەکانی پێشوو</h3>
+            <p>مێژووی پێشبینیەکانت</p>
         </div>
         <div class="dashboard-card" data-page="sponsors">
             <div class="dashboard-icon">🤝</div>
@@ -157,9 +156,9 @@
         <span>🎯</span>
         <span>پێشبینیەکانم</span>
     </button>
-    <button class="nav-item" data-nav="support">
-        <span>💬</span>
-        <span>پشتگیری</span>
+    <button class="nav-item" data-nav="rank">
+        <span>🏆</span>
+        <span>ڕێزبەندی</span>
     </button>
 </div>
 
