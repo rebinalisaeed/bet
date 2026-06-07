@@ -8,45 +8,73 @@
 </head>
 <body>
 
-<!-- بانەڕی سەرەوە - کۆین لە ڕاست، هەمبەرگر لە چەپ -->
+<!-- بانەڕی سەرەوە -->
 <div class="top-nav">
-    <!-- لای چەپ: هەمبەرگر -->
     <div class="nav-left">
         <button class="menu-toggle" id="menuToggleBtn">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="3" y1="12" x2="21" y2="12"></line>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
         </button>
     </div>
-
-    <!-- ناوەڕاست: لۆگۆ (گەورەتر) -->
     <div class="nav-center">
-        <img src="images/logo.png" alt="Logo" class="logo-img" onerror="this.src='https://placehold.co/120x68?text=🏆'">
+        <img src="images/logo.png" alt="Logo" class="logo-img" onerror="this.src='https://placehold.co/100x60?text=🏆'">
     </div>
-
-    <!-- لای ڕاست: کۆین -->
-    <div class="nav-right">
-        <div class="coin-icon">
-            <img src="images/coinicon.png" alt="Coin" class="coin-img" onerror="this.src='https://placehold.co/32x32?text=🪙'">
-            <span class="points-value" id="userPointsNav">1,000.000</span>
-        </div>
+    <div class="nav-right" id="navRight">
+        <!-- دینامیکی لە لۆگین دەگۆڕێت -->
+        <div id="authSection"></div>
     </div>
 </div>
 
-<!-- ساید مێنوو (لە خوار بانەڕەوە) -->
+<!-- ساید مێنوو -->
 <div class="side-menu" id="sideMenu">
     <a href="#">🏠 پێشەکی</a>
     <a href="#">🏆 ڕانکینگ</a>
     <a href="#">📋 مێژووی پێشبینییەکان</a>
     <a href="#">💬 پشتگیری</a>
     <a href="#">⚙ ڕێکخستن</a>
-    <a href="login.html">🚪 چوونەدەرەوە</a>
+    <a href="#" id="logoutLink">🚪 چوونەدەرەوە</a>
 </div>
 <div class="overlay" id="overlay"></div>
 
 <div class="container">
+    
+    <!-- 6 بۆکسەکەی ناوەڕاست -->
+    <div class="dashboard-grid">
+        <div class="dashboard-card" data-page="sports">
+            <div class="dashboard-icon">⚽</div>
+            <h3>وەرزشەکان</h3>
+            <p>هەموو وەرزشەکان</p>
+        </div>
+        <div class="dashboard-card" data-page="live">
+            <div class="dashboard-icon">📡</div>
+            <h3>ڕاستەوخۆکان</h3>
+            <p>ئەنجامی ڕاستەوخۆ</p>
+        </div>
+        <div class="dashboard-card" data-page="results">
+            <div class="dashboard-icon">📊</div>
+            <h3>ئەنجامەکان</h3>
+            <p>ئەنجامی یارییەکان</p>
+        </div>
+        <div class="dashboard-card" data-page="mybets">
+            <div class="dashboard-icon">🎯</div>
+            <h3>پێشبینیەکانم</h3>
+            <p>پێشبینیەکانی من</p>
+        </div>
+        <div class="dashboard-card" data-page="sponsors">
+            <div class="dashboard-icon">🤝</div>
+            <h3>سپۆنسەرەکان</h3>
+            <p>پشتگیریەکانمان</p>
+        </div>
+        <div class="dashboard-card" data-page="about">
+            <div class="dashboard-icon">ℹ️</div>
+            <h3>دەربارە</h3>
+            <p>زیاتر بزانە</p>
+        </div>
+    </div>
+
     <div class="tabs">
         <button class="tab-btn active" data-tab="matches">🏟 یارییەکان</button>
         <button class="tab-btn" data-tab="stats">📊 ئامار & H2H</button>
@@ -122,6 +150,26 @@
         <span class="multibet-odds" id="totalOdds">کۆی ئۆدەس: 1.00x</span>
     </div>
     <button class="place-bet-btn" id="placeMultibetBtn">🚀 پێشبینی بکە (بەخۆڕایی)</button>
+</div>
+
+<!-- تاسک باری خوارەوە (Bottom Navigation) -->
+<div class="bottom-nav">
+    <button class="nav-item" data-nav="home">
+        <span>🏠</span>
+        <span>سەرەتا</span>
+    </button>
+    <button class="nav-item" data-nav="live">
+        <span>📡</span>
+        <span>ڕاستەوخۆ</span>
+    </button>
+    <button class="nav-item" data-nav="mybets">
+        <span>🎯</span>
+        <span>پێشبینیەکانم</span>
+    </button>
+    <button class="nav-item" data-nav="support">
+        <span>💬</span>
+        <span>پشتگیری</span>
+    </button>
 </div>
 
 <script src="script.js"></script>
