@@ -151,25 +151,31 @@ function initMenu() {
     updateMenuIcon(false);
 }
 
-// ========== سلایدەر ==========
-let currentSlide = 0;
+// ========== سلایدەر (تەواو چاککراو) ==========
+let currentSlideIndex = 0;
 let slideInterval;
-const slides = document.querySelectorAll('.slide');
-const dots = document.querySelector('.slider-dots');
+let totalSlides;
 
 function initSlider() {
-    const slidesCount = document.querySelectorAll('.slide').length;
-    if(slidesCount === 0) return;
+    const slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.getElementById('sliderDots');
+    const prevBtn = document.getElementById('sliderPrev');
+    const nextBtn = document.getElementById('sliderNext');
+    
+    if(!slides.length) return;
+    
+    totalSlides = slides.length;
     
     // دروستکردنی دۆتەکان
-    const dotsContainer = document.getElementById('sliderDots');
     if(dotsContainer) {
         dotsContainer.innerHTML = '';
-        for(let i = 0; i < slidesCount; i++) {
+        for(let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('span');
             dot.classList.add('dot');
             if(i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
+            dot.addEventListener('click', (function(index) {
+                return function() { goToSlide(index); };
+            })(i));
             dotsContainer.appendChild(dot);
         }
     }
@@ -177,10 +183,9 @@ function initSlider() {
     function showSlide(index) {
         const allSlides = document.querySelectorAll('.slide');
         const allDots = document.querySelectorAll('.dot');
-        if(allSlides.length === 0) return;
         
-        if(index >= allSlides.length) index = 0;
-        if(index < 0) index = allSlides.length - 1;
+        if(index >= totalSlides) index = 0;
+        if(index < 0) index = totalSlides - 1;
         
         allSlides.forEach(slide => slide.classList.remove('active'));
         allDots.forEach(dot => dot.classList.remove('active'));
@@ -188,15 +193,15 @@ function initSlider() {
         allSlides[index].classList.add('active');
         if(allDots[index]) allDots[index].classList.add('active');
         
-        currentSlide = index;
+        currentSlideIndex = index;
     }
     
     function nextSlide() {
-        goToSlide(currentSlide + 1);
+        goToSlide(currentSlideIndex + 1);
     }
     
     function prevSlide() {
-        goToSlide(currentSlide - 1);
+        goToSlide(currentSlideIndex - 1);
     }
     
     window.goToSlide = function(index) {
@@ -211,11 +216,19 @@ function initSlider() {
         }, 5000);
     }
     
-    const prevBtn = document.getElementById('sliderPrev');
-    const nextBtn = document.getElementById('sliderNext');
+    if(prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetInterval();
+        });
+    }
     
-    if(prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
-    if(nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
+    if(nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetInterval();
+        });
+    }
     
     showSlide(0);
     resetInterval();
