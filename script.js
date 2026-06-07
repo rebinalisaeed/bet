@@ -43,17 +43,25 @@ function updateDiamondsDisplay(newDiamonds) {
 }
 
 // ========== سیستەمی ئەڵماس ==========
-// کاتێک پێشبینی دەکرێت، پۆینتەکان کەم دەبنەوە
-// ئەگەر پێشبینی ڕاست بوو، ئەو پۆینتانەی کە مەترسی لەسەر بوون دەبنە ئەڵماس
 function placeBet(betAmount, isWin) {
     if(isWin) {
-        // ئەگەر بردەوە، ئەو پۆینتەی کە خستوویەتی بەر مەترسی دەبێتە ئەڵماس
         let newDiamonds = userDiamonds + betAmount;
         updateDiamondsDisplay(newDiamonds);
         return true;
     } else {
-        // ئەگەر دۆڕا، پۆینتەکان کەم دەبنەوە و ئەڵماس زیاد ناکات
         return false;
+    }
+}
+
+// ========== نوێکردنەوەی ناوی یوزەر لە مێنوو ==========
+function updateMenuUsername() {
+    const menuUsernameSpan = document.getElementById('menuUsername');
+    if(menuUsernameSpan) {
+        if(currentUser) {
+            menuUsernameSpan.innerText = currentUser.username;
+        } else {
+            menuUsernameSpan.innerText = 'میوان';
+        }
     }
 }
 
@@ -68,17 +76,14 @@ function updateAuthUI() {
     if(currentUser) {
         authSection.innerHTML = `
             <div class="user-info">
-                <div class="coin-diamond-row">
-                    <div class="coin-icon-nav">
-                        <img src="images/coinicon.png" alt="Coin" class="coin-img-nav" onerror="this.src='https://placehold.co/22x22?text=🪙'">
-                        <span class="points-value" id="userPointsNav">${formatPoints(currentUser.points || 1000)}</span>
-                    </div>
-                    <div class="diamond-icon-nav">
-                        <span style="font-size:1rem;">💎</span>
-                        <span class="diamond-value" id="userDiamondsNav">${formatDiamonds(currentUser.diamonds || 0)}</span>
-                    </div>
+                <div class="coin-icon-nav">
+                    <img src="images/coinicon.png" alt="Coin" class="coin-img-nav" onerror="this.src='https://placehold.co/24x24?text=🪙'">
+                    <span class="points-value" id="userPointsNav">${formatPoints(currentUser.points || 1000)}</span>
                 </div>
-                <span class="username-display">👤 ${currentUser.username}</span>
+                <div class="diamond-icon-nav">
+                    <span style="font-size:1.1rem;">💎</span>
+                    <span class="diamond-value" id="userDiamondsNav">${formatDiamonds(currentUser.diamonds || 0)}</span>
+                </div>
             </div>
         `;
         
@@ -109,6 +114,8 @@ function updateAuthUI() {
             });
         }
     }
+    
+    updateMenuUsername();
 }
 
 function logout() {
@@ -177,7 +184,7 @@ function initMenu() {
     }
 }
 
-// ========== سلایدەر (بێ دوگمە) ==========
+// ========== سلایدەر ==========
 let currentSlideIndex = 0;
 let slideInterval;
 let totalSlides;
