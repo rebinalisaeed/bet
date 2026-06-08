@@ -42,15 +42,29 @@ function updateDiamondsDisplay(newDiamonds) {
     });
 }
 
-// ========== سیستەمی ئەڵماس ==========
-function placeBet(betAmount, isWin) {
-    if(isWin) {
-        let newDiamonds = userDiamonds + betAmount;
-        updateDiamondsDisplay(newDiamonds);
-        return true;
-    } else {
+// ========== فەنکشنی ئاڵوگۆڕ کردن ==========
+function exchangeDiamondsToCoins(amount) {
+    if(amount <= 0) {
+        alert('تکایە ژمارەیەکی دروست بنووسە');
         return false;
     }
+    if(amount > userDiamonds) {
+        alert(`ئەڵماسەکەت کەمە! تەنها ${formatDiamonds(userDiamonds)} ئەڵماس هەیە`);
+        return false;
+    }
+    
+    const exchangeRate = 10;
+    const coinsReceived = amount * exchangeRate;
+    
+    // کەمکردنەوەی ئەڵماس و زیادکردنی کۆین
+    userDiamonds -= amount;
+    userPoints += coinsReceived;
+    
+    updatePointsDisplay(userPoints);
+    updateDiamondsDisplay(userDiamonds);
+    
+    alert(`✅ ئاڵوگۆڕ سەرکەوتوو بوو!\n💎 ${amount} ئەڵماس بەرامبەر 🪙 ${formatPoints(coinsReceived)} کۆین`);
+    return true;
 }
 
 // ========== نوێکردنەوەی ناوی یوزەر لە مێنوو ==========
@@ -65,15 +79,74 @@ function updateMenuUsername() {
     }
 }
 
-// ========== ناچالاک کردنی بۆکسی پێشبینیەکانی پێشوو ==========
-function updatePastBetsCard() {
-    const pastBetsCard = document.getElementById('pastBetsCard');
-    if(pastBetsCard) {
+// ========== ناچالاک کردنی بۆکسی پێشبینیەکانم ==========
+function updateMyBetsCard() {
+    const myBetsCard = document.getElementById('myBetsCard');
+    if(myBetsCard) {
         if(!currentUser) {
-            pastBetsCard.classList.add('disabled');
+            myBetsCard.classList.add('disabled');
         } else {
-            pastBetsCard.classList.remove('disabled');
+            myBetsCard.classList.remove('disabled');
         }
+    }
+}
+
+// ========== مۆدالی ئاڵوگۆڕ ==========
+function initExchangeModal() {
+    const exchangeCard = document.getElementById('exchangeCard');
+    const exchangeModal = document.getElementById('exchangeModal');
+    const closeModal = document.getElementById('closeExchangeModal');
+    const doExchangeBtn = document.getElementById('doExchangeBtn');
+    const exchangeAmount = document.getElementById('exchangeAmount');
+    const userDiamondsExchange = document.getElementById('userDiamondsExchange');
+    
+    function updateExchangeModalUI() {
+        if(userDiamondsExchange) {
+            userDiamondsExchange.innerText = formatDiamonds(userDiamonds);
+        }
+    }
+    
+    function openModal() {
+        if(!currentUser) {
+            alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە بۆ ئاڵوگۆڕی ئەڵماس!');
+            window.location.href = 'login.html';
+            return;
+        }
+        updateExchangeModalUI();
+        exchangeModal.classList.add('active');
+    }
+    
+    function closeModalFunc() {
+        exchangeModal.classList.remove('active');
+        if(exchangeAmount) exchangeAmount.value = '';
+    }
+    
+    if(exchangeCard) {
+        exchangeCard.addEventListener('click', openModal);
+    }
+    
+    if(closeModal) {
+        closeModal.addEventListener('click', closeModalFunc);
+    }
+    
+    window.addEventListener('click', (e) => {
+        if(e.target === exchangeModal) {
+            closeModalFunc();
+        }
+    });
+    
+    if(doExchangeBtn) {
+        doExchangeBtn.addEventListener('click', () => {
+            const amount = parseInt(exchangeAmount.value);
+            if(!isNaN(amount) && amount > 0) {
+                exchangeDiamondsToCoins(amount);
+                updateExchangeModalUI();
+                exchangeAmount.value = '';
+                closeModalFunc();
+            } else {
+                alert('تکایە ژمارەیەکی دروست بنووسە');
+            }
+        });
     }
 }
 
@@ -119,7 +192,6 @@ function updateAuthUI() {
     }
     
     updateMenuUsername();
-    updatePastBetsCard();
 }
 
 function logout() {
@@ -292,9 +364,6 @@ function initDashboardCards() {
                 if(card.id === 'myBetsCard') {
                     alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە بۆ بینینی پێشبینیەکانت!');
                     window.location.href = 'login.html';
-                } else if(card.id === 'pastBetsCard') {
-                    alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە بۆ بینینی مێژووی پێشبینیەکانت!');
-                    window.location.href = 'login.html';
                 }
                 return;
             }
@@ -321,10 +390,8 @@ function initDashboardCards() {
                 case 'rules':
                     alert('📜 مەرج و ڕێساکان:\n1. هەر بەکارهێنەر 1000 پۆینت وەردەگرێت\n2. پێشبینی بە پۆینت بکە\n3. ئەگەر بردەوە، پۆینتەکان دەبنە ئەڵماس\n4. ڕیزبەندی مانگانە بەپێی ئەڵماس');
                     break;
-                case 'pastbets':
-                    if(currentUser) {
-                        alert('📋 پێشبینیەکانی پێشوو: هیچ مێژوویەک نییە');
-                    }
+                case 'exchange':
+                    // ئەمە لەلایەن مۆدالی ئاڵوگۆڕەوە کارتێکراوە
                     break;
                 case 'sponsors':
                     alert('🤝 سپۆنسەرەکان: ئاسیاسێل - Zain Cash - بکات کارتی');
@@ -344,4 +411,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initSlider();
     initBottomNav();
     initDashboardCards();
+    initExchangeModal();
 });
