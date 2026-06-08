@@ -2,7 +2,7 @@
 <html dir="rtl" lang="ku">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <title>پێشبڕکێی گەل - مۆندیال 2026</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -118,10 +118,10 @@
             <h3>مەرج و ڕێساکان</h3>
             <p>ڕێسا و یاساکان</p>
         </div>
-        <div class="dashboard-card" id="pastBetsCard" data-page="pastbets">
-            <div class="dashboard-icon">📋</div>
-            <h3>پێشبینیەکانی پێشوو</h3>
-            <p>مێژووی پێشبینیەکانت</p>
+        <div class="dashboard-card" id="exchangeCard" data-page="exchange">
+            <div class="dashboard-icon">🔄</div>
+            <h3>ئاڵوگۆڕ کردن</h3>
+            <p>ئەڵماس بکە بە کۆین</p>
         </div>
         <div class="dashboard-card" data-page="sponsors">
             <div class="dashboard-icon">🤝</div>
@@ -154,6 +154,39 @@
         <span>🏆</span>
         <span>ڕێزبەندی</span>
     </button>
+</div>
+
+<!-- مۆدالی ئاڵوگۆڕ کردن -->
+<div class="exchange-modal" id="exchangeModal">
+    <div class="exchange-modal-content">
+        <div class="exchange-header">
+            <h3>🔄 ئاڵوگۆڕی ئەڵماس بۆ کۆین</h3>
+            <button class="close-modal" id="closeExchangeModal">&times;</button>
+        </div>
+        <div class="exchange-body">
+            <div class="exchange-info">
+                <div class="exchange-diamond">
+                    <span>💎</span>
+                    <span id="userDiamondsExchange">0</span>
+                    <span>ئەڵماس</span>
+                </div>
+                <div class="exchange-arrow">👇</div>
+                <div class="exchange-coin">
+                    <span>🪙</span>
+                    <span id="exchangeResult">0</span>
+                    <span>کۆین</span>
+                </div>
+            </div>
+            <div class="exchange-rate">
+                <p>نرخی ئاڵوگۆڕ: <strong>1 ئەڵماس = 10 کۆین</strong></p>
+            </div>
+            <div class="exchange-input">
+                <label>ژمارەی ئەڵماس بۆ ئاڵوگۆڕ:</label>
+                <input type="number" id="exchangeAmount" min="1" placeholder="ژمارە بنووسە">
+            </div>
+            <button class="exchange-btn" id="doExchangeBtn">🔄 ئاڵوگۆڕ بکە</button>
+        </div>
+    </div>
 </div>
 
 <script src="script.js"></script>
