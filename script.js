@@ -103,7 +103,7 @@ function updateAuthUI() {
         }
     } else {
         authSection.innerHTML = `
-            <button class="login-btn-nav" id="showLoginBtn">🔑 چوونەژوورەوە</button>
+            <button class="login-btn-nav" id="showLoginBtn">چوونەژوورەوە</button>
         `;
         
         if(myBetsCard) {
