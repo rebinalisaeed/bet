@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Kurdliga Regular', 'Segoe UI', system-ui, sans-serif;
-    background: linear-gradient(135deg, #0a2f1f 0%, #0a3b2a 100%);
+    background: #0f1119;
     color: #eef2ff;
     min-height: 100vh;
     overflow: hidden;
