@@ -8,11 +8,27 @@ body {
     font-family: 'Kurdliga Regular', 'Segoe UI', system-ui, sans-serif;
     background: #0f1119;
     color: #eef2ff;
-    min-height: 100vh;
     overflow: hidden;
     position: fixed;
     width: 100%;
     height: 100%;
+}
+
+/* ========== سیستەمی scale-based بۆ هەموو مۆبایلەکان ========== */
+:root {
+    /* یەکەی بنچینەیی کە لەسەر پانی شاشە دەگۆڕێت */
+    --base-unit: min(1.2vh, 1.2vw);
+    --font-size-xs: calc(0.6rem + 0.2vw);
+    --font-size-sm: calc(0.7rem + 0.3vw);
+    --font-size-md: calc(0.8rem + 0.4vw);
+    --font-size-lg: calc(0.9rem + 0.5vw);
+    --font-size-xl: calc(1rem + 0.6vw);
+    --font-size-2xl: calc(1.1rem + 0.7vw);
+    --card-min-height: calc(100px + 8vh);
+    --icon-size: calc(1.8rem + 0.8vw);
+    --border-radius: calc(16px + 0.5vw);
+    --padding-card: calc(12px + 1vh) calc(6px + 1vw);
+    --gap-size: calc(10px + 0.5vw);
 }
 
 /* ========== فۆنتەکانی Kurdliga ========== */
@@ -30,12 +46,13 @@ body {
     font-style: normal;
 }
 
+/* ========== چاکسازی گشتی بۆ هەموو قەبارەکان ========== */
 h1, h2, h3, h4, .bold-text, button, .odd-value {
     font-family: 'Kurdliga Bold', 'Segoe UI', sans-serif;
 }
 
-/* scrollbar */
-::-webkit-scrollbar { width: 5px; }
+/* scrollbar - بچووکتر بۆ شاشە بچووکەکان */
+::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #1e1f2c; }
 ::-webkit-scrollbar-thumb { background: #f5b042; border-radius: 10px; }
 
@@ -44,7 +61,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 20px;
+    padding: calc(6px + 0.3vh) calc(12px + 0.8vw);
     background: #0f1119e6;
     backdrop-filter: blur(12px);
     position: sticky;
@@ -56,7 +73,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 .nav-left {
     display: flex;
     align-items: center;
-    min-width: 50px;
+    min-width: 40px;
 }
 
 .nav-center {
@@ -66,7 +83,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 }
 
 .nav-center .logo-img {
-    max-height: 45px;
+    max-height: calc(38px + 0.8vh);
     width: auto;
     object-fit: contain;
 }
@@ -74,66 +91,55 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: calc(8px + 0.3vw);
     min-width: auto;
 }
 
-/* کۆین و ئەڵماس - پێکەوە لە ڕیزدا */
+/* کۆین و ئەڵماس */
 .user-info {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 12px;
+    gap: calc(8px + 0.3vw);
     background: #1f2538;
-    padding: 6px 18px;
-    border-radius: 50px;
+    padding: calc(4px + 0.2vh) calc(12px + 0.5vw);
+    border-radius: calc(40px + 0.5vw);
     border: 1px solid #f5b04250;
 }
 
-.coin-icon-nav {
+.coin-icon-nav, .diamond-icon-nav {
     display: flex;
     align-items: center;
-    gap: 6px;
-}
-
-.diamond-icon-nav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    gap: calc(4px + 0.2vw);
 }
 
 .coin-img-nav {
-    width: 24px;
-    height: 24px;
+    width: calc(20px + 0.4vh);
+    height: calc(20px + 0.4vh);
     object-fit: contain;
 }
 
-.points-value {
+.points-value, .diamond-value {
     font-weight: bold;
-    font-size: 1rem;
-    color: #FFD966;
+    font-size: var(--font-size-sm);
     font-family: 'Kurdliga Bold', monospace;
 }
 
-.diamond-value {
-    font-weight: bold;
-    font-size: 1rem;
-    color: #88ccff;
-    font-family: 'Kurdliga Bold', monospace;
-}
+.points-value { color: #FFD966; }
+.diamond-value { color: #88ccff; }
 
 /* دوگمەی چوونەژوورەوە */
 .login-btn-nav {
     background: #f5b042;
     border: none;
-    padding: 6px 20px;
-    border-radius: 40px;
+    padding: calc(4px + 0.2vh) calc(14px + 0.5vw);
+    border-radius: calc(40px + 0.5vw);
     font-weight: bold;
     color: #0a0c12;
     cursor: pointer;
     font-family: 'Kurdliga Bold', sans-serif;
     transition: 0.2s;
-    font-size: 1.2rem;
+    font-size: var(--font-size-md);
 }
 
 .login-btn-nav:hover {
@@ -141,20 +147,20 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     background: #ff8c42;
 }
 
-/* ========== هامبەرگەر مێنوو ========== */
+/* ========== هامبەرگەر مێنوو (گەورەیی بە پێی شاشە) ========== */
 .menu-toggle {
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 10px;
+    padding: calc(6px + 0.2vh);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .hamburger-icon {
-    width: 34px;
-    height: 26px;
+    width: calc(28px + 0.5vw);
+    height: calc(22px + 0.5vh);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -164,14 +170,14 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 .hamburger-icon span {
     display: block;
     width: 100%;
-    height: 4px;
+    height: calc(3px + 0.1vh);
     background-color: #f5f2e0;
-    border-radius: 4px;
+    border-radius: 3px;
     transition: all 0.3s ease-in-out;
 }
 
 .hamburger-icon.open span:nth-child(1) {
-    transform: translateY(11px) rotate(45deg);
+    transform: translateY(calc(9px + 0.2vh)) rotate(45deg);
 }
 
 .hamburger-icon.open span:nth-child(2) {
@@ -180,21 +186,21 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 }
 
 .hamburger-icon.open span:nth-child(3) {
-    transform: translateY(-11px) rotate(-45deg);
+    transform: translateY(calc(-9px - 0.2vh)) rotate(-45deg);
 }
 
 /* ========== ساید مێنوو ========== */
 .side-menu {
     position: fixed;
-    top: 65px;
+    top: calc(55px + 1vh);
     right: -320px;
-    width: 320px;
+    width: min(320px, 75vw);
     height: calc(100% - 65px);
     background: #0f111fe6;
     backdrop-filter: blur(16px);
     z-index: 99;
     transition: 0.3s ease;
-    padding: 25px;
+    padding: calc(15px + 1vh) calc(15px + 1vw);
     border-left: 1px solid #f5b042;
     box-shadow: -4px 0 30px rgba(0,0,0,0.5);
     overflow-y: auto;
@@ -207,28 +213,28 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 .menu-username {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 16px 20px;
+    gap: calc(10px + 0.5vw);
+    padding: calc(10px + 0.5vh) calc(12px + 0.8vw);
     background: #1f2538;
-    border-radius: 50px;
-    margin-bottom: 30px;
+    border-radius: calc(40px + 0.5vw);
+    margin-bottom: calc(20px + 1vh);
     border: 1px solid #f5b04250;
     font-family: 'Kurdliga Bold', sans-serif;
-    font-size: 1.3rem;
+    font-size: var(--font-size-lg);
     color: #FFD966;
 }
 
 .side-menu a {
     display: block;
-    padding: 16px 20px;
+    padding: calc(10px + 0.5vh) calc(14px + 0.8vw);
     color: #f5f2e0;
     text-decoration: none;
     font-weight: bold;
-    border-radius: 50px;
-    margin-bottom: 12px;
+    border-radius: calc(40px + 0.5vw);
+    margin-bottom: calc(6px + 0.3vh);
     transition: 0.2s;
     font-family: 'Kurdliga Regular', sans-serif;
-    font-size: 1.1rem;
+    font-size: var(--font-size-md);
 }
 
 .side-menu a:hover {
@@ -239,7 +245,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 
 .overlay {
     position: fixed;
-    top: 65px;
+    top: calc(55px + 1vh);
     left: 0;
     width: 100%;
     height: calc(100% - 65px);
@@ -256,7 +262,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 .slider-container {
     position: relative;
     width: 100%;
-    height: 120px;
+    height: calc(100px + 4vh);
     overflow: hidden;
     background: linear-gradient(135deg, #1a1e2c, #0f1220);
     border-bottom: 2px solid #f5b042;
@@ -291,7 +297,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 }
 
 .slide-content {
-    padding: 15px 20px;
+    padding: calc(8px + 0.5vh) calc(12px + 1vw);
     animation: slideUp 0.5s ease-out;
 }
 
@@ -307,43 +313,43 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 }
 
 .slide-icon {
-    font-size: 2rem;
+    font-size: calc(1.5rem + 0.8vw);
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: calc(4px + 0.3vh);
 }
 
 .slide-content h3 {
-    font-size: 1rem;
+    font-size: var(--font-size-sm);
     color: #FFD966;
-    margin-bottom: 5px;
+    margin-bottom: calc(3px + 0.2vh);
     font-family: 'Kurdliga Bold', sans-serif;
 }
 
 .slide-content p {
-    font-size: 0.7rem;
+    font-size: calc(0.55rem + 0.2vw);
     color: #ccc;
     font-family: 'Kurdliga Regular', sans-serif;
 }
 
-/* خاڵەکانی سلایدەر - بە شێوازی ستونی لە لای چەپ */
+/* خاڵەکانی سلایدەر - ستونی لە لای چەپ */
 .slider-dots {
     position: absolute;
-    left: 12px;
+    left: 8px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: calc(6px + 0.2vh);
     z-index: 25;
     background: rgba(0,0,0,0.5);
-    padding: 10px 8px;
-    border-radius: 30px;
+    padding: calc(6px + 0.3vh) calc(5px + 0.2vw);
+    border-radius: calc(20px + 0.5vw);
     backdrop-filter: blur(4px);
 }
 
 .dot {
-    width: 8px;
-    height: 8px;
+    width: calc(6px + 0.1vw);
+    height: calc(6px + 0.1vh);
     border-radius: 50%;
     background: rgba(255,255,255,0.7);
     cursor: pointer;
@@ -357,31 +363,31 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 
 .dot.active {
     background: #f5b042;
-    width: 10px;
-    height: 22px;
+    width: calc(8px + 0.2vw);
+    height: calc(18px + 0.5vh);
     border-radius: 10px;
 }
 
-/* ========== پەڕەی سەرەکی - 9 بۆکس ========== */
+/* ========== پەڕەی سەرەکی - 9 بۆکس (scale-based) ========== */
 .homepage-container {
-    max-width: 850px;
+    max-width: min(900px, 95vw);
     margin: 0 auto;
-    padding: 30px 20px;
-    height: calc(100vh - 200px);
+    padding: calc(15px + 1vh) calc(12px + 1vw);
+    height: calc(100% - 180px);
     overflow-y: auto;
 }
 
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    gap: var(--gap-size);
 }
 
 .dashboard-card {
     background: linear-gradient(135deg, #141824cc, #0f1220cc);
     backdrop-filter: blur(8px);
-    border-radius: 24px;
-    padding: 28px 12px;
+    border-radius: var(--border-radius);
+    padding: var(--padding-card);
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -390,13 +396,13 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 186px;
+    min-height: var(--card-min-height);
 }
 
 .dashboard-card:hover:not(.disabled) {
-    transform: translateY(-6px);
+    transform: translateY(-5px);
     border-color: #f5b042;
-    box-shadow: 0 12px 28px rgba(245,176,66,0.25);
+    box-shadow: 0 10px 25px rgba(245,176,66,0.2);
 }
 
 .dashboard-card.disabled {
@@ -411,20 +417,20 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 }
 
 .dashboard-icon {
-    font-size: 2.8rem;
-    margin-bottom: 14px;
+    font-size: var(--icon-size);
+    margin-bottom: calc(6px + 0.3vh);
     display: inline-block;
 }
 
 .dashboard-card h3 {
-    font-size: 1rem;
+    font-size: var(--font-size-sm);
     color: #FFD966;
-    margin-bottom: 8px;
+    margin-bottom: calc(4px + 0.2vh);
     font-family: 'Kurdliga Bold', sans-serif;
 }
 
 .dashboard-card p {
-    font-size: 0.7rem;
+    font-size: calc(0.55rem + 0.2vw);
     color: #aaa;
     font-family: 'Kurdliga Regular', sans-serif;
 }
@@ -449,7 +455,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 
 .exchange-modal-content {
     background: #0f111f;
-    border-radius: 32px;
+    border-radius: calc(24px + 0.8vw);
     width: 90%;
     max-width: 400px;
     border: 1px solid #f5b042;
@@ -460,20 +466,20 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 20px;
+    padding: calc(12px + 0.5vh) calc(15px + 0.8vw);
     border-bottom: 1px solid #2a2d3a;
 }
 
 .exchange-header h3 {
     color: #FFD966;
-    font-size: 1.2rem;
+    font-size: var(--font-size-md);
 }
 
 .close-modal {
     background: transparent;
     border: none;
     color: #aaa;
-    font-size: 1.8rem;
+    font-size: calc(1.5rem + 0.3vw);
     cursor: pointer;
     padding: 0;
     line-height: 1;
@@ -484,77 +490,78 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 }
 
 .exchange-body {
-    padding: 20px;
+    padding: calc(12px + 0.8vh) calc(15px + 1vw);
 }
 
 .exchange-info {
     background: #1a1e2c;
-    border-radius: 24px;
-    padding: 20px;
+    border-radius: calc(20px + 0.5vw);
+    padding: calc(12px + 0.8vh) calc(10px + 1vw);
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: calc(12px + 0.5vh);
 }
 
 .exchange-diamond, .exchange-coin {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    font-size: 1.5rem;
+    gap: calc(6px + 0.3vw);
+    font-size: var(--font-size-md);
     font-weight: bold;
 }
 
 .exchange-diamond span:first-child, .exchange-coin span:first-child {
-    font-size: 2rem;
+    font-size: calc(1.5rem + 0.5vw);
 }
 
 .exchange-diamond span:nth-child(2), .exchange-coin span:nth-child(2) {
     color: #FFD966;
-    font-size: 1.8rem;
+    font-size: var(--font-size-xl);
 }
 
 .exchange-arrow {
-    font-size: 1.8rem;
-    margin: 10px 0;
+    font-size: calc(1.3rem + 0.5vw);
+    margin: calc(5px + 0.3vh) 0;
     color: #f5b042;
 }
 
 .exchange-rate {
     text-align: center;
-    margin-bottom: 20px;
-    padding: 10px;
+    margin-bottom: calc(12px + 0.5vh);
+    padding: calc(6px + 0.3vh) calc(8px + 0.5vw);
     background: #1f2538;
-    border-radius: 40px;
+    border-radius: calc(30px + 0.5vw);
 }
 
 .exchange-rate p {
     color: #ddd;
+    font-size: var(--font-size-xs);
 }
 
 .exchange-rate strong {
     color: #FFD966;
-    font-size: 1.1rem;
+    font-size: var(--font-size-sm);
 }
 
 .exchange-input {
-    margin-bottom: 20px;
+    margin-bottom: calc(12px + 0.5vh);
 }
 
 .exchange-input label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: calc(4px + 0.2vh);
     color: #ddd;
-    font-size: 0.85rem;
+    font-size: var(--font-size-xs);
 }
 
 .exchange-input input {
     width: 100%;
-    padding: 12px;
+    padding: calc(8px + 0.3vh) calc(10px + 0.5vw);
     background: #1e2335;
     border: 1px solid #2e3448;
-    border-radius: 28px;
+    border-radius: calc(24px + 0.5vw);
     color: white;
-    font-size: 1rem;
+    font-size: var(--font-size-sm);
     text-align: center;
 }
 
@@ -567,10 +574,10 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     width: 100%;
     background: linear-gradient(95deg, #f5b042, #ff8c42);
     border: none;
-    padding: 14px;
-    border-radius: 40px;
+    padding: calc(8px + 0.5vh) calc(10px + 0.8vw);
+    border-radius: calc(30px + 0.5vw);
     font-weight: bold;
-    font-size: 1rem;
+    font-size: var(--font-size-sm);
     color: #0a0c12;
     cursor: pointer;
     transition: 0.2s;
@@ -591,7 +598,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     background: #0f1119e6;
     backdrop-filter: blur(20px);
     border-top: 1px solid #f5b042;
-    padding: 10px 20px;
+    padding: calc(5px + 0.3vh) calc(12px + 1vw);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -603,23 +610,23 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: calc(2px + 0.2vh);
     background: transparent;
     border: none;
     color: #aaa;
     cursor: pointer;
-    padding: 8px 16px;
-    border-radius: 40px;
+    padding: calc(4px + 0.2vh) calc(8px + 0.5vw);
+    border-radius: calc(30px + 0.5vw);
     transition: 0.2s;
     font-family: 'Kurdliga Regular', sans-serif;
 }
 
 .nav-item span:first-child {
-    font-size: 1.8rem;
+    font-size: calc(1.2rem + 0.5vw);
 }
 
 .nav-item span:last-child {
-    font-size: 0.85rem;
+    font-size: calc(0.55rem + 0.2vw);
     font-weight: bold;
 }
 
@@ -630,109 +637,86 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 
 .nav-item:hover {
     color: #FFD966;
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
 
-/* responsive */
-@media (max-width: 650px) {
-    .dashboard-grid {
-        gap: 12px;
+/* ========== قەبارە بۆ شاشە زۆر بچووکەکان (مۆبایلی بچووک) ========== */
+@media (max-width: 480px) {
+    :root {
+        --card-min-height: calc(90px + 5vh);
+        --icon-size: calc(1.5rem + 0.5vw);
+        --padding-card: calc(10px + 0.5vh) calc(4px + 0.8vw);
+        --gap-size: calc(6px + 0.5vw);
     }
-    .dashboard-card {
-        padding: 20px 8px;
-        min-height: 165px;
-    }
-    .dashboard-icon {
-        font-size: 2.2rem;
-    }
+    
     .dashboard-card h3 {
-        font-size: 0.85rem;
+        font-size: calc(0.65rem + 0.2vw);
     }
-}
-
-@media (max-width: 550px) {
-    .top-nav {
-        padding: 6px 12px;
-    }
-    .nav-center .logo-img {
-        max-height: 38px;
-    }
-    .user-info {
-        padding: 4px 12px;
-        gap: 8px;
-    }
-    .points-value, .diamond-value {
-        font-size: 0.85rem;
-    }
-    .login-btn-nav {
-        padding: 4px 14px;
-        font-size: 1rem;
-    }
-    .slider-container {
-        height: 100px;
-    }
-    .slider-dots {
-        left: 8px;
-        gap: 8px;
-        padding: 8px 6px;
-    }
-    .dot {
-        width: 6px;
-        height: 6px;
-    }
-    .dot.active {
-        width: 8px;
-        height: 18px;
-    }
-    .slide-icon {
-        font-size: 1.5rem;
-    }
-    .slide-content h3 {
-        font-size: 0.85rem;
-    }
-    .dashboard-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-    }
-    .dashboard-card {
-        padding: 14px 6px;
-        min-height: 138px;
-    }
-    .dashboard-icon {
-        font-size: 1.8rem;
-        margin-bottom: 8px;
-    }
-    .dashboard-card h3 {
-        font-size: 0.7rem;
-    }
+    
     .dashboard-card p {
-        font-size: 0.55rem;
+        font-size: calc(0.5rem + 0.1vw);
     }
-    .side-menu {
-        width: 280px;
+    
+    .dashboard-icon {
+        margin-bottom: calc(3px + 0.2vh);
     }
-    .side-menu a {
-        font-size: 0.95rem;
-        padding: 14px 18px;
-    }
-    .menu-username {
-        font-size: 1.1rem;
-        padding: 12px 16px;
-    }
+    
     .nav-item span:first-child {
-        font-size: 1.4rem;
+        font-size: calc(1rem + 0.5vw);
     }
+    
     .nav-item span:last-child {
-        font-size: 0.7rem;
-    }
-    .nav-item {
-        padding: 5px 10px;
+        font-size: calc(0.5rem + 0.15vw);
     }
 }
 
-@media (max-width: 450px) {
-    .dashboard-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+/* ========== قەبارە بۆ شاشە گەورەکان (مۆبایلە گەورەکان و تەبڵێت) ========== */
+@media (min-width: 481px) and (max-width: 768px) {
+    :root {
+        --card-min-height: calc(110px + 6vh);
+        --icon-size: calc(2rem + 0.5vw);
+        --padding-card: calc(14px + 0.5vh) calc(8px + 0.5vw);
+    }
+    
+    .dashboard-card h3 {
+        font-size: calc(0.85rem + 0.2vw);
     }
 }
+
+@media (min-width: 769px) {
+    :root {
+        --card-min-height: calc(130px + 5vh);
+        --icon-size: calc(2.2rem + 0.3vw);
+    }
+    
+    .dashboard-card h3 {
+        font-size: calc(0.95rem + 0.1vw);
+    }
+}
+
+/* ========== قەبارە بۆ شاشە زۆر گەورەکان (تەبڵێت و فۆڵد) ========== */
+@media (min-width: 1024px) {
+    .homepage-container {
+        max-width: 1000px;
+    }
+    
+    .dashboard-grid {
+        gap: 25px;
+    }
+    
+    .dashboard-card {
+        min-height: 200px;
+    }
+    
+    .dashboard-icon {
+        font-size: 3rem;
+    }
+    
+    .dashboard-card h3 {
+        font-size: 1.1rem;
+    }
+    
+    .dashboard-card p {
+        font-size: 0.85rem;
+    }
+    }
