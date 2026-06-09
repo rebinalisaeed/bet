@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ku">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ئەدمین پانێل - پێشبڕکێی گەل</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #0f1119;
+            color: #eef2ff;
+            padding: 20px;
+        }
+
+        /* header */
+        .admin-header {
+            background: linear-gradient(135deg, #1a1e2c, #0f1220);
+            padding: 20px 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f5b042;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .admin-header h1 {
+            font-size: 1.5rem;
+            color: #FFD966;
+        }
+
+        .admin-header p {
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+
+        .back-btn {
+            background: #2e3a4e;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #f5b042;
+            color: #0a0c12;
+        }
+
+        /* preview */
+        .preview-section {
+            background: #0f1119;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #2a2d3a;
+            overflow: hidden;
+        }
+
+        .preview-title {
+            background: #1a1e2c;
+            padding: 12px 20px;
+            border-bottom: 1px solid #f5b04230;
+            font-weight: bold;
+        }
+
+        .slider-preview {
+            position: relative;
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(135deg, #1a1e2c, #0f1220);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .preview-slide img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #1f2538;
+            padding: 8px;
+        }
+
+        .preview-slide .preview-content h3 {
+            color: #FFD966;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .preview-slide .preview-content p {
+            color: #ccc;
+            font-size: 0.7rem;
+        }
+
+        /* form */
+        .form-section {
+            background: #1a1e2c;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #2a2d3a;
+        }
+
+        .form-title {
+            font-size: 1.2rem;
+            color: #FFD966;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f5b04230;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: #ddd;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: #1e2335;
+            border: 1px solid #2e3448;
+            border-radius: 12px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #f5b042;
+        }
+
+        .image-preview {
+            width: 80px;
+            height: 80px;
+            background: #1e2335;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .btn {
+            background: #2e3a4e;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(95deg, #f5b042, #ff8c42);
+            color: #0a0c12;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            transform: scale(0.98);
+        }
+
+        .btn-danger {
+            background: #8b3c2c;
+        }
+
+        .btn-danger:hover {
+            background: #a0522d;
+        }
+
+        /* slides list */
+        .slides-list {
+            background: #1a1e2c;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #2a2d3a;
+        }
+
+        .slide-item {
+            background: #0f1119;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            border: 1px solid #2a2d3a;
+        }
+
+        .slide-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            background: #1f2538;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .slide-info {
+            flex: 1;
+        }
+
+        .slide-info h4 {
+            color: #FFD966;
+            font-size: 0.9rem;
+        }
+
+        .slide-info p {
+            color: #aaa;
+            font-size: 0.7rem;
+        }
+
+        .slide-actions button {
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 8px;
+            margin: 0 3px;
+        }
+
+        .edit-btn {
+            color: #FFD966;
+        }
+
+        .edit-btn:hover {
+            background: #f5b04220;
+        }
+
+        .delete-btn {
+            color: #ff6666;
+        }
+
+        .delete-btn:hover {
+            background: #ff666620;
+        }
+
+        .add-new {
+            background: #f5b04220;
+            border: 2px dashed #f5b042;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .add-new:hover {
+            background: #f5b04230;
+        }
+
+        .add-new span {
+            font-size: 1.5rem;
+            color: #f5b042;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-header">
+    <div>
+        <h1>🛠 ئەدمین پانێل</h1>
+        <p>بەڕێوەبردنی سلایدەری سپۆنسەرەکان</p>
+    </div>
+    <a href="index.html" class="back-btn">🏠 گەڕانەوە بۆ پەڕەی سەرەکی</a>
+</div>
+
+<div class="grid-2">
+    <!-- فۆرمی زیادکردن/دەستکاری -->
+    <div class="form-section">
+        <div class="form-title" id="formTitle">➕ زیادکردنی سلایدێکی نوێ</div>
+        <input type="hidden" id="editIndex" value="-1">
+        
+        <div class="form-group">
+            <label>🖼️ وێنەی سپۆنسەر (URL یان ئاپلۆد)</label>
+            <input type="text" id="slideImage" placeholder="https://example.com/image.png یان لە کۆمپیوتەرەوە هەڵبژێرە">
+            <input type="file" id="imageUpload" accept="image/*" style="margin-top: 8px;">
+            <div class="image-preview" id="imagePreview">
+                <span style="color:#aaa;">پێشبینین</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>🏷️ سەردێڕ</label>
+            <input type="text" id="slideTitle" placeholder="ناوی سپۆنسەرەکە">
+        </div>
+
+        <div class="form-group">
+            <label>📝 تێکست</label>
+            <textarea id="slideText" rows="2" placeholder="ڕوونکردنەوەی سپۆنسەر"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>🔗 لینک (ئارەزوومەندانە)</label>
+            <input type="text" id="slideLink" placeholder="https://...">
+        </div>
+
+        <div style="margin-top: 15px;">
+            <button class="btn btn-primary" id="saveBtn">💾 هەڵگرتن</button>
+            <button class="btn" id="cancelBtn">❌ پاککردنەوە</button>
+        </div>
+    </div>
+
+    <!-- پێشبینی سلایدەر -->
+    <div class="preview-section">
+        <div class="preview-title">👁️ پێشبینی سلایدەر (چاوێک)</div>
+        <div class="slider-preview" id="livePreview">
+            <div class="preview-slide">
+                <img src="" alt="پێشبینی" id="previewImage" style="display: none;">
+                <div class="preview-content">
+                    <h3 id="previewTitle">سپۆنسەری سەرەکی</h3>
+                    <p id="previewText">پێشبینی سلایدەر لێرە دیار دەبێت</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- لیستی سلایدەرەکان -->
+<div class="slides-list">
+    <div class="form-title">📋 لیستی سلایدەرەکان</div>
+    <div id="slidesContainer"></div>
+    <div class="slide-item add-new" id="addNewBtn">
+        <span>➕</span>
+        <div class="slide-info">
+            <h4>سلایدێکی نوێ زیاد بکە</h4>
+            <p>کلیک بکە بۆ زیادکردنی سلایدەری نوێ</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // داتای سلایدەرەکان (لە LocalStorage هەڵدەگیرێت)
+    let slides = [
+        {
+            id: 1,
+            image: "https://placehold.co/70x70?text=🏆",
+            title: "سپۆنسەری سەرەکی",
+            text: "کۆمپانیی ئاسیاسێل - پشتگیری لە وەرزشی کوردی",
+            link: ""
+        },
+        {
+            id: 2,
+            image: "https://placehold.co/70x70?text=📱",
+            title: "Zain Cash",
+            text: "پارەدانێکی ئاسان و خێرا بۆ هەمووان",
+            link: ""
+        },
+        {
+            id: 3,
+            image: "https://placehold.co/70x70?text=💳",
+            title: "بکات کارتی",
+            text: "کارتی فیزیکی و ئەلیکترۆنی بۆ هەموو مامەڵەکان",
+            link: ""
+        },
+        {
+            id: 4,
+            image: "https://placehold.co/70x70?text=🏆",
+            title: "پێشبڕکێی گەل",
+            text: "بەشداری بکە و 1000 پۆینتی خۆڕایی وەربگرە",
+            link: ""
+        },
+        {
+            id: 5,
+            image: "https://placehold.co/70x70?text=⚽",
+            title: "مۆندیال 2026",
+            text: "پێشبینی یارییەکان بکە و ببەرەوە!",
+            link: ""
+        }
+    ];
+
+    let nextId = 6;
+
+    // Load from localStorage
+    function loadSlidesFromStorage() {
+        const saved = localStorage.getItem('adminSlides');
+        if(saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if(parsed.length > 0) {
+                    slides = parsed;
+                    nextId = Math.max(...slides.map(s => s.id), 0) + 1;
+                }
+            } catch(e) {}
+        }
+        renderSlidesList();
+        updateIndexPageSlider();
+    }
+
+    function saveSlidesToStorage() {
+        localStorage.setItem('adminSlides', JSON.stringify(slides));
+        updateIndexPageSlider();
+    }
+
+    function updateIndexPageSlider() {
+        // هەروەها سلایدەرەکانی پەڕەی سەرەکی نوێ دەکاتەوە
+        localStorage.setItem('homepageSlides', JSON.stringify(slides));
+    }
+
+    function renderSlidesList() {
+        const container = document.getElementById('slidesContainer');
+        if(!container) return;
+        
+        container.innerHTML = '';
+        slides.forEach((slide, index) => {
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'slide-item';
+            slideDiv.innerHTML = `
+                <img src="${slide.image}" alt="${slide.title}" onerror="this.src='https://placehold.co/50x50?text=🖼️'">
+                <div class="slide-info">
+                    <h4>${escapeHtml(slide.title)}</h4>
+                    <p>${escapeHtml(slide.text)}</p>
+                </div>
+                <div class="slide-actions">
+                    <button class="edit-btn" data-index="${index}">✏️</button>
+                    <button class="delete-btn" data-index="${index}">🗑️</button>
+                </div>
+            `;
+            container.appendChild(slideDiv);
+        });
+
+        // Edit buttons
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const index = parseInt(btn.dataset.index);
+                editSlide(index);
+            });
+        });
+
+        // Delete buttons
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const index = parseInt(btn.dataset.index);
+                if(confirm('دڵنیای لە سڕینەوەی ئەم سلایدە؟')) {
+                    slides.splice(index, 1);
+                    saveSlidesToStorage();
+                    renderSlidesList();
+                    clearForm();
+                }
+            });
+        });
+    }
+
+    function escapeHtml(text) {
+        if(!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function editSlide(index) {
+        const slide = slides[index];
+        document.getElementById('editIndex').value = index;
+        document.getElementById('slideTitle').value = slide.title || '';
+        document.getElementById('slideText').value = slide.text || '';
+        document.getElementById('slideLink').value = slide.link || '';
+        document.getElementById('slideImage').value = slide.image || '';
+        
+        const preview = document.getElementById('imagePreview');
+        if(slide.image) {
+            preview.innerHTML = `<img src="${slide.image}" alt="پێشبینین" style="max-width:100%; max-height:100%; object-fit:contain;">`;
+        } else {
+            preview.innerHTML = '<span style="color:#aaa;">پێشبینین</span>';
+        }
+        
+        document.getElementById('formTitle').innerHTML = '✏️ دەستکاری سلایدەر';
+        updateLivePreview();
+    }
+
+    function clearForm() {
+        document.getElementById('editIndex').value = '-1';
+        document.getElementById('slideTitle').value = '';
+        document.getElementById('slideText').value = '';
+        document.getElementById('slideLink').value = '';
+        document.getElementById('slideImage').value = '';
+        document.getElementById('imagePreview').innerHTML = '<span style="color:#aaa;">پێشبینین</span>';
+        document.getElementById('formTitle').innerHTML = '➕ زیادکردنی سلایدێکی نوێ';
+        updateLivePreview();
+    }
+
+    function updateLivePreview() {
+        const title = document.getElementById('slideTitle').value || 'سەردێڕ';
+        const text = document.getElementById('slideText').value || 'تێکست';
+        const image = document.getElementById('slideImage').value;
+        
+        document.getElementById('previewTitle').innerText = title;
+        document.getElementById('previewText').innerText = text;
+        
+        const previewImg = document.getElementById('previewImage');
+        if(image) {
+            previewImg.src = image;
+            previewImg.style.display = 'block';
+            document.querySelector('#livePreview .preview-slide .preview-content').style.flex = '1';
+        } else {
+            previewImg.style.display = 'none';
+        }
+    }
+
+    // Image upload to base64
+    document.getElementById('imageUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if(file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const base64 = event.target.result;
+                document.getElementById('slideImage').value = base64;
+                document.getElementById('imagePreview').innerHTML = `<img src="${base64}" alt="پێشبینین" style="max-width:100%; max-height:100%; object-fit:contain;">`;
+                updateLivePreview();
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById('slideImage').addEventListener('input', function() {
+        const url = this.value;
+        if(url) {
+            document.getElementById('imagePreview').innerHTML = `<img src="${url}" alt="پێشبینین" style="max-width:100%; max-height:100%; object-fit:contain;" onerror="this.parentElement.innerHTML='<span style=\'color:#aaa;\'>وێنە نەدۆزرایەوە</span>'">`;
+        } else {
+            document.getElementById('imagePreview').innerHTML = '<span style="color:#aaa;">پێشبینین</span>';
+        }
+        updateLivePreview();
+    });
+
+    document.getElementById('slideTitle').addEventListener('input', updateLivePreview);
+    document.getElementById('slideText').addEventListener('input', updateLivePreview);
+
+    document.getElementById('saveBtn').addEventListener('click', () => {
+        const editIndex = parseInt(document.getElementById('editIndex').value);
+        const title = document.getElementById('slideTitle').value;
+        const text = document.getElementById('slideText').value;
+        const image = document.getElementById('slideImage').value;
+        const link = document.getElementById('slideLink').value;
+        
+        if(!title || !text) {
+            alert('تکایە سەردێڕ و تێکست پڕبکەوە');
+            return;
+        }
+        
+        const newSlide = {
+            id: nextId++,
+            image: image || 'https://placehold.co/70x70?text=🏆',
+            title: title,
+            text: text,
+            link: link
+        };
+        
+        if(editIndex >= 0 && editIndex < slides.length) {
+            newSlide.id = slides[editIndex].id;
+            slides[editIndex] = newSlide;
+        } else {
+            slides.push(newSlide);
+        }
+        
+        saveSlidesToStorage();
+        renderSlidesList();
+        clearForm();
+        alert('✅ سلایدەرەکە هەڵگیرا!');
+    });
+
+    document.getElementById('cancelBtn').addEventListener('click', clearForm);
+    document.getElementById('addNewBtn').addEventListener('click', clearForm);
+
+    // Live update when typing
+    document.getElementById('slideTitle').addEventListener('input', updateLivePreview);
+    document.getElementById('slideText').addEventListener('input', updateLivePreview);
+    document.getElementById('slideImage').addEventListener('input', updateLivePreview);
+
+    loadSlidesFromStorage();
+</script>
+</body>
+</html>
