@@ -325,32 +325,42 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     font-family: 'Kurdliga Regular', sans-serif;
 }
 
+/* خاڵەکانی سلایدەر - دانراوە لە ژێرەوە و ڕوون */
 .slider-dots {
     position: absolute;
     bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 8px;
-    z-index: 20;
+    gap: 10px;
+    z-index: 25;
+    background: rgba(0,0,0,0.5);
+    padding: 5px 12px;
+    border-radius: 30px;
+    backdrop-filter: blur(4px);
 }
 
 .dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.7);
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
+.dot:hover {
+    background: #f5b042;
+    transform: scale(1.2);
+}
+
 .dot.active {
     background: #f5b042;
-    width: 20px;
+    width: 22px;
     border-radius: 10px;
 }
 
-/* ========== پەڕەی سەرەکی - 9 بۆکس (بەرزی 10% زیادکراوە = 186px) ========== */
+/* ========== پەڕەی سەرەکی - 9 بۆکس ========== */
 .homepage-container {
     max-width: 850px;
     margin: 0 auto;
@@ -425,7 +435,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
     z-index: 1000;
     align-items: center;
     justify-content: center;
@@ -658,6 +668,18 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     }
     .slider-container {
         height: 100px;
+    }
+    .slider-dots {
+        bottom: 5px;
+        gap: 8px;
+        padding: 4px 10px;
+    }
+    .dot {
+        width: 6px;
+        height: 6px;
+    }
+    .dot.active {
+        width: 16px;
     }
     .slide-icon {
         font-size: 1.5rem;
