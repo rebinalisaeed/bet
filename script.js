@@ -18,7 +18,7 @@ function formatDiamonds(diamonds) {
 
 function updatePointsDisplay(newPoints) {
     userPoints = newPoints;
-    if(currentUser) {
+    if (currentUser) {
         currentUser.points = userPoints;
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
     }
@@ -30,7 +30,7 @@ function updatePointsDisplay(newPoints) {
 
 function updateDiamondsDisplay(newDiamonds) {
     userDiamonds = newDiamonds;
-    if(currentUser) {
+    if (currentUser) {
         currentUser.diamonds = userDiamonds;
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
     }
@@ -42,11 +42,11 @@ function updateDiamondsDisplay(newDiamonds) {
 
 // ========== ئاڵوگۆڕ ==========
 function exchangeDiamondsToCoins(amount) {
-    if(amount <= 0) {
+    if (amount <= 0) {
         alert('تکایە ژمارەیەکی دروست بنووسە');
         return false;
     }
-    if(amount > userDiamonds) {
+    if (amount > userDiamonds) {
         alert(`ئەڵماسەکەت کەمە! تەنها ${formatDiamonds(userDiamonds)} ئەڵماس هەیە`);
         return false;
     }
@@ -64,11 +64,10 @@ function exchangeDiamondsToCoins(amount) {
 function updateAuthUI() {
     const authSection = document.getElementById('authSection');
     const myBetsCard = document.getElementById('myBetsCard');
-    const pastBetsCard = document.getElementById('pastBetsCard');
     
-    if(!authSection) return;
+    if (!authSection) return;
     
-    if(currentUser) {
+    if (currentUser) {
         authSection.innerHTML = `
             <div class="user-info">
                 <div class="coin-icon-nav">
@@ -81,15 +80,22 @@ function updateAuthUI() {
                 </div>
             </div>
         `;
-        if(myBetsCard) myBetsCard.classList.remove('disabled');
-        if(pastBetsCard) pastBetsCard.classList.remove('disabled');
+        if (myBetsCard) myBetsCard.classList.remove('disabled');
     } else {
         authSection.innerHTML = `<button class="login-btn-nav" id="showLoginBtn">چوونەژوورەوە</button>`;
-        if(myBetsCard) myBetsCard.classList.add('disabled');
-        if(pastBetsCard) pastBetsCard.classList.add('disabled');
-        document.getElementById('showLoginBtn')?.addEventListener('click', () => window.location.href = 'login.html');
+        if (myBetsCard) myBetsCard.classList.add('disabled');
+        const loginBtn = document.getElementById('showLoginBtn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                window.location.href = 'login.html';
+            });
+        }
     }
-    updateMenuUsername();
+    
+    const menuUsername = document.getElementById('menuUsername');
+    if (menuUsername) {
+        menuUsername.innerText = currentUser ? currentUser.username : 'میوان';
+    }
 }
 
 function logout() {
@@ -103,21 +109,16 @@ function logout() {
 
 function loadUserFromStorage() {
     const savedUser = localStorage.getItem('currentUser');
-    if(savedUser) {
+    if (savedUser) {
         try {
             currentUser = JSON.parse(savedUser);
             userPoints = currentUser.points || 1000.000;
             userDiamonds = currentUser.diamonds || 0;
-        } catch(e) { currentUser = null; }
+        } catch (e) {
+            currentUser = null;
+        }
     }
     updateAuthUI();
-}
-
-function updateMenuUsername() {
-    const menuUsernameSpan = document.getElementById('menuUsername');
-    if(menuUsernameSpan) {
-        menuUsernameSpan.innerText = currentUser ? currentUser.username : 'میوان';
-    }
 }
 
 // ========== مێنوو ==========
@@ -130,47 +131,56 @@ function initMenu() {
     function closeMenu() {
         sideMenu.classList.remove('open');
         overlay.classList.remove('active');
-        if(hamburgerIcon) hamburgerIcon.classList.remove('open');
+        if (hamburgerIcon) hamburgerIcon.classList.remove('open');
     }
     
-    if(menuBtn) {
+    if (menuBtn) {
         menuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const isOpening = !sideMenu.classList.contains('open');
             sideMenu.classList.toggle('open');
             overlay.classList.toggle('active');
-            if(hamburgerIcon) hamburgerIcon.classList.toggle('open');
+            if (hamburgerIcon) hamburgerIcon.classList.toggle('open');
         });
     }
     
-    if(overlay) overlay.addEventListener('click', closeMenu);
+    if (overlay) overlay.addEventListener('click', closeMenu);
+    
     document.addEventListener('keydown', (e) => {
-        if(e.key === 'Escape' && sideMenu.classList.contains('open')) closeMenu();
+        if (e.key === 'Escape' && sideMenu.classList.contains('open')) {
+            closeMenu();
+        }
     });
     
-    document.getElementById('logoutLink')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        logout();
-        closeMenu();
-    });
+    const logoutLink = document.getElementById('logoutLink');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            logout();
+            closeMenu();
+        });
+    }
 }
 
-// ========== سلایدەر ==========
+// ========== سلایدەری سەرەکی ==========
 let currentSlideIndex = 0;
 let slideInterval;
 
 function initSlider() {
     const slides = document.querySelectorAll('.slide');
     const dotsContainer = document.getElementById('sliderDots');
-    if(!slides.length) return;
     
-    if(dotsContainer) {
+    if (!slides.length) return;
+    
+    if (dotsContainer) {
         dotsContainer.innerHTML = '';
-        for(let i = 0; i < slides.length; i++) {
+        for (let i = 0; i < slides.length; i++) {
             const dot = document.createElement('span');
             dot.classList.add('dot');
-            if(i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', (function(index) {
+                return function() { goToSlide(index); };
+            })(i));
             dotsContainer.appendChild(dot);
         }
     }
@@ -178,52 +188,130 @@ function initSlider() {
     function showSlide(index) {
         const allSlides = document.querySelectorAll('.slide');
         const allDots = document.querySelectorAll('.dot');
-        if(index >= allSlides.length) index = 0;
-        if(index < 0) index = allSlides.length - 1;
-        allSlides.forEach(s => s.classList.remove('active'));
-        allDots.forEach(d => d.classList.remove('active'));
+        
+        if (index >= allSlides.length) index = 0;
+        if (index < 0) index = allSlides.length - 1;
+        
+        allSlides.forEach(slide => slide.classList.remove('active'));
+        allDots.forEach(dot => dot.classList.remove('active'));
+        
         allSlides[index].classList.add('active');
-        if(allDots[index]) allDots[index].classList.add('active');
+        if (allDots[index]) allDots[index].classList.add('active');
+        
         currentSlideIndex = index;
     }
     
     window.goToSlide = function(index) {
         showSlide(index);
-        if(slideInterval) clearInterval(slideInterval);
-        slideInterval = setInterval(() => showSlide(currentSlideIndex + 1), 5000);
+        resetInterval();
     };
     
+    function nextSlide() {
+        goToSlide(currentSlideIndex + 1);
+    }
+    
+    function resetInterval() {
+        if (slideInterval) clearInterval(slideInterval);
+        slideInterval = setInterval(nextSlide, 5000);
+    }
+    
     showSlide(0);
-    slideInterval = setInterval(() => showSlide(currentSlideIndex + 1), 5000);
+    resetInterval();
+}
+
+// ========== بارکردنی سلایدەر لە ئەدمین ==========
+function loadSlidesFromAdmin() {
+    const savedSlides = localStorage.getItem('homepageSlides');
+    const sliderContainer = document.getElementById('sponsorSlider');
+    
+    if (savedSlides && sliderContainer) {
+        try {
+            const slidesData = JSON.parse(savedSlides);
+            sliderContainer.innerHTML = '';
+            slidesData.forEach((slide, index) => {
+                const slideDiv = document.createElement('div');
+                slideDiv.className = `slide ${index === 0 ? 'active' : ''}`;
+                slideDiv.innerHTML = `
+                    <div class="slide-content">
+                        <img src="${slide.image}" style="width:50px;height:50px;object-fit:contain;margin-bottom:8px;border-radius:12px;" onerror="this.src='https://placehold.co/50x50?text=🏆'">
+                        <h3>${escapeHtml(slide.title)}</h3>
+                        <p>${escapeHtml(slide.text)}</p>
+                    </div>
+                `;
+                sliderContainer.appendChild(slideDiv);
+            });
+            initSlider();
+        } catch (e) {
+            console.log('Error loading slides:', e);
+        }
+    }
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 // ========== تاسک بار ==========
 function initBottomNav() {
-    document.querySelectorAll('.nav-item').forEach(item => {
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
         item.addEventListener('click', () => {
             const navType = item.dataset.nav;
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            navItems.forEach(i => i.classList.remove('active'));
             item.classList.add('active');
-            if(navType === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
-            else if(navType === 'mybets' && !currentUser) alert('تکایە چوونەژوورەوە بکە');
-            else alert('بەم زوانە زیاد دەکرێت');
+            
+            switch (navType) {
+                case 'home':
+                    window.location.href = 'index.html';
+                    break;
+                case 'live':
+                    alert('📡 ڕاستەوخۆکان - بەم زوانە زیاد دەکرێت');
+                    break;
+                case 'mybets':
+                    if (!currentUser) {
+                        alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە');
+                        window.location.href = 'login.html';
+                    } else {
+                        alert('🎯 پێشبینیەکانت: هیچ پێشبینیەکت نییە');
+                    }
+                    break;
+                case 'rank':
+                    alert('🏆 ڕێزبەندی بەکارهێنەران - بەم زوانە زیاد دەکرێت');
+                    break;
+            }
         });
     });
 }
 
 // ========== بۆکسەکانی پەڕەی سەرەکی ==========
 function initDashboardCards() {
-    document.querySelectorAll('.dashboard-card').forEach(card => {
+    const cards = document.querySelectorAll('.dashboard-card');
+    cards.forEach(card => {
         card.addEventListener('click', () => {
-            if(card.classList.contains('disabled')) {
+            if (card.classList.contains('disabled')) {
                 alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە');
                 window.location.href = 'login.html';
                 return;
             }
+            
             const page = card.dataset.page;
-            if(page === 'sports') window.location.href = 'sports.html';
-            else if(page === 'exchange') document.getElementById('exchangeModal')?.classList.add('active');
-            else alert(`${card.querySelector('h3')?.innerText} - بەم زوانە زیاد دەکرێت`);
+            switch (page) {
+                case 'sports':
+                    window.location.href = 'sports.html';
+                    break;
+                case 'exchange':
+                    const modal = document.getElementById('exchangeModal');
+                    if (modal) {
+                        document.getElementById('userDiamondsExchange').innerText = formatDiamonds(userDiamonds);
+                        modal.classList.add('active');
+                    }
+                    break;
+                default:
+                    alert(`${card.querySelector('h3')?.innerText} - بەم زوانە زیاد دەکرێت`);
+            }
         });
     });
 }
@@ -234,29 +322,34 @@ function initExchangeModal() {
     const closeBtn = document.getElementById('closeExchangeModal');
     const exchangeBtn = document.getElementById('doExchangeBtn');
     const amountInput = document.getElementById('exchangeAmount');
-    const userDiamondsSpan = document.getElementById('userDiamondsExchange');
     
     function updateModalUI() {
-        if(userDiamondsSpan) userDiamondsSpan.innerText = formatDiamonds(userDiamonds);
+        const userDiamondsSpan = document.getElementById('userDiamondsExchange');
+        if (userDiamondsSpan) {
+            userDiamondsSpan.innerText = formatDiamonds(userDiamonds);
+        }
     }
     
-    document.getElementById('exchangeCard')?.addEventListener('click', () => {
-        if(!currentUser) { alert('تکایە چوونەژوورەوە بکە'); window.location.href = 'login.html'; return; }
-        updateModalUI();
-        modal.classList.add('active');
+    closeBtn?.addEventListener('click', () => {
+        modal.classList.remove('active');
     });
     
-    closeBtn?.addEventListener('click', () => modal.classList.remove('active'));
-    window.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
     
     exchangeBtn?.addEventListener('click', () => {
         const amount = parseInt(amountInput?.value);
-        if(!isNaN(amount) && amount > 0) {
+        if (!isNaN(amount) && amount > 0) {
             exchangeDiamondsToCoins(amount);
             updateModalUI();
-            if(amountInput) amountInput.value = '';
+            if (amountInput) amountInput.value = '';
             modal.classList.remove('active');
-        } else alert('تکایە ژمارەیەکی دروست بنووسە');
+        } else {
+            alert('تکایە ژمارەیەکی دروست بنووسە');
+        }
     });
 }
 
@@ -264,8 +357,8 @@ function initExchangeModal() {
 document.addEventListener('DOMContentLoaded', () => {
     loadUserFromStorage();
     initMenu();
-    initSlider();
     initBottomNav();
     initDashboardCards();
     initExchangeModal();
+    loadSlidesFromAdmin();
 });
