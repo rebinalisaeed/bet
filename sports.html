@@ -6,7 +6,22 @@
     <title>وەرزشەکان - پێشبڕکێی گەل</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ستایلی تایبەت بە پەڕەی وەرزشەکان */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kurdliga Regular', 'Segoe UI', system-ui, sans-serif;
+            background: #0f1119;
+            color: #eef2ff;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
         .sports-container {
             max-width: 100%;
             margin: 0 auto;
@@ -28,7 +43,6 @@
             overflow-y: hidden;
             white-space: nowrap;
             scrollbar-width: thin;
-            -webkit-overflow-scrolling: touch;
         }
 
         .sports-tabs::-webkit-scrollbar {
@@ -54,7 +68,6 @@
             font-family: 'Kurdliga Bold', sans-serif;
         }
 
-        /* دوگمەی search و menu - fixed */
         .fixed-buttons {
             display: flex;
             gap: 8px;
@@ -80,7 +93,7 @@
             transform: scale(0.95);
         }
 
-        /* لیستی وەرزشەکان (ئاسۆیی - scrollable) */
+        /* لیستی وەرزشەکان */
         .sports-list {
             display: flex;
             gap: 12px;
@@ -88,7 +101,6 @@
             overflow-y: hidden;
             padding: 10px 0 15px 0;
             scrollbar-width: thin;
-            -webkit-overflow-scrolling: touch;
         }
 
         .sports-list::-webkit-scrollbar {
@@ -100,7 +112,7 @@
             flex-direction: column;
             align-items: center;
             gap: 6px;
-            min-width: 65px;
+            min-width: 70px;
             padding: 10px 8px;
             background: #1a1e2c;
             border-radius: 20px;
@@ -161,7 +173,7 @@
         .matches-slider-container {
             position: relative;
             width: 100%;
-            height: 160px;
+            height: 180px;
             overflow: hidden;
             background: linear-gradient(135deg, #1a1e2c, #0f1220);
             border-radius: 20px;
@@ -237,9 +249,9 @@
             font-weight: bold;
             color: #0a0c12;
             cursor: pointer;
+            margin: 5px;
         }
 
-        /* خاڵەکانی سلایدەری یاری */
         .match-slider-dots {
             position: absolute;
             bottom: 8px;
@@ -336,6 +348,9 @@
             .match-teams-slider {
                 font-size: 0.85rem;
             }
+            .matches-slider-container {
+                height: 200px;
+            }
         }
     </style>
 </head>
@@ -375,22 +390,21 @@
 </div>
 <div class="overlay" id="overlay"></div>
 
-<!-- ناوەڕۆکی پەڕەی وەرزشەکان -->
 <div class="sports-container">
     
-    <!-- نێویگەیشنی سەرەوە (تەب) -->
+    <!-- نێویگەیشنی سەرەوە -->
     <div class="sports-tabs">
         <div class="fixed-buttons">
             <button class="icon-btn" id="searchBtn">🔍</button>
             <button class="icon-btn" id="menuShortBtn">☰</button>
         </div>
-        <button class="sports-tab active" data-tab="home">سەرەتا</button>
-        <button class="sports-tab" data-tab="live">ڕاستەوخۆ</button>
+        <button class="sports-tab" data-tab="home">سەرەتا</button>
+        <button class="sports-tab active" data-tab="live">ڕاستەوخۆ</button>
         <button class="sports-tab" data-tab="sports">وەرزشەکان</button>
         <button class="sports-tab" data-tab="favorites">دڵخوازەکانم</button>
     </div>
 
-    <!-- لیستی وەرزشەکان (ئاسۆیی) -->
+    <!-- لیستی وەرزشەکان -->
     <div class="sports-list" id="sportsList"></div>
 
     <!-- فیلتەری کات -->
@@ -404,7 +418,7 @@
         <button class="time-filter" data-time="morning">تەنها یاریەکانی بەیانی</button>
     </div>
 
-    <!-- سلایدەری گرینگترین یارییەکان -->
+    <!-- سلایدەری یارییەکان -->
     <div class="matches-slider-container">
         <div class="matches-slider" id="topMatchesSlider"></div>
         <div class="match-slider-dots" id="matchSliderDots"></div>
@@ -434,7 +448,6 @@
     </button>
 </div>
 
-<script src="script.js"></script>
 <script>
     // ========== داتاکانی وەرزشەکان ==========
     const sports = [
@@ -494,14 +507,15 @@
         { teamA: "ئیتاڵیا", teamB: "ئیسپانیا", time: "19:00", date: "2024-06-11", odds: { teamA: 2.30, teamB: 1.70 }, sport: "football", viewers: "2.0M" },
         { teamA: "ئەڵمانیا", teamB: "ھۆڵەندا", time: "17:00", date: "2024-06-11", odds: { teamA: 2.15, teamB: 1.80 }, sport: "football", viewers: "1.9M" },
         { teamA: "پورتوگال", teamB: "بەلجیکا", time: "20:30", date: "2024-06-11", odds: { teamA: 2.05, teamB: 1.88 }, sport: "football", viewers: "1.7M" },
-        { teamA: "مەغریب", teamB: "میسر", time: "18:30", date: "2024-06-11", odds: { teamA: 2.40, teamB: 1.60 }, sport: "football", viewers: "1.4M" },
-        { teamA: "ئیسرائیل", teamB: "ئوردن", time: "19:15", date: "2024-06-11", odds: { teamA: 1.75, teamB: 2.25 }, sport: "football", viewers: "1.1M" }
+        { teamA: "مەغریب", teamB: "میسر", time: "18:30", date: "2024-06-11", odds: { teamA: 2.40, teamB: 1.60 }, sport: "football", viewers: "1.4M" }
     ];
 
     let currentSport = "football";
     let currentTimeFilter = "all";
     let currentUser = null;
     let userPoints = 1000;
+    let currentMatchSlide = 0;
+    let matchSlideInterval;
 
     // ========== رێنمایی لیستی وەرزشەکان ==========
     function renderSportsList() {
@@ -541,15 +555,18 @@
     }
 
     // ========== سلایدەری سەرەکی یارییەکان ==========
-    let currentMatchSlide = 0;
-    let matchSlideInterval;
-
     function renderTopMatchesSlider() {
         const container = document.getElementById('topMatchesSlider');
         const dotsContainer = document.getElementById('matchSliderDots');
         if(!container) return;
         
         const topMatches = matches.filter(m => m.sport === currentSport).slice(0, 10);
+        
+        if(topMatches.length === 0) {
+            container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;">هیچ یاریەک نییە</div>';
+            if(dotsContainer) dotsContainer.innerHTML = '';
+            return;
+        }
         
         container.innerHTML = '';
         topMatches.forEach((match, index) => {
@@ -567,8 +584,10 @@
                         <span>${match.teamB}: ${match.odds.teamB}</span>
                     </div>
                     <div class="match-time">${match.time} | بینەر: ${match.viewers}</div>
-                    <button class="match-bet-btn" data-team="${match.teamA}" data-odds="${match.odds.teamA}">پێشبینی ${match.teamA}</button>
-                    <button class="match-bet-btn" data-team="${match.teamB}" data-odds="${match.odds.teamB}">پێشبینی ${match.teamB}</button>
+                    <div>
+                        <button class="match-bet-btn" data-team="${match.teamA}" data-odds="${match.odds.teamA}">پێشبینی ${match.teamA}</button>
+                        <button class="match-bet-btn" data-team="${match.teamB}" data-odds="${match.odds.teamB}">پێشبینی ${match.teamB}</button>
+                    </div>
                 </div>
             `;
             container.appendChild(slide);
@@ -634,18 +653,12 @@
         
         let filteredMatches = matches.filter(m => m.sport === currentSport);
         
-        const now = new Date();
-        filteredMatches = filteredMatches.filter(m => {
-            if(currentTimeFilter === 'today') return true;
-            if(currentTimeFilter === 'morning') return parseInt(m.time) < 12;
-            if(currentTimeFilter === '1h') return true;
-            if(currentTimeFilter === '3h') return true;
-            if(currentTimeFilter === '6h') return true;
-            if(currentTimeFilter === '12h') return true;
-            return true;
-        });
-        
         container.innerHTML = '';
+        if(filteredMatches.length === 0) {
+            container.innerHTML = '<div style="text-align:center;padding:20px;color:#aaa;">هیچ یاریەک نییە بۆ ئەم وەرزشە</div>';
+            return;
+        }
+        
         filteredMatches.forEach(match => {
             const matchDiv = document.createElement('div');
             matchDiv.className = 'match-item';
@@ -664,21 +677,27 @@
     // ========== چوونەژوورەوە ==========
     function loadUserFromStorage() {
         const saved = localStorage.getItem('currentUser');
+        const authSection = document.getElementById('authSection');
         if(saved) {
             try {
                 currentUser = JSON.parse(saved);
                 userPoints = currentUser.points || 1000;
-                document.getElementById('authSection').innerHTML = `
-                    <div class="user-info">
-                        <div class="coin-icon-nav">🪙<span class="points-value">${userPoints}</span></div>
-                        <div class="diamond-icon-nav">💎<span class="diamond-value">${currentUser.diamonds || 0}</span></div>
-                    </div>
-                `;
-                document.getElementById('menuUsername').innerText = currentUser.username;
+                if(authSection) {
+                    authSection.innerHTML = `
+                        <div class="user-info">
+                            <div class="coin-icon-nav">🪙<span class="points-value">${userPoints}</span></div>
+                            <div class="diamond-icon-nav">💎<span class="diamond-value">${currentUser.diamonds || 0}</span></div>
+                        </div>
+                    `;
+                }
+                const menuName = document.getElementById('menuUsername');
+                if(menuName) menuName.innerText = currentUser.username;
             } catch(e) {}
         } else {
-            document.getElementById('authSection').innerHTML = `<button class="login-btn-nav" id="showLoginBtn">چوونەژوورەوە</button>`;
-            document.getElementById('showLoginBtn')?.addEventListener('click', () => window.location.href = 'login.html');
+            if(authSection) {
+                authSection.innerHTML = `<button class="login-btn-nav" id="showLoginBtn">چوونەژوورەوە</button>`;
+                document.getElementById('showLoginBtn')?.addEventListener('click', () => window.location.href = 'login.html');
+            }
         }
     }
 
@@ -711,11 +730,14 @@
         if(menuShortBtn) menuShortBtn.addEventListener('click', openMenu);
         if(overlay) overlay.addEventListener('click', closeMenu);
         
-        document.getElementById('logoutLink')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            localStorage.removeItem('currentUser');
-            window.location.href = 'index.html';
-        });
+        const logoutLink = document.getElementById('logoutLink');
+        if(logoutLink) {
+            logoutLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            });
+        }
     }
 
     // ========== تاسک بار ==========
@@ -741,8 +763,10 @@
         });
     }
 
+    // ========== گەران ==========
     document.getElementById('searchBtn')?.addEventListener('click', () => alert('🔍 گەران - بەم زوانە زیاد دەکرێت'));
 
+    // ========== دەستپێکردن ==========
     document.addEventListener('DOMContentLoaded', () => {
         loadUserFromStorage();
         renderSportsList();
