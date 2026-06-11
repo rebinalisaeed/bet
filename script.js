@@ -3,7 +3,7 @@ let userPoints = 1000.000;
 let userDiamonds = 0;
 let currentUser = null;
 
-// ========== فەنکشنی کۆین بە شێوەی currency ==========
+// ========== فەنکشنی کۆین ==========
 function formatPoints(points) {
     let rounded = Math.round(points * 1000) / 1000;
     let parts = rounded.toFixed(3).split('.');
@@ -23,8 +23,7 @@ function updatePointsDisplay(newPoints) {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
     }
     const formatted = formatPoints(userPoints);
-    const pointsElements = document.querySelectorAll('.points-value');
-    pointsElements.forEach(el => {
+    document.querySelectorAll('.points-value').forEach(el => {
         if (el) el.innerText = formatted;
     });
 }
@@ -36,13 +35,12 @@ function updateDiamondsDisplay(newDiamonds) {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
     }
     const formatted = formatDiamonds(userDiamonds);
-    const diamondElements = document.querySelectorAll('.diamond-value');
-    diamondElements.forEach(el => {
+    document.querySelectorAll('.diamond-value').forEach(el => {
         if (el) el.innerText = formatted;
     });
 }
 
-// ========== فەنکشنی ئاڵوگۆڕ کردن ==========
+// ========== ئاڵوگۆڕ ==========
 function exchangeDiamondsToCoins(amount) {
     if(amount <= 0) {
         alert('تکایە ژمارەیەکی دروست بنووسە');
@@ -52,108 +50,21 @@ function exchangeDiamondsToCoins(amount) {
         alert(`ئەڵماسەکەت کەمە! تەنها ${formatDiamonds(userDiamonds)} ئەڵماس هەیە`);
         return false;
     }
-    
     const exchangeRate = 10;
     const coinsReceived = amount * exchangeRate;
-    
-    // کەمکردنەوەی ئەڵماس و زیادکردنی کۆین
     userDiamonds -= amount;
     userPoints += coinsReceived;
-    
     updatePointsDisplay(userPoints);
     updateDiamondsDisplay(userDiamonds);
-    
     alert(`✅ ئاڵوگۆڕ سەرکەوتوو بوو!\n💎 ${amount} ئەڵماس بەرامبەر 🪙 ${formatPoints(coinsReceived)} کۆین`);
     return true;
 }
 
-// ========== نوێکردنەوەی ناوی یوزەر لە مێنوو ==========
-function updateMenuUsername() {
-    const menuUsernameSpan = document.getElementById('menuUsername');
-    if(menuUsernameSpan) {
-        if(currentUser) {
-            menuUsernameSpan.innerText = currentUser.username;
-        } else {
-            menuUsernameSpan.innerText = 'میوان';
-        }
-    }
-}
-
-// ========== ناچالاک کردنی بۆکسی پێشبینیەکانم ==========
-function updateMyBetsCard() {
-    const myBetsCard = document.getElementById('myBetsCard');
-    if(myBetsCard) {
-        if(!currentUser) {
-            myBetsCard.classList.add('disabled');
-        } else {
-            myBetsCard.classList.remove('disabled');
-        }
-    }
-}
-
-// ========== مۆدالی ئاڵوگۆڕ ==========
-function initExchangeModal() {
-    const exchangeCard = document.getElementById('exchangeCard');
-    const exchangeModal = document.getElementById('exchangeModal');
-    const closeModal = document.getElementById('closeExchangeModal');
-    const doExchangeBtn = document.getElementById('doExchangeBtn');
-    const exchangeAmount = document.getElementById('exchangeAmount');
-    const userDiamondsExchange = document.getElementById('userDiamondsExchange');
-    
-    function updateExchangeModalUI() {
-        if(userDiamondsExchange) {
-            userDiamondsExchange.innerText = formatDiamonds(userDiamonds);
-        }
-    }
-    
-    function openModal() {
-        if(!currentUser) {
-            alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە بۆ ئاڵوگۆڕی ئەڵماس!');
-            window.location.href = 'login.html';
-            return;
-        }
-        updateExchangeModalUI();
-        exchangeModal.classList.add('active');
-    }
-    
-    function closeModalFunc() {
-        exchangeModal.classList.remove('active');
-        if(exchangeAmount) exchangeAmount.value = '';
-    }
-    
-    if(exchangeCard) {
-        exchangeCard.addEventListener('click', openModal);
-    }
-    
-    if(closeModal) {
-        closeModal.addEventListener('click', closeModalFunc);
-    }
-    
-    window.addEventListener('click', (e) => {
-        if(e.target === exchangeModal) {
-            closeModalFunc();
-        }
-    });
-    
-    if(doExchangeBtn) {
-        doExchangeBtn.addEventListener('click', () => {
-            const amount = parseInt(exchangeAmount.value);
-            if(!isNaN(amount) && amount > 0) {
-                exchangeDiamondsToCoins(amount);
-                updateExchangeModalUI();
-                exchangeAmount.value = '';
-                closeModalFunc();
-            } else {
-                alert('تکایە ژمارەیەکی دروست بنووسە');
-            }
-        });
-    }
-}
-
-// ========== سیستەمی چوونەژوورەوە ==========
+// ========== چوونەژوورەوە ==========
 function updateAuthUI() {
     const authSection = document.getElementById('authSection');
     const myBetsCard = document.getElementById('myBetsCard');
+    const pastBetsCard = document.getElementById('pastBetsCard');
     
     if(!authSection) return;
     
@@ -162,35 +73,22 @@ function updateAuthUI() {
             <div class="user-info">
                 <div class="coin-icon-nav">
                     <img src="images/coinicon.png" alt="Coin" class="coin-img-nav" onerror="this.src='https://placehold.co/24x24?text=🪙'">
-                    <span class="points-value" id="userPointsNav">${formatPoints(currentUser.points || 1000)}</span>
+                    <span class="points-value">${formatPoints(currentUser.points || 1000)}</span>
                 </div>
                 <div class="diamond-icon-nav">
                     <span style="font-size:1.1rem;">💎</span>
-                    <span class="diamond-value" id="userDiamondsNav">${formatDiamonds(currentUser.diamonds || 0)}</span>
+                    <span class="diamond-value">${formatDiamonds(currentUser.diamonds || 0)}</span>
                 </div>
             </div>
         `;
-        
-        if(myBetsCard) {
-            myBetsCard.classList.remove('disabled');
-        }
+        if(myBetsCard) myBetsCard.classList.remove('disabled');
+        if(pastBetsCard) pastBetsCard.classList.remove('disabled');
     } else {
-        authSection.innerHTML = `
-            <button class="login-btn-nav" id="showLoginBtn">چوونەژوورەوە</button>
-        `;
-        
-        if(myBetsCard) {
-            myBetsCard.classList.add('disabled');
-        }
-        
-        const loginBtn = document.getElementById('showLoginBtn');
-        if(loginBtn) {
-            loginBtn.addEventListener('click', () => {
-                window.location.href = 'login.html';
-            });
-        }
+        authSection.innerHTML = `<button class="login-btn-nav" id="showLoginBtn">چوونەژوورەوە</button>`;
+        if(myBetsCard) myBetsCard.classList.add('disabled');
+        if(pastBetsCard) pastBetsCard.classList.add('disabled');
+        document.getElementById('showLoginBtn')?.addEventListener('click', () => window.location.href = 'login.html');
     }
-    
     updateMenuUsername();
 }
 
@@ -210,11 +108,16 @@ function loadUserFromStorage() {
             currentUser = JSON.parse(savedUser);
             userPoints = currentUser.points || 1000.000;
             userDiamonds = currentUser.diamonds || 0;
-        } catch(e) {
-            currentUser = null;
-        }
+        } catch(e) { currentUser = null; }
     }
     updateAuthUI();
+}
+
+function updateMenuUsername() {
+    const menuUsernameSpan = document.getElementById('menuUsername');
+    if(menuUsernameSpan) {
+        menuUsernameSpan.innerText = currentUser ? currentUser.username : 'میوان';
+    }
 }
 
 // ========== مێنوو ==========
@@ -236,52 +139,38 @@ function initMenu() {
             const isOpening = !sideMenu.classList.contains('open');
             sideMenu.classList.toggle('open');
             overlay.classList.toggle('active');
-            if(hamburgerIcon) {
-                hamburgerIcon.classList.toggle('open');
-            }
+            if(hamburgerIcon) hamburgerIcon.classList.toggle('open');
         });
     }
     
     if(overlay) overlay.addEventListener('click', closeMenu);
-    
     document.addEventListener('keydown', (e) => {
-        if(e.key === 'Escape' && sideMenu.classList.contains('open')) {
-            closeMenu();
-        }
+        if(e.key === 'Escape' && sideMenu.classList.contains('open')) closeMenu();
     });
     
-    const logoutLink = document.getElementById('logoutLink');
-    if(logoutLink) {
-        logoutLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            logout();
-            closeMenu();
-        });
-    }
+    document.getElementById('logoutLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        logout();
+        closeMenu();
+    });
 }
 
 // ========== سلایدەر ==========
 let currentSlideIndex = 0;
 let slideInterval;
-let totalSlides;
 
 function initSlider() {
     const slides = document.querySelectorAll('.slide');
     const dotsContainer = document.getElementById('sliderDots');
-    
     if(!slides.length) return;
-    
-    totalSlides = slides.length;
     
     if(dotsContainer) {
         dotsContainer.innerHTML = '';
-        for(let i = 0; i < totalSlides; i++) {
+        for(let i = 0; i < slides.length; i++) {
             const dot = document.createElement('span');
             dot.classList.add('dot');
             if(i === 0) dot.classList.add('active');
-            dot.addEventListener('click', (function(index) {
-                return function() { goToSlide(index); };
-            })(i));
+            dot.addEventListener('click', () => goToSlide(i));
             dotsContainer.appendChild(dot);
         }
     }
@@ -289,118 +178,85 @@ function initSlider() {
     function showSlide(index) {
         const allSlides = document.querySelectorAll('.slide');
         const allDots = document.querySelectorAll('.dot');
-        
-        if(index >= totalSlides) index = 0;
-        if(index < 0) index = totalSlides - 1;
-        
-        allSlides.forEach(slide => slide.classList.remove('active'));
-        allDots.forEach(dot => dot.classList.remove('active'));
-        
+        if(index >= allSlides.length) index = 0;
+        if(index < 0) index = allSlides.length - 1;
+        allSlides.forEach(s => s.classList.remove('active'));
+        allDots.forEach(d => d.classList.remove('active'));
         allSlides[index].classList.add('active');
         if(allDots[index]) allDots[index].classList.add('active');
-        
         currentSlideIndex = index;
-    }
-    
-    function nextSlide() {
-        goToSlide(currentSlideIndex + 1);
     }
     
     window.goToSlide = function(index) {
         showSlide(index);
-        resetInterval();
+        if(slideInterval) clearInterval(slideInterval);
+        slideInterval = setInterval(() => showSlide(currentSlideIndex + 1), 5000);
     };
     
-    function resetInterval() {
-        if(slideInterval) clearInterval(slideInterval);
-        slideInterval = setInterval(() => {
-            nextSlide();
-        }, 5000);
-    }
-    
     showSlide(0);
-    resetInterval();
+    slideInterval = setInterval(() => showSlide(currentSlideIndex + 1), 5000);
 }
 
 // ========== تاسک بار ==========
 function initBottomNav() {
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
+    document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', () => {
             const navType = item.dataset.nav;
-            navItems.forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             item.classList.add('active');
-            
-            switch(navType) {
-                case 'home':
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    break;
-                case 'live':
-                    alert('📡 ڕاستەوخۆکان: بەم زوانە بەش بەمزوانی زیاد دەکرێت');
-                    break;
-                case 'mybets':
-                    if(!currentUser) {
-                        alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە بۆ بینینی پێشبینیەکانت!');
-                        window.location.href = 'login.html';
-                    } else {
-                        alert('🎯 پێشبینیەکانت: هیچ پێشبینیەکت نییە');
-                    }
-                    break;
-                case 'rank':
-                    alert('🏆 ڕێزبەندی بەکارهێنەران: ڕیزبەندی مانگانە بەپێی ئەڵماس');
-                    break;
-            }
+            if(navType === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
+            else if(navType === 'mybets' && !currentUser) alert('تکایە چوونەژوورەوە بکە');
+            else alert('بەم زوانە زیاد دەکرێت');
         });
     });
 }
 
-// ========== 9 بۆکسەکان ==========
+// ========== بۆکسەکانی پەڕەی سەرەکی ==========
 function initDashboardCards() {
-    const cards = document.querySelectorAll('.dashboard-card');
-    cards.forEach(card => {
+    document.querySelectorAll('.dashboard-card').forEach(card => {
         card.addEventListener('click', () => {
-            // پشکنینی بۆکسی ناچالاک
             if(card.classList.contains('disabled')) {
-                if(card.id === 'myBetsCard') {
-                    alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە بۆ بینینی پێشبینیەکانت!');
-                    window.location.href = 'login.html';
-                }
+                alert('🔐 تکایە یەکەمجار چوونەژوورەوە بکە');
+                window.location.href = 'login.html';
                 return;
             }
-            
             const page = card.dataset.page;
-            switch(page) {
-                case 'sports':
-                    alert('⚽ وەرزشەکان: هەموو پێشبینیە وەرزشیەکان لێرە دەردەکەون');
-                    break;
-                case 'live':
-                    alert('📡 ڕاستەوخۆکان: ئەنجامە ڕاستەوخۆکانی یارییەکان لێرە دەردەکەون');
-                    break;
-                case 'results':
-                    alert('📊 ئەنجامەکان: دوای کۆتایی یارییەکان نمایش دەکرێن');
-                    break;
-                case 'mybets':
-                    if(currentUser) {
-                        alert('🎯 پێشبینیەکانت: هیچ پێشبینیەکت نییە');
-                    }
-                    break;
-                case 'rank':
-                    alert('🏆 ڕێزبەندی بەکارهێنەران: ڕیزبەندی مانگانە بەپێی ئەڵماس\nسەرەتا: هیچ ئەڵماسێک نییە');
-                    break;
-                case 'rules':
-                    alert('📜 مەرج و ڕێساکان:\n1. هەر بەکارهێنەر 1000 پۆینت وەردەگرێت\n2. پێشبینی بە پۆینت بکە\n3. ئەگەر بردەوە، پۆینتەکان دەبنە ئەڵماس\n4. ڕیزبەندی مانگانە بەپێی ئەڵماس');
-                    break;
-                case 'exchange':
-                    // ئەمە لەلایەن مۆدالی ئاڵوگۆڕەوە کارتێکراوە
-                    break;
-                case 'sponsors':
-                    alert('🤝 سپۆنسەرەکان: ئاسیاسێل - Zain Cash - بکات کارتی');
-                    break;
-                case 'about':
-                    alert('ℹ️ دەربارە: پێشبڕکێی خۆڕایی بۆ مۆندیال 2026 - هەموو بەکارهێنەر 1000 پۆینت وەردەگرێت');
-                    break;
-            }
+            if(page === 'sports') window.location.href = 'sports.html';
+            else if(page === 'exchange') document.getElementById('exchangeModal')?.classList.add('active');
+            else alert(`${card.querySelector('h3')?.innerText} - بەم زوانە زیاد دەکرێت`);
         });
+    });
+}
+
+// ========== مۆدالی ئاڵوگۆڕ ==========
+function initExchangeModal() {
+    const modal = document.getElementById('exchangeModal');
+    const closeBtn = document.getElementById('closeExchangeModal');
+    const exchangeBtn = document.getElementById('doExchangeBtn');
+    const amountInput = document.getElementById('exchangeAmount');
+    const userDiamondsSpan = document.getElementById('userDiamondsExchange');
+    
+    function updateModalUI() {
+        if(userDiamondsSpan) userDiamondsSpan.innerText = formatDiamonds(userDiamonds);
+    }
+    
+    document.getElementById('exchangeCard')?.addEventListener('click', () => {
+        if(!currentUser) { alert('تکایە چوونەژوورەوە بکە'); window.location.href = 'login.html'; return; }
+        updateModalUI();
+        modal.classList.add('active');
+    });
+    
+    closeBtn?.addEventListener('click', () => modal.classList.remove('active'));
+    window.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
+    
+    exchangeBtn?.addEventListener('click', () => {
+        const amount = parseInt(amountInput?.value);
+        if(!isNaN(amount) && amount > 0) {
+            exchangeDiamondsToCoins(amount);
+            updateModalUI();
+            if(amountInput) amountInput.value = '';
+            modal.classList.remove('active');
+        } else alert('تکایە ژمارەیەکی دروست بنووسە');
     });
 }
 
