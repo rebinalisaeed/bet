@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- بانەڕی سەرەوە -->
 <div class="top-nav">
     <div class="nav-left">
         <button class="menu-toggle" id="menuToggleBtn">
@@ -27,49 +26,11 @@
     </div>
 </div>
 
-<!-- سلایدەری ڕێکلام و سپۆنسەرەکان -->
 <div class="slider-container">
-    <div class="slider" id="sponsorSlider">
-        <div class="slide active">
-            <div class="slide-content">
-                <span class="slide-icon">🤝</span>
-                <h3>سپۆنسەری سەرەکی</h3>
-                <p>کۆمپانیی ئاسیاسێل - پشتگیری لە وەرزشی کوردی</p>
-            </div>
-        </div>
-        <div class="slide">
-            <div class="slide-content">
-                <span class="slide-icon">📱</span>
-                <h3>Zain Cash</h3>
-                <p>پارەدانێکی ئاسان و خێرا بۆ هەمووان</p>
-            </div>
-        </div>
-        <div class="slide">
-            <div class="slide-content">
-                <span class="slide-icon">💳</span>
-                <h3>بکات کارتی</h3>
-                <p>کارتی فیزیکی و ئەلیکترۆنی بۆ هەموو مامەڵەکان</p>
-            </div>
-        </div>
-        <div class="slide">
-            <div class="slide-content">
-                <span class="slide-icon">🏆</span>
-                <h3>پێشبڕکێی گەل</h3>
-                <p>بەشداری بکە و 1000 پۆینتی خۆڕایی وەربگرە</p>
-            </div>
-        </div>
-        <div class="slide">
-            <div class="slide-content">
-                <span class="slide-icon">⚽</span>
-                <h3>مۆندیال 2026</h3>
-                <p>پێشبینی یارییەکان بکە و ببەرەوە!</p>
-            </div>
-        </div>
-    </div>
+    <div class="slider" id="sponsorSlider"></div>
     <div class="slider-dots" id="sliderDots"></div>
 </div>
 
-<!-- ساید مێنوو -->
 <div class="side-menu" id="sideMenu">
     <div class="menu-username">
         <span>👤</span>
@@ -85,8 +46,6 @@
 <div class="overlay" id="overlay"></div>
 
 <div class="container homepage-container">
-    
-    <!-- 9 بۆکسەکەی ناوەڕاست -->
     <div class="dashboard-grid">
         <div class="dashboard-card" data-page="sports" id="sportsCard">
             <div class="dashboard-icon">⚽</div>
@@ -136,27 +95,13 @@
     </div>
 </div>
 
-<!-- تاسک باری خوارەوە (Bottom Navigation) -->
 <div class="bottom-nav">
-    <button class="nav-item" data-nav="home">
-        <span>🏠</span>
-        <span>سەرەتا</span>
-    </button>
-    <button class="nav-item" data-nav="live">
-        <span>📡</span>
-        <span>ڕاستەوخۆ</span>
-    </button>
-    <button class="nav-item" data-nav="mybets">
-        <span>🎯</span>
-        <span>پێشبینیەکانم</span>
-    </button>
-    <button class="nav-item" data-nav="rank">
-        <span>🏆</span>
-        <span>ڕێزبەندی</span>
-    </button>
+    <button class="nav-item" data-nav="home"><span>🏠</span><span>سەرەتا</span></button>
+    <button class="nav-item" data-nav="live"><span>📡</span><span>ڕاستەوخۆ</span></button>
+    <button class="nav-item" data-nav="mybets"><span>🎯</span><span>پێشبینیەکانم</span></button>
+    <button class="nav-item" data-nav="rank"><span>🏆</span><span>ڕێزبەندی</span></button>
 </div>
 
-<!-- مۆدالی ئاڵوگۆڕ کردن -->
 <div class="exchange-modal" id="exchangeModal">
     <div class="exchange-modal-content">
         <div class="exchange-header">
@@ -165,21 +110,11 @@
         </div>
         <div class="exchange-body">
             <div class="exchange-info">
-                <div class="exchange-diamond">
-                    <span>💎</span>
-                    <span id="userDiamondsExchange">0</span>
-                    <span>ئەڵماس</span>
-                </div>
+                <div class="exchange-diamond"><span>💎</span><span id="userDiamondsExchange">0</span><span>ئەڵماس</span></div>
                 <div class="exchange-arrow">👇</div>
-                <div class="exchange-coin">
-                    <span>🪙</span>
-                    <span id="exchangeResult">0</span>
-                    <span>کۆین</span>
-                </div>
+                <div class="exchange-coin"><span>🪙</span><span id="exchangeResult">0</span><span>کۆین</span></div>
             </div>
-            <div class="exchange-rate">
-                <p>نرخی ئاڵوگۆڕ: <strong>1 ئەڵماس = 10 کۆین</strong></p>
-            </div>
+            <div class="exchange-rate"><p>نرخی ئاڵوگۆڕ: <strong>1 ئەڵماس = 10 کۆین</strong></p></div>
             <div class="exchange-input">
                 <label>ژمارەی ئەڵماس بۆ ئاڵوگۆڕ:</label>
                 <input type="number" id="exchangeAmount" min="1" placeholder="ژمارە بنووسە">
