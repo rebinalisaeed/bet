@@ -14,16 +14,13 @@ body {
     height: 100%;
 }
 
-/* ========== سیستەمی scale-based بۆ هەموو مۆبایلەکان ========== */
 :root {
-    /* یەکەی بنچینەیی کە لەسەر پانی شاشە دەگۆڕێت */
     --base-unit: min(1.2vh, 1.2vw);
     --font-size-xs: calc(0.6rem + 0.2vw);
     --font-size-sm: calc(0.7rem + 0.3vw);
     --font-size-md: calc(0.8rem + 0.4vw);
     --font-size-lg: calc(0.9rem + 0.5vw);
     --font-size-xl: calc(1rem + 0.6vw);
-    --font-size-2xl: calc(1.1rem + 0.7vw);
     --card-min-height: calc(100px + 8vh);
     --icon-size: calc(1.8rem + 0.8vw);
     --border-radius: calc(16px + 0.5vw);
@@ -31,7 +28,6 @@ body {
     --gap-size: calc(10px + 0.5vw);
 }
 
-/* ========== فۆنتەکانی Kurdliga ========== */
 @font-face {
     font-family: 'Kurdliga Bold';
     src: url('fonts/kurdliga-bold.ttf') format('truetype');
@@ -46,12 +42,10 @@ body {
     font-style: normal;
 }
 
-/* ========== چاکسازی گشتی بۆ هەموو قەبارەکان ========== */
 h1, h2, h3, h4, .bold-text, button, .odd-value {
     font-family: 'Kurdliga Bold', 'Segoe UI', sans-serif;
 }
 
-/* scrollbar - بچووکتر بۆ شاشە بچووکەکان */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #1e1f2c; }
 ::-webkit-scrollbar-thumb { background: #f5b042; border-radius: 10px; }
@@ -95,7 +89,6 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     min-width: auto;
 }
 
-/* کۆین و ئەڵماس */
 .user-info {
     display: flex;
     flex-direction: row;
@@ -128,7 +121,6 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 .points-value { color: #FFD966; }
 .diamond-value { color: #88ccff; }
 
-/* دوگمەی چوونەژوورەوە */
 .login-btn-nav {
     background: #f5b042;
     border: none;
@@ -147,7 +139,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     background: #ff8c42;
 }
 
-/* ========== هامبەرگەر مێنوو (گەورەیی بە پێی شاشە) ========== */
+/* ========== هامبەرگەر مێنوو ========== */
 .menu-toggle {
     background: transparent;
     border: none;
@@ -302,14 +294,8 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 }
 
 @keyframes slideUp {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 .slide-icon {
@@ -328,10 +314,8 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 .slide-content p {
     font-size: calc(0.55rem + 0.2vw);
     color: #ccc;
-    font-family: 'Kurdliga Regular', sans-serif;
 }
 
-/* خاڵەکانی سلایدەر - ستونی لە لای چەپ */
 .slider-dots {
     position: absolute;
     left: 8px;
@@ -368,7 +352,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     border-radius: 10px;
 }
 
-/* ========== پەڕەی سەرەکی - 9 بۆکس (scale-based) ========== */
+/* ========== پەڕەی سەرەکی ========== */
 .homepage-container {
     max-width: min(900px, 95vw);
     margin: 0 auto;
@@ -411,11 +395,6 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     filter: grayscale(0.2);
 }
 
-.dashboard-card.disabled:hover {
-    transform: none;
-    border-color: #2a2d3a;
-}
-
 .dashboard-icon {
     font-size: var(--icon-size);
     margin-bottom: calc(6px + 0.3vh);
@@ -432,10 +411,9 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
 .dashboard-card p {
     font-size: calc(0.55rem + 0.2vw);
     color: #aaa;
-    font-family: 'Kurdliga Regular', sans-serif;
 }
 
-/* ========== مۆدالی ئاڵوگۆڕ کردن ========== */
+/* ========== مۆدالی ئاڵوگۆڕ ========== */
 .exchange-modal {
     display: none;
     position: fixed;
@@ -459,7 +437,6 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     width: 90%;
     max-width: 400px;
     border: 1px solid #f5b042;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
 .exchange-header {
@@ -481,8 +458,6 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     color: #aaa;
     font-size: calc(1.5rem + 0.3vw);
     cursor: pointer;
-    padding: 0;
-    line-height: 1;
 }
 
 .close-modal:hover {
@@ -510,15 +485,6 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     font-weight: bold;
 }
 
-.exchange-diamond span:first-child, .exchange-coin span:first-child {
-    font-size: calc(1.5rem + 0.5vw);
-}
-
-.exchange-diamond span:nth-child(2), .exchange-coin span:nth-child(2) {
-    color: #FFD966;
-    font-size: var(--font-size-xl);
-}
-
 .exchange-arrow {
     font-size: calc(1.3rem + 0.5vw);
     margin: calc(5px + 0.3vh) 0;
@@ -533,14 +499,8 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     border-radius: calc(30px + 0.5vw);
 }
 
-.exchange-rate p {
-    color: #ddd;
-    font-size: var(--font-size-xs);
-}
-
 .exchange-rate strong {
     color: #FFD966;
-    font-size: var(--font-size-sm);
 }
 
 .exchange-input {
@@ -565,11 +525,6 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     text-align: center;
 }
 
-.exchange-input input:focus {
-    outline: none;
-    border-color: #f5b042;
-}
-
 .exchange-btn {
     width: 100%;
     background: linear-gradient(95deg, #f5b042, #ff8c42);
@@ -581,15 +536,13 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     color: #0a0c12;
     cursor: pointer;
     transition: 0.2s;
-    font-family: 'Kurdliga Bold', sans-serif;
 }
 
 .exchange-btn:hover {
     transform: scale(0.98);
-    box-shadow: 0 4px 12px #f5b04250;
 }
 
-/* ========== تاسک باری خوارەوە ========== */
+/* ========== تاسک بار ========== */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -603,7 +556,6 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     justify-content: space-around;
     align-items: center;
     z-index: 200;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
 }
 
 .nav-item {
@@ -618,7 +570,6 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     padding: calc(4px + 0.2vh) calc(8px + 0.5vw);
     border-radius: calc(30px + 0.5vw);
     transition: 0.2s;
-    font-family: 'Kurdliga Regular', sans-serif;
 }
 
 .nav-item span:first-child {
@@ -640,7 +591,7 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
     transform: translateY(-2px);
 }
 
-/* ========== قەبارە بۆ شاشە زۆر بچووکەکان (مۆبایلی بچووک) ========== */
+/* ========== responsive ========== */
 @media (max-width: 480px) {
     :root {
         --card-min-height: calc(90px + 5vh);
@@ -648,39 +599,19 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
         --padding-card: calc(10px + 0.5vh) calc(4px + 0.8vw);
         --gap-size: calc(6px + 0.5vw);
     }
-    
-    .dashboard-card h3 {
-        font-size: calc(0.65rem + 0.2vw);
-    }
-    
-    .dashboard-card p {
-        font-size: calc(0.5rem + 0.1vw);
-    }
-    
-    .dashboard-icon {
-        margin-bottom: calc(3px + 0.2vh);
-    }
-    
-    .nav-item span:first-child {
-        font-size: calc(1rem + 0.5vw);
-    }
-    
-    .nav-item span:last-child {
-        font-size: calc(0.5rem + 0.15vw);
-    }
+    .dashboard-card h3 { font-size: calc(0.65rem + 0.2vw); }
+    .dashboard-card p { font-size: calc(0.5rem + 0.1vw); }
+    .nav-item span:first-child { font-size: calc(1rem + 0.5vw); }
+    .nav-item span:last-child { font-size: calc(0.5rem + 0.15vw); }
 }
 
-/* ========== قەبارە بۆ شاشە گەورەکان (مۆبایلە گەورەکان و تەبڵێت) ========== */
 @media (min-width: 481px) and (max-width: 768px) {
     :root {
         --card-min-height: calc(110px + 6vh);
         --icon-size: calc(2rem + 0.5vw);
         --padding-card: calc(14px + 0.5vh) calc(8px + 0.5vw);
     }
-    
-    .dashboard-card h3 {
-        font-size: calc(0.85rem + 0.2vw);
-    }
+    .dashboard-card h3 { font-size: calc(0.85rem + 0.2vw); }
 }
 
 @media (min-width: 769px) {
@@ -688,35 +619,5 @@ h1, h2, h3, h4, .bold-text, button, .odd-value {
         --card-min-height: calc(130px + 5vh);
         --icon-size: calc(2.2rem + 0.3vw);
     }
-    
-    .dashboard-card h3 {
-        font-size: calc(0.95rem + 0.1vw);
-    }
+    .dashboard-card h3 { font-size: calc(0.95rem + 0.1vw); }
 }
-
-/* ========== قەبارە بۆ شاشە زۆر گەورەکان (تەبڵێت و فۆڵد) ========== */
-@media (min-width: 1024px) {
-    .homepage-container {
-        max-width: 1000px;
-    }
-    
-    .dashboard-grid {
-        gap: 25px;
-    }
-    
-    .dashboard-card {
-        min-height: 200px;
-    }
-    
-    .dashboard-icon {
-        font-size: 3rem;
-    }
-    
-    .dashboard-card h3 {
-        font-size: 1.1rem;
-    }
-    
-    .dashboard-card p {
-        font-size: 0.85rem;
-    }
-    }
