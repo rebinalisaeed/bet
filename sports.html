@@ -30,7 +30,7 @@
             overflow-y: auto;
         }
 
-        /* نێویگەیشنی سەرەوە - ناوەڕاستکراو */
+        /* نێویگەیشنی سەرەوە */
         .sports-tabs {
             display: flex;
             align-items: center;
@@ -95,55 +95,83 @@
             transform: scale(0.95);
         }
 
-        /* لیستی وەرزشەکان - بە شێوازی سادە (بێ بۆکس) */
+        /* لیستی وەرزشەکان - ئاسۆیی + سکرۆڵ */
+        .sports-list-wrapper {
+            background: transparent;
+            border-radius: 20px;
+            margin-bottom: 5px;
+        }
+
         .sports-list {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px 16px;
-            padding: 15px 0;
-            background: transparent;
-            justify-content: center;
+            gap: 12px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 10px 0 15px 0;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .sports-list::-webkit-scrollbar {
+            height: 4px;
         }
 
         .sport-item {
-            display: inline-flex;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: transparent;
-            border-radius: 30px;
+            gap: 8px;
+            min-width: 80px;
+            padding: 12px 10px;
+            background: #1a1e2c;
+            border-radius: 20px;
             cursor: pointer;
             transition: 0.2s;
-            color: #ccc;
+            border: 1px solid #2a2d3a;
         }
 
         .sport-item.active {
-            color: #f5b042;
+            border-color: #f5b042;
             background: #f5b04220;
         }
 
         .sport-item:hover {
-            color: #FFD966;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            border-color: #f5b04250;
         }
 
         .sport-icon {
-            font-size: 1.2rem;
+            font-size: 1.8rem;
         }
 
         .sport-name {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
+            color: #ddd;
             white-space: nowrap;
         }
 
-        /* فیلتەری کات - بە شێوازی سادە */
+        /* فیلتەری کات - شاردنەوە لە سەرەتادا */
+        .time-filters-wrapper {
+            display: none;
+            margin: 10px 0;
+        }
+
+        .time-filters-wrapper.visible {
+            display: block;
+        }
+
         .time-filters {
             display: flex;
-            flex-wrap: wrap;
             gap: 10px;
-            justify-content: center;
-            padding: 15px 0;
-            background: transparent;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 10px 0 15px 0;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .time-filters::-webkit-scrollbar {
+            height: 4px;
         }
 
         .time-filter {
@@ -154,6 +182,7 @@
             color: #aaa;
             font-size: 0.8rem;
             cursor: pointer;
+            white-space: nowrap;
             transition: 0.2s;
         }
 
@@ -163,7 +192,7 @@
             font-family: 'Kurdliga Bold', sans-serif;
         }
 
-        /* سلایدەر - 2 هێندە بەرزتر و پانایی تەواو */
+        /* سلایدەر */
         .matches-slider-container {
             position: relative;
             width: 100vw;
@@ -338,11 +367,18 @@
                 height: 36px;
                 font-size: 1rem;
             }
+            .sport-item {
+                min-width: 65px;
+                padding: 8px 6px;
+            }
+            .sport-icon {
+                font-size: 1.4rem;
+            }
             .sport-name {
-                font-size: 0.7rem;
+                font-size: 0.65rem;
             }
             .time-filter {
-                padding: 5px 12px;
+                padding: 5px 14px;
                 font-size: 0.7rem;
             }
             .matches-slider-container {
@@ -406,16 +442,22 @@
         <button class="sports-tab" data-tab="favorites">دڵخوازەکانم</button>
     </div>
 
-    <div class="sports-list" id="sportsList"></div>
+    <!-- لیستی وەرزشەکان (ئاسۆیی + سکرۆڵ) -->
+    <div class="sports-list-wrapper">
+        <div class="sports-list" id="sportsList"></div>
+    </div>
 
-    <div class="time-filters" id="timeFilters">
-        <button class="time-filter active" data-time="all">هەموو کاتەکان</button>
-        <button class="time-filter" data-time="1h">تا ١ کاتژمێر</button>
-        <button class="time-filter" data-time="3h">تا ٣ کاتژمێر</button>
-        <button class="time-filter" data-time="6h">تا ٦ کاتژمێر</button>
-        <button class="time-filter" data-time="12h">تا ١٢ کاتژمێر</button>
-        <button class="time-filter" data-time="today">تەنها یاریەکانی ئەمڕۆ</button>
-        <button class="time-filter" data-time="morning">تەنها یاریەکانی بەیانی</button>
+    <!-- فیلتەری کات (شاردراوە تا کلیک لەسەر وەرزشێک) -->
+    <div class="time-filters-wrapper" id="timeFiltersWrapper">
+        <div class="time-filters" id="timeFilters">
+            <button class="time-filter active" data-time="all">هەموو کاتەکان</button>
+            <button class="time-filter" data-time="1h">تا ١ کاتژمێر</button>
+            <button class="time-filter" data-time="3h">تا ٣ کاتژمێر</button>
+            <button class="time-filter" data-time="6h">تا ٦ کاتژمێر</button>
+            <button class="time-filter" data-time="12h">تا ١٢ کاتژمێر</button>
+            <button class="time-filter" data-time="today">تەنها یاریەکانی ئەمڕۆ</button>
+            <button class="time-filter" data-time="morning">تەنها یاریەکانی بەیانی</button>
+        </div>
     </div>
 
     <div class="matches-slider-container">
@@ -434,6 +476,7 @@
 </div>
 
 <script>
+    // ========== داتاکانی وەرزشەکان ==========
     const sports = [
         { name: "تۆپی پێ", icon: "⚽", id: "football" },
         { name: "تێنس", icon: "🎾", id: "tennis" },
@@ -481,6 +524,7 @@
         { name: "گایلیک فۆتباڵ", icon: "⚽", id: "gaelic" }
     ];
 
+    // ========== داتاکانی یارییەکان ==========
     const matches = [
         { teamA: "بەڕازیل", teamB: "ئەرجەنتین", time: "18:00", date: "2024-06-11", odds: { teamA: 2.10, teamB: 1.85 }, sport: "football", viewers: "2.5M" },
         { teamA: "فەڕەنسا", teamB: "ئینگلتەرا", time: "21:00", date: "2024-06-11", odds: { teamA: 2.00, teamB: 1.95 }, sport: "football", viewers: "2.1M" },
@@ -499,20 +543,33 @@
     let userPoints = 1000;
     let currentMatchSlide = 0;
     let matchSlideInterval;
+    let isFirstLoad = true;
 
+    // ========== رێنمایی لیستی وەرزشەکان (ئاسۆیی + سکرۆڵ) ==========
     function renderSportsList() {
         const container = document.getElementById('sportsList');
-        if(!container) return;
+        if (!container) return;
+        
         container.innerHTML = '';
         sports.forEach(sport => {
             const sportDiv = document.createElement('div');
             sportDiv.className = `sport-item ${currentSport === sport.id ? 'active' : ''}`;
             sportDiv.dataset.sport = sport.id;
-            sportDiv.innerHTML = `<div class="sport-icon">${sport.icon}</div><div class="sport-name">${sport.name}</div>`;
+            sportDiv.innerHTML = `
+                <div class="sport-icon">${sport.icon}</div>
+                <div class="sport-name">${sport.name}</div>
+            `;
             sportDiv.addEventListener('click', () => {
                 document.querySelectorAll('.sport-item').forEach(item => item.classList.remove('active'));
                 sportDiv.classList.add('active');
                 currentSport = sport.id;
+                
+                // نمایش فیلتەری کات دوای کلیک لەسەر وەرزشێک
+                const timeWrapper = document.getElementById('timeFiltersWrapper');
+                if (timeWrapper) {
+                    timeWrapper.classList.add('visible');
+                }
+                
                 renderMatchesList();
                 renderTopMatchesSlider();
             });
@@ -520,6 +577,7 @@
         });
     }
 
+    // ========== فیلتەری کات ==========
     function initTimeFilters() {
         document.querySelectorAll('.time-filter').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -531,76 +589,121 @@
         });
     }
 
+    // ========== سلایدەر ==========
     function renderTopMatchesSlider() {
         const container = document.getElementById('topMatchesSlider');
         const dotsContainer = document.getElementById('matchSliderDots');
-        if(!container) return;
+        if (!container) return;
+        
         const topMatches = matches.filter(m => m.sport === currentSport).slice(0, 10);
-        if(topMatches.length === 0) {
+        
+        if (topMatches.length === 0) {
             container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;">هیچ یاریەک نییە</div>';
-            if(dotsContainer) dotsContainer.innerHTML = '';
+            if (dotsContainer) dotsContainer.innerHTML = '';
             return;
         }
+        
         container.innerHTML = '';
         topMatches.forEach((match, index) => {
             const slide = document.createElement('div');
             slide.className = `match-slide ${index === 0 ? 'active' : ''}`;
             slide.innerHTML = `
                 <div class="match-card-slider">
-                    <div class="match-teams-slider"><span>${match.teamA}</span><span style="color:#f5b042;">vs</span><span>${match.teamB}</span></div>
-                    <div class="match-odds-slider"><span>${match.teamA}: ${match.odds.teamA}</span><span>${match.teamB}: ${match.odds.teamB}</span></div>
+                    <div class="match-teams-slider">
+                        <span>${match.teamA}</span>
+                        <span style="color:#f5b042;">vs</span>
+                        <span>${match.teamB}</span>
+                    </div>
+                    <div class="match-odds-slider">
+                        <span>${match.teamA}: ${match.odds.teamA}</span>
+                        <span>${match.teamB}: ${match.odds.teamB}</span>
+                    </div>
                     <div class="match-time">${match.time} | بینەر: ${match.viewers}</div>
-                    <div><button class="match-bet-btn" data-team="${match.teamA}" data-odds="${match.odds.teamA}">پێشبینی ${match.teamA}</button>
-                    <button class="match-bet-btn" data-team="${match.teamB}" data-odds="${match.odds.teamB}">پێشبینی ${match.teamB}</button></div>
+                    <div>
+                        <button class="match-bet-btn" data-team="${match.teamA}" data-odds="${match.odds.teamA}">پێشبینی ${match.teamA}</button>
+                        <button class="match-bet-btn" data-team="${match.teamB}" data-odds="${match.odds.teamB}">پێشبینی ${match.teamB}</button>
+                    </div>
                 </div>
             `;
             container.appendChild(slide);
         });
-        if(dotsContainer) {
+        
+        if (dotsContainer) {
             dotsContainer.innerHTML = '';
-            for(let i = 0; i < topMatches.length; i++) {
+            for (let i = 0; i < topMatches.length; i++) {
                 const dot = document.createElement('span');
                 dot.className = `match-dot ${i === 0 ? 'active' : ''}`;
-                dot.addEventListener('click', () => goToMatchSlide(i));
+                dot.addEventListener('click', (function(idx) {
+                    return function() { goToMatchSlide(idx); };
+                })(i));
                 dotsContainer.appendChild(dot);
             }
         }
+        
         function showMatchSlide(index) {
             const slides = document.querySelectorAll('.match-slide');
             const dots = document.querySelectorAll('.match-dot');
-            if(!slides.length) return;
-            if(index >= slides.length) index = 0;
-            if(index < 0) index = slides.length - 1;
+            if (!slides.length) return;
+            if (index >= slides.length) index = 0;
+            if (index < 0) index = slides.length - 1;
             slides.forEach(s => s.classList.remove('active'));
             dots.forEach(d => d.classList.remove('active'));
             slides[index].classList.add('active');
-            if(dots[index]) dots[index].classList.add('active');
+            if (dots[index]) dots[index].classList.add('active');
             currentMatchSlide = index;
         }
-        window.goToMatchSlide = function(index) { showMatchSlide(index); resetMatchInterval(); };
-        function nextMatchSlide() { goToMatchSlide(currentMatchSlide + 1); }
-        function resetMatchInterval() { if(matchSlideInterval) clearInterval(matchSlideInterval); matchSlideInterval = setInterval(nextMatchSlide, 5000); }
-        showMatchSlide(0); resetMatchInterval();
+        
+        window.goToMatchSlide = function(index) {
+            showMatchSlide(index);
+            resetMatchInterval();
+        };
+        
+        function nextMatchSlide() {
+            goToMatchSlide(currentMatchSlide + 1);
+        }
+        
+        function resetMatchInterval() {
+            if (matchSlideInterval) clearInterval(matchSlideInterval);
+            matchSlideInterval = setInterval(nextMatchSlide, 5000);
+        }
+        
+        showMatchSlide(0);
+        resetMatchInterval();
+        
         document.querySelectorAll('.match-bet-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if(!currentUser) { alert('تکایە یەکەمجار چوونەژوورەوە بکە'); window.location.href = 'login.html'; return; }
+                if (!currentUser) {
+                    alert('تکایە یەکەمجار چوونەژوورەوە بکە');
+                    window.location.href = 'login.html';
+                    return;
+                }
                 alert(`پێشبینی بۆ ${btn.dataset.team} بە ئۆدەسی ${btn.dataset.odds} تۆمارکرا`);
             });
         });
     }
 
+    // ========== لیستی یارییەکان ==========
     function renderMatchesList() {
         const container = document.getElementById('matchesList');
-        if(!container) return;
+        if (!container) return;
+        
         let filteredMatches = matches.filter(m => m.sport === currentSport);
+        
         container.innerHTML = '';
-        if(filteredMatches.length === 0) { container.innerHTML = '<div style="text-align:center;padding:20px;color:#aaa;">هیچ یاریەک نییە بۆ ئەم وەرزشە</div>'; return; }
+        if (filteredMatches.length === 0) {
+            container.innerHTML = '<div style="text-align:center;padding:20px;color:#aaa;">هیچ یاریەک نییە بۆ ئەم وەرزشە</div>';
+            return;
+        }
+        
         filteredMatches.forEach(match => {
             const matchDiv = document.createElement('div');
             matchDiv.className = 'match-item';
             matchDiv.innerHTML = `
-                <div class="match-info"><div class="match-teams">${match.teamA} vs ${match.teamB}</div><div class="match-time">${match.time} | بینەر: ${match.viewers}</div></div>
+                <div class="match-info">
+                    <div class="match-teams">${match.teamA} vs ${match.teamB}</div>
+                    <div class="match-time">${match.time} | بینەر: ${match.viewers}</div>
+                </div>
                 <div class="match-points">${match.odds.teamA} / ${match.odds.teamB}</div>
                 <button class="predict-btn" onclick="alert('پێشبینی تۆمارکرا')">پێشبینی</button>
             `;
@@ -608,56 +711,97 @@
         });
     }
 
+    // ========== چوونەژوورەوە ==========
     function loadUserFromStorage() {
         const saved = localStorage.getItem('currentUser');
         const authSection = document.getElementById('authSection');
-        if(saved) {
+        if (saved) {
             try {
                 currentUser = JSON.parse(saved);
                 userPoints = currentUser.points || 1000;
-                if(authSection) authSection.innerHTML = `<div class="user-info"><div class="coin-icon-nav">🪙<span class="points-value">${userPoints}</span></div><div class="diamond-icon-nav">💎<span class="diamond-value">${currentUser.diamonds || 0}</span></div></div>`;
+                if (authSection) {
+                    authSection.innerHTML = `
+                        <div class="user-info">
+                            <div class="coin-icon-nav">🪙<span class="points-value">${userPoints}</span></div>
+                            <div class="diamond-icon-nav">💎<span class="diamond-value">${currentUser.diamonds || 0}</span></div>
+                        </div>
+                    `;
+                }
                 document.getElementById('menuUsername').innerText = currentUser.username;
             } catch(e) {}
         } else {
-            if(authSection) authSection.innerHTML = `<button class="login-btn-nav" id="showLoginBtn">چوونەژوورەوە</button>`;
-            document.getElementById('showLoginBtn')?.addEventListener('click', () => window.location.href = 'login.html');
+            if (authSection) {
+                authSection.innerHTML = `<button class="login-btn-nav" id="showLoginBtn">چوونەژوورەوە</button>`;
+                document.getElementById('showLoginBtn')?.addEventListener('click', () => window.location.href = 'login.html');
+            }
         }
     }
 
+    // ========== مێنوو ==========
     function initMenu() {
         const menuBtn = document.getElementById('menuToggleBtn');
         const hamburgerIcon = document.getElementById('hamburgerIcon');
         const sideMenu = document.getElementById('sideMenu');
         const overlay = document.getElementById('overlay');
         const menuShortBtn = document.getElementById('menuShortBtn');
-        function closeMenu() { sideMenu.classList.remove('open'); overlay.classList.remove('active'); if(hamburgerIcon) hamburgerIcon.classList.remove('open'); }
-        function openMenu() { sideMenu.classList.add('open'); overlay.classList.add('active'); if(hamburgerIcon) hamburgerIcon.classList.add('open'); }
-        if(menuBtn) menuBtn.addEventListener('click', (e) => { e.stopPropagation(); if(sideMenu.classList.contains('open')) closeMenu(); else openMenu(); });
-        if(menuShortBtn) menuShortBtn.addEventListener('click', openMenu);
-        if(overlay) overlay.addEventListener('click', closeMenu);
-        document.getElementById('logoutLink')?.addEventListener('click', (e) => { e.preventDefault(); localStorage.removeItem('currentUser'); window.location.href = 'index.html'; });
+        
+        function closeMenu() {
+            sideMenu.classList.remove('open');
+            overlay.classList.remove('active');
+            if (hamburgerIcon) hamburgerIcon.classList.remove('open');
+        }
+        
+        function openMenu() {
+            sideMenu.classList.add('open');
+            overlay.classList.add('active');
+            if (hamburgerIcon) hamburgerIcon.classList.add('open');
+        }
+        
+        if (menuBtn) {
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (sideMenu.classList.contains('open')) closeMenu();
+                else openMenu();
+            });
+        }
+        
+        if (menuShortBtn) menuShortBtn.addEventListener('click', openMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+        
+        document.getElementById('logoutLink')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        });
     }
 
+    // ========== تاسک بار ==========
     function initBottomNav() {
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', () => {
                 const navType = item.dataset.nav;
-                if(navType === 'home') window.location.href = 'index.html';
-                else if(navType === 'mybets' && !currentUser) alert('تکایە چوونەژوورەوە بکە');
+                if (navType === 'home') window.location.href = 'index.html';
+                else if (navType === 'mybets' && !currentUser) alert('تکایە چوونەژوورەوە بکە');
                 else alert('بەم زوانە زیاد دەکرێت');
             });
         });
     }
 
+    // ========== تەبەکان ==========
     function initTabs() {
         document.querySelectorAll('.sports-tab[data-tab]').forEach(tab => {
-            tab.addEventListener('click', () => { alert(`${tab.innerText} - بەم زوانە زیاد دەکرێت`); });
+            tab.addEventListener('click', () => {
+                alert(`${tab.innerText} - بەم زوانە زیاد دەکرێت`);
+            });
         });
-        document.getElementById('refreshHomeBtn')?.addEventListener('click', () => { window.location.reload(); });
+        document.getElementById('refreshHomeBtn')?.addEventListener('click', () => {
+            window.location.reload();
+        });
     }
 
     document.getElementById('searchBtn')?.addEventListener('click', () => alert('🔎 گەران - بەم زوانە زیاد دەکرێت'));
 
+    // ========== دەستپێکردن ==========
     document.addEventListener('DOMContentLoaded', () => {
         loadUserFromStorage();
         renderSportsList();
@@ -667,6 +811,12 @@
         initMenu();
         initBottomNav();
         initTabs();
+        
+        // لە سەرەتادا فیلتەری کات شاردراوە، تا کلیک لەسەر وەرزشێک
+        const timeWrapper = document.getElementById('timeFiltersWrapper');
+        if (timeWrapper) {
+            timeWrapper.classList.remove('visible');
+        }
     });
 </script>
 </body>
