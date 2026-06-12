@@ -30,7 +30,7 @@
             overflow-y: auto;
         }
 
-        /* نێویگەیشنی سەرەوە */
+        /* نێویگەیشنی سەرەوە - پانایی تەواو و کەوانەیی */
         .sports-tabs {
             display: flex;
             align-items: center;
@@ -44,6 +44,7 @@
             overflow-y: hidden;
             white-space: nowrap;
             scrollbar-width: thin;
+            width: 100%;
         }
 
         .sports-tabs::-webkit-scrollbar {
@@ -53,7 +54,7 @@
         .sports-tab {
             background: transparent;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 24px;
             border-radius: 50px;
             color: #aaa;
             font-family: 'Kurdliga Regular', sans-serif;
@@ -97,7 +98,7 @@
             transform: scale(0.95);
         }
 
-        /* لیستی وەرزشەکان */
+        /* لیستی وەرزشەکان - بۆکس لەسەر پاشبنەما */
         .sports-list-wrapper {
             background: transparent;
             border-radius: 20px;
@@ -337,7 +338,7 @@
 
         @media (max-width: 550px) {
             .sports-tab {
-                padding: 6px 14px;
+                padding: 6px 16px;
                 font-size: 0.85rem;
             }
             .search-btn {
@@ -451,27 +452,20 @@
 
     // ========== داتاکانی یارییەکان ==========
     const allMatches = [
-        // تۆپی پێ - ئەمڕۆ
-        { teamA: "بەڕازیل", teamB: "ئەرجەنتین", time: "18:00", timeValue: 18.00, date: "2024-06-15", dateObj: new Date(2024, 5, 15, 18, 0), odds: { teamA: 2.10, teamB: 1.85 }, sport: "football", viewers: "2.5M" },
-        { teamA: "فەڕەنسا", teamB: "ئینگلتەرا", time: "21:00", timeValue: 21.00, date: "2024-06-15", dateObj: new Date(2024, 5, 15, 21, 0), odds: { teamA: 2.00, teamB: 1.95 }, sport: "football", viewers: "2.1M" },
-        { teamA: "ئیتاڵیا", teamB: "ئیسپانیا", time: "19:15", timeValue: 19.25, date: "2024-06-15", dateObj: new Date(2024, 5, 15, 19, 15), odds: { teamA: 2.30, teamB: 1.70 }, sport: "football", viewers: "2.0M" },
-        { teamA: "ئەڵمانیا", teamB: "ھۆڵەندا", time: "17:00", timeValue: 17.00, date: "2024-06-15", dateObj: new Date(2024, 5, 15, 17, 0), odds: { teamA: 2.15, teamB: 1.80 }, sport: "football", viewers: "1.9M" },
-        { teamA: "پورتوگال", teamB: "بەلجیکا", time: "20:30", timeValue: 20.50, date: "2024-06-15", dateObj: new Date(2024, 5, 15, 20, 30), odds: { teamA: 2.05, teamB: 1.88 }, sport: "football", viewers: "1.7M" },
-        // تۆپی پێ - بەیانی
-        { teamA: "ئیسپانیا", teamB: "ئیتاڵیا", time: "16:00", timeValue: 16.00, date: "2024-06-16", dateObj: new Date(2024, 5, 16, 16, 0), odds: { teamA: 1.95, teamB: 2.05 }, sport: "football", viewers: "1.8M" },
-        // تێنس
-        { teamA: "نادال", teamB: "جۆکۆڤیچ", time: "14:30", timeValue: 14.50, date: "2024-06-15", dateObj: new Date(2024, 5, 15, 14, 30), odds: { teamA: 1.95, teamB: 1.90 }, sport: "tennis", viewers: "1.5M" },
-        { teamA: "فێدێرەر", teamB: "موری", time: "16:45", timeValue: 16.75, date: "2024-06-15", dateObj: new Date(2024, 5, 15, 16, 45), odds: { teamA: 1.80, teamB: 2.10 }, sport: "tennis", viewers: "1.2M" },
-        // باسکە
-        { teamA: "لەیکەرز", teamB: "واریرز", time: "02:00", timeValue: 2.00, date: "2024-06-16", dateObj: new Date(2024, 5, 16, 2, 0), odds: { teamA: 2.20, teamB: 1.75 }, sport: "basketball", viewers: "1.2M" },
-        { teamA: "شیکاگۆ", teamB: "بۆستن", time: "03:30", timeValue: 3.50, date: "2024-06-16", dateObj: new Date(2024, 5, 16, 3, 30), odds: { teamA: 1.95, teamB: 2.05 }, sport: "basketball", viewers: "1.0M" },
-        // بالە
-        { teamA: "بەڕازیل", teamB: "پۆڵەندا", time: "15:00", timeValue: 15.00, date: "2024-06-15", dateObj: new Date(2024, 5, 15, 15, 0), odds: { teamA: 1.85, teamB: 2.10 }, sport: "volleyball", viewers: "0.9M" },
-        { teamA: "ئەمریکا", teamB: "ڕووسیا", time: "19:00", timeValue: 19.00, date: "2024-06-15", dateObj: new Date(2024, 5, 15, 19, 0), odds: { teamA: 1.90, teamB: 2.00 }, sport: "volleyball", viewers: "0.8M" },
-        // تۆپی دەست
-        { teamA: "فەڕەنسا", teamB: "دانمارک", time: "17:30", timeValue: 17.50, date: "2024-06-15", dateObj: new Date(2024, 5, 15, 17, 30), odds: { teamA: 1.90, teamB: 2.00 }, sport: "handball", viewers: "0.8M" },
-        // تێنسی مێز
-        { teamA: "ما لۆنگ", teamB: "فان زێندۆنگ", time: "12:00", timeValue: 12.00, date: "2024-06-15", dateObj: new Date(2024, 5, 15, 12, 0), odds: { teamA: 1.75, teamB: 2.20 }, sport: "tabletennis", viewers: "0.7M" }
+        { teamA: "بەڕازیل", teamB: "ئەرجەنتین", time: "18:00", date: "2024-06-15", dateObj: new Date(2024, 5, 15, 18, 0), odds: { teamA: 2.10, teamB: 1.85 }, sport: "football", viewers: "2.5M" },
+        { teamA: "فەڕەنسا", teamB: "ئینگلتەرا", time: "21:00", date: "2024-06-15", dateObj: new Date(2024, 5, 15, 21, 0), odds: { teamA: 2.00, teamB: 1.95 }, sport: "football", viewers: "2.1M" },
+        { teamA: "ئیتاڵیا", teamB: "ئیسپانیا", time: "19:15", date: "2024-06-15", dateObj: new Date(2024, 5, 15, 19, 15), odds: { teamA: 2.30, teamB: 1.70 }, sport: "football", viewers: "2.0M" },
+        { teamA: "ئەڵمانیا", teamB: "ھۆڵەندا", time: "17:00", date: "2024-06-15", dateObj: new Date(2024, 5, 15, 17, 0), odds: { teamA: 2.15, teamB: 1.80 }, sport: "football", viewers: "1.9M" },
+        { teamA: "پورتوگال", teamB: "بەلجیکا", time: "20:30", date: "2024-06-15", dateObj: new Date(2024, 5, 15, 20, 30), odds: { teamA: 2.05, teamB: 1.88 }, sport: "football", viewers: "1.7M" },
+        { teamA: "ئیسپانیا", teamB: "ئیتاڵیا", time: "16:00", date: "2024-06-16", dateObj: new Date(2024, 5, 16, 16, 0), odds: { teamA: 1.95, teamB: 2.05 }, sport: "football", viewers: "1.8M" },
+        { teamA: "نادال", teamB: "جۆکۆڤیچ", time: "14:30", date: "2024-06-15", dateObj: new Date(2024, 5, 15, 14, 30), odds: { teamA: 1.95, teamB: 1.90 }, sport: "tennis", viewers: "1.5M" },
+        { teamA: "فێدێرەر", teamB: "موری", time: "16:45", date: "2024-06-15", dateObj: new Date(2024, 5, 15, 16, 45), odds: { teamA: 1.80, teamB: 2.10 }, sport: "tennis", viewers: "1.2M" },
+        { teamA: "لەیکەرز", teamB: "واریرز", time: "02:00", date: "2024-06-16", dateObj: new Date(2024, 5, 16, 2, 0), odds: { teamA: 2.20, teamB: 1.75 }, sport: "basketball", viewers: "1.2M" },
+        { teamA: "شیکاگۆ", teamB: "بۆستن", time: "03:30", date: "2024-06-16", dateObj: new Date(2024, 5, 16, 3, 30), odds: { teamA: 1.95, teamB: 2.05 }, sport: "basketball", viewers: "1.0M" },
+        { teamA: "بەڕازیل", teamB: "پۆڵەندا", time: "15:00", date: "2024-06-15", dateObj: new Date(2024, 5, 15, 15, 0), odds: { teamA: 1.85, teamB: 2.10 }, sport: "volleyball", viewers: "0.9M" },
+        { teamA: "ئەمریکا", teamB: "ڕووسیا", time: "19:00", date: "2024-06-15", dateObj: new Date(2024, 5, 15, 19, 0), odds: { teamA: 1.90, teamB: 2.00 }, sport: "volleyball", viewers: "0.8M" },
+        { teamA: "فەڕەنسا", teamB: "دانمارک", time: "17:30", date: "2024-06-15", dateObj: new Date(2024, 5, 15, 17, 30), odds: { teamA: 1.90, teamB: 2.00 }, sport: "handball", viewers: "0.8M" },
+        { teamA: "ما لۆنگ", teamB: "فان زێندۆنگ", time: "12:00", date: "2024-06-15", dateObj: new Date(2024, 5, 15, 12, 0), odds: { teamA: 1.75, teamB: 2.20 }, sport: "tabletennis", viewers: "0.7M" }
     ];
 
     let currentSport = "all";
@@ -497,17 +491,23 @@
             return match.dateObj >= today && match.dateObj < dayAfterTomorrow;
         });
         
-        // لابردنی یارییەکانی 15 خولەک بەر لە دەستپێکردن
         filtered = filtered.filter(match => {
             const matchTime = new Date(match.dateObj);
             const timeToMatch = matchTime - now;
             return timeToMatch > 15 * 60 * 1000;
         });
         
-        // ڕیزکردن بەپێی کات
         filtered.sort((a, b) => a.dateObj - b.dateObj);
-        
         return filtered;
+    }
+
+    // فەنکشنی فۆرماتکردنی پۆینت
+    function formatPoints(points) {
+        let rounded = Math.round(points * 1000) / 1000;
+        let parts = rounded.toFixed(3).split('.');
+        let integerPart = parseInt(parts[0]).toLocaleString('en-US');
+        let decimalPart = parts[1];
+        return `${integerPart}.${decimalPart}`;
     }
 
     // ========== رێنمایی لیستی وەرزشەکان ==========
@@ -692,7 +692,7 @@
                         <div class="user-info">
                             <div class="coin-icon-nav">
                                 <img src="images/coinicon.png" alt="Coin" class="coin-img-nav" onerror="this.src='https://placehold.co/24x24?text=🪙'">
-                                <span class="points-value">${userPoints}</span>
+                                <span class="points-value">${formatPoints(userPoints)}</span>
                             </div>
                             <div class="diamond-icon-nav">
                                 <span style="font-size:1.1rem;">💎</span>
