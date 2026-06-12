@@ -110,6 +110,7 @@
             padding: 10px 0 15px 0;
             scrollbar-width: thin;
             -webkit-overflow-scrolling: touch;
+            justify-content: center;
         }
 
         .sports-list::-webkit-scrollbar {
@@ -150,7 +151,7 @@
             white-space: nowrap;
         }
 
-        /* فیلتەری کات - شاردنەوە لە سەرەتادا */
+        /* فیلتەری کات */
         .time-filters-wrapper {
             display: none;
             margin: 10px 0;
@@ -442,12 +443,12 @@
         <button class="sports-tab" data-tab="favorites">دڵخوازەکانم</button>
     </div>
 
-    <!-- لیستی وەرزشەکان (ئاسۆیی + سکرۆڵ) -->
+    <!-- لیستی وەرزشەکان (تەنها 6 وەرزش) -->
     <div class="sports-list-wrapper">
         <div class="sports-list" id="sportsList"></div>
     </div>
 
-    <!-- فیلتەری کات (شاردراوە تا کلیک لەسەر وەرزشێک) -->
+    <!-- فیلتەری کات -->
     <div class="time-filters-wrapper" id="timeFiltersWrapper">
         <div class="time-filters" id="timeFilters">
             <button class="time-filter active" data-time="all">هەموو کاتەکان</button>
@@ -476,65 +477,36 @@
 </div>
 
 <script>
-    // ========== داتاکانی وەرزشەکان ==========
+    // ========== داتاکانی وەرزشەکان (تەنها 6 وەرزش) ==========
     const sports = [
         { name: "تۆپی پێ", icon: "⚽", id: "football" },
         { name: "تێنس", icon: "🎾", id: "tennis" },
-        { name: "باسکە", icon: "🏀", id: "basketball" },
         { name: "بالە", icon: "🏐", id: "volleyball" },
-        { name: "هۆکی سەهۆل", icon: "🏒", id: "hockey" },
-        { name: "تێنسی مێز", icon: "🏓", id: "tabletennis" },
-        { name: "پۆڵۆی نێو ئاو", icon: "🤽", id: "waterpolo" },
-        { name: "Virtual sport", icon: "🎮", id: "virtual" },
-        { name: "ی-سپۆرت", icon: "🖥️", id: "esports" },
-        { name: "یاری هونەری بەرگری", icon: "🥋", id: "martialarts" },
-        { name: "بۆکسێن", icon: "🥊", id: "boxing" },
         { name: "تۆپی دەست", icon: "🤾", id: "handball" },
-        { name: "فوتساڵ", icon: "⚽", id: "futsal" },
-        { name: "بەیسباڵ", icon: "⚾", id: "baseball" },
-        { name: "تۆپی پێی ئەمەریکی", icon: "🏈", id: "americanfootball" },
-        { name: "تۆپی ئەوستراڵی", icon: "🏉", id: "australianfootball" },
-        { name: "ڕیشە", icon: "🏑", id: "fieldhockey" },
-        { name: "تۆپی پێی زیخ", icon: "⛸️", id: "icesoccer" },
-        { name: "سنووکەر", icon: "🎱", id: "snooker" },
-        { name: "تیری دەست", icon: "🎯", id: "darts" },
-        { name: "کریکێت", icon: "🏏", id: "cricket" },
-        { name: "فلۆرباڵ", icon: "🏑", id: "floorball" },
-        { name: "ڕاگبی یۆنیۆن", icon: "🏉", id: "rugby" },
-        { name: "ڕاگبی لیگ", icon: "🏉", id: "rugbyleague" },
-        { name: "فۆرمۆلا وەن", icon: "🏎️", id: "f1" },
-        { name: "ناس کار", icon: "🏎️", id: "nascar" },
-        { name: "مۆتۆر سواری", icon: "🏍️", id: "moto" },
-        { name: "پێشبڕکێی ئۆتۆمبێل", icon: "🏎️", id: "racing" },
-        { name: "مۆتۆڕی سپیداوی", icon: "🏍️", id: "speedway" },
-        { name: "Indy car", icon: "🏎️", id: "indycar" },
-        { name: "پایسکیل سواری", icon: "🚲", id: "cycling" },
-        { name: "شەترەنج", icon: "♟️", id: "chess" },
-        { name: "بلیارد", icon: "🎱", id: "billiards" },
-        { name: "یاریەکانی تر", icon: "🎲", id: "other" },
-        { name: "سیاسەت", icon: "🏛️", id: "politics" },
-        { name: "زۆرانبازی", icon: "🤼", id: "wrestling" },
-        { name: "پێشبڕکێی بەلەم", icon: "🚣", id: "rowing" },
-        { name: "سپرفینگ", icon: "🏄", id: "surfing" },
-        { name: "گۆڵف", icon: "⛳", id: "golf" },
-        { name: "بۆڵینگ", icon: "🎳", id: "bowling" },
-        { name: "Hurling", icon: "🏑", id: "hurling" },
-        { name: "لاکرۆس", icon: "🥍", id: "lacrosse" },
-        { name: "نێت باڵ", icon: "🏐", id: "netball" },
-        { name: "گایلیک فۆتباڵ", icon: "⚽", id: "gaelic" }
+        { name: "باسکە", icon: "🏀", id: "basketball" },
+        { name: "تێنسی مێز", icon: "🏓", id: "tabletennis" }
     ];
 
     // ========== داتاکانی یارییەکان ==========
     const matches = [
+        // تۆپی پێ
         { teamA: "بەڕازیل", teamB: "ئەرجەنتین", time: "18:00", date: "2024-06-11", odds: { teamA: 2.10, teamB: 1.85 }, sport: "football", viewers: "2.5M" },
         { teamA: "فەڕەنسا", teamB: "ئینگلتەرا", time: "21:00", date: "2024-06-11", odds: { teamA: 2.00, teamB: 1.95 }, sport: "football", viewers: "2.1M" },
-        { teamA: "ڕۆژئاوا", teamB: "ھیلال", time: "20:00", date: "2024-06-11", odds: { teamA: 1.80, teamB: 2.20 }, sport: "football", viewers: "1.8M" },
-        { teamA: "نادال", teamB: "جۆکۆڤیچ", time: "16:00", date: "2024-06-11", odds: { teamA: 1.95, teamB: 1.90 }, sport: "tennis", viewers: "1.5M" },
-        { teamA: "لەیکەرز", teamB: "واریرز", time: "02:00", date: "2024-06-12", odds: { teamA: 2.20, teamB: 1.75 }, sport: "basketball", viewers: "1.2M" },
         { teamA: "ئیتاڵیا", teamB: "ئیسپانیا", time: "19:00", date: "2024-06-11", odds: { teamA: 2.30, teamB: 1.70 }, sport: "football", viewers: "2.0M" },
         { teamA: "ئەڵمانیا", teamB: "ھۆڵەندا", time: "17:00", date: "2024-06-11", odds: { teamA: 2.15, teamB: 1.80 }, sport: "football", viewers: "1.9M" },
         { teamA: "پورتوگال", teamB: "بەلجیکا", time: "20:30", date: "2024-06-11", odds: { teamA: 2.05, teamB: 1.88 }, sport: "football", viewers: "1.7M" },
-        { teamA: "مەغریب", teamB: "میسر", time: "18:30", date: "2024-06-11", odds: { teamA: 2.40, teamB: 1.60 }, sport: "football", viewers: "1.4M" }
+        // تێنس
+        { teamA: "نادال", teamB: "جۆکۆڤیچ", time: "16:00", date: "2024-06-11", odds: { teamA: 1.95, teamB: 1.90 }, sport: "tennis", viewers: "1.5M" },
+        { teamA: "فێدێرەر", teamB: "موری", time: "14:00", date: "2024-06-12", odds: { teamA: 1.80, teamB: 2.10 }, sport: "tennis", viewers: "1.2M" },
+        // باسکە
+        { teamA: "لەیکەرز", teamB: "واریرز", time: "02:00", date: "2024-06-12", odds: { teamA: 2.20, teamB: 1.75 }, sport: "basketball", viewers: "1.2M" },
+        { teamA: "شیکاگۆ", teamB: "بۆستن", time: "03:00", date: "2024-06-12", odds: { teamA: 1.95, teamB: 2.05 }, sport: "basketball", viewers: "1.0M" },
+        // بالە
+        { teamA: "بەڕازیل", teamB: "پۆڵەندا", time: "15:00", date: "2024-06-11", odds: { teamA: 1.85, teamB: 2.10 }, sport: "volleyball", viewers: "0.9M" },
+        // تۆپی دەست
+        { teamA: "فەڕەنسا", teamB: "دانمارک", time: "17:30", date: "2024-06-11", odds: { teamA: 1.90, teamB: 2.00 }, sport: "handball", viewers: "0.8M" },
+        // تێنسی مێز
+        { teamA: "ما لۆنگ", teamB: "فان زێندۆنگ", time: "12:00", date: "2024-06-11", odds: { teamA: 1.75, teamB: 2.20 }, sport: "tabletennis", viewers: "0.7M" }
     ];
 
     let currentSport = "football";
@@ -543,9 +515,9 @@
     let userPoints = 1000;
     let currentMatchSlide = 0;
     let matchSlideInterval;
-    let isFirstLoad = true;
+    let fullscreenRequested = false;
 
-    // ========== رێنمایی لیستی وەرزشەکان (ئاسۆیی + سکرۆڵ) ==========
+    // ========== رێنمایی لیستی وەرزشەکان ==========
     function renderSportsList() {
         const container = document.getElementById('sportsList');
         if (!container) return;
@@ -564,7 +536,7 @@
                 sportDiv.classList.add('active');
                 currentSport = sport.id;
                 
-                // نمایش فیلتەری کات دوای کلیک لەسەر وەرزشێک
+                // نمایش فیلتەری کات
                 const timeWrapper = document.getElementById('timeFiltersWrapper');
                 if (timeWrapper) {
                     timeWrapper.classList.add('visible');
@@ -801,6 +773,23 @@
 
     document.getElementById('searchBtn')?.addEventListener('click', () => alert('🔎 گەران - بەم زوانە زیاد دەکرێت'));
 
+    // ========== فول سکرین ==========
+    function initFullscreenOnFirstInteraction() {
+        if (fullscreenRequested) return;
+        
+        const requestFullscreen = () => {
+            if (!fullscreenRequested && !document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error: ${err.message}`);
+                });
+                fullscreenRequested = true;
+            }
+        };
+        
+        document.body.addEventListener('click', requestFullscreen, { once: true });
+        document.body.addEventListener('touchstart', requestFullscreen, { once: true });
+    }
+
     // ========== دەستپێکردن ==========
     document.addEventListener('DOMContentLoaded', () => {
         loadUserFromStorage();
@@ -811,12 +800,7 @@
         initMenu();
         initBottomNav();
         initTabs();
-        
-        // لە سەرەتادا فیلتەری کات شاردراوە، تا کلیک لەسەر وەرزشێک
-        const timeWrapper = document.getElementById('timeFiltersWrapper');
-        if (timeWrapper) {
-            timeWrapper.classList.remove('visible');
-        }
+        initFullscreenOnFirstInteraction();
     });
 </script>
 </body>
