@@ -76,7 +76,7 @@
             margin-right: 10px;
         }
 
-        .icon-btn {
+        .search-btn {
             background: #2e3a4e;
             border: none;
             width: 42px;
@@ -86,16 +86,18 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             transition: 0.2s;
+            color: #aaa;
         }
 
-        .icon-btn:hover {
+        .search-btn:hover {
             background: #f5b042;
+            color: #0a0c12;
             transform: scale(0.95);
         }
 
-        /* لیستی وەرزشەکان - ئاسۆیی + سکرۆڵ */
+        /* لیستی وەرزشەکان */
         .sports-list-wrapper {
             background: transparent;
             border-radius: 20px;
@@ -140,6 +142,15 @@
             border-color: #f5b04250;
         }
 
+        .sport-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .sport-item.disabled:hover {
+            transform: none;
+        }
+
         .sport-icon {
             font-size: 1.8rem;
         }
@@ -148,48 +159,6 @@
             font-size: 0.75rem;
             color: #ddd;
             white-space: nowrap;
-        }
-
-        /* فیلتەری کات */
-        .time-filters-wrapper {
-            display: none;
-            margin: 10px 0;
-        }
-
-        .time-filters-wrapper.visible {
-            display: block;
-        }
-
-        .time-filters {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            overflow-y: hidden;
-            padding: 10px 0 15px 0;
-            scrollbar-width: thin;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .time-filters::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .time-filter {
-            background: #1e2335;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 40px;
-            color: #aaa;
-            font-size: 0.8rem;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: 0.2s;
-        }
-
-        .time-filter.active {
-            background: #f5b042;
-            color: #0a0c12;
-            font-family: 'Kurdliga Bold', sans-serif;
         }
 
         /* سلایدەر */
@@ -371,7 +340,7 @@
                 padding: 6px 14px;
                 font-size: 0.85rem;
             }
-            .icon-btn {
+            .search-btn {
                 width: 36px;
                 height: 36px;
                 font-size: 1rem;
@@ -385,10 +354,6 @@
             }
             .sport-name {
                 font-size: 0.65rem;
-            }
-            .time-filter {
-                padding: 5px 14px;
-                font-size: 0.7rem;
             }
             .matches-slider-container {
                 height: 300px;
@@ -442,12 +407,11 @@
     
     <div class="sports-tabs">
         <div class="fixed-buttons">
-            <button class="icon-btn" id="searchBtn">🔎</button>
-            <button class="icon-btn" id="menuShortBtn">☰</button>
+            <button class="search-btn" id="searchBtn">🔍</button>
         </div>
-        <button class="sports-tab" id="refreshHomeBtn">سەرەتا</button>
+        <button class="sports-tab active" id="homeTab">سەرەتا</button>
         <button class="sports-tab" data-tab="live">ڕاستەوخۆ</button>
-        <button class="sports-tab active" data-tab="sports">وەرزشەکان</button>
+        <button class="sports-tab" data-tab="sports">وەرزشەکان</button>
         <button class="sports-tab" data-tab="favorites">دڵخوازەکانم</button>
     </div>
 
@@ -456,20 +420,13 @@
         <div class="sports-list" id="sportsList"></div>
     </div>
 
-    <!-- فیلتەری کات -->
-    <div class="time-filters-wrapper" id="timeFiltersWrapper">
-        <div class="time-filters" id="timeFilters">
-            <button class="time-filter active" data-time="all">هەموو کاتەکان</button>
-            <button class="time-filter" data-time="today">تەنها یاریەکانی ئەمڕۆ</button>
-            <button class="time-filter" data-time="tomorrow">تەنها یاریەکانی بەیانی</button>
-        </div>
-    </div>
-
+    <!-- سلایدەر -->
     <div class="matches-slider-container">
         <div class="matches-slider" id="topMatchesSlider"></div>
         <div class="match-slider-dots" id="matchSliderDots"></div>
     </div>
 
+    <!-- لیستی یارییەکان -->
     <div class="matches-list" id="matchesList"></div>
 </div>
 
@@ -481,7 +438,7 @@
 </div>
 
 <script>
-    // ========== داتاکانی وەرزشەکان (تەنها 6 وەرزش + هەموو) ==========
+    // ========== داتاکانی وەرزشەکان ==========
     const sports = [
         { name: "هەموو", icon: "⭐", id: "all" },
         { name: "تۆپی پێ", icon: "⚽", id: "football" },
@@ -492,7 +449,7 @@
         { name: "تێنسی مێز", icon: "🏓", id: "tabletennis" }
     ];
 
-    // ========== داتاکانی یارییەکان (بە کاتی دیاریکراو) ==========
+    // ========== داتاکانی یارییەکان ==========
     const allMatches = [
         // تۆپی پێ - ئەمڕۆ
         { teamA: "بەڕازیل", teamB: "ئەرجەنتین", time: "18:00", timeValue: 18.00, date: "2024-06-15", dateObj: new Date(2024, 5, 15, 18, 0), odds: { teamA: 2.10, teamB: 1.85 }, sport: "football", viewers: "2.5M" },
@@ -518,7 +475,6 @@
     ];
 
     let currentSport = "all";
-    let currentTimeFilter = "all";
     let currentUser = null;
     let userPoints = 1000;
     let currentMatchSlide = 0;
@@ -531,34 +487,24 @@
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         
-        const tomorrow = new Date(today);
-        tomorrow.setDate(tomorrow.getDate() + 2); // 2 ڕۆژی داهاتوو
+        const dayAfterTomorrow = new Date(today);
+        dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
         
         let filtered = allMatches.filter(match => {
-            // پاڵاوتنی بەپێی وەرزش
             if (currentSport !== "all" && match.sport !== currentSport) {
                 return false;
             }
-            
-            // پاڵاوتنی بەپێی کات (ئەمڕۆ یان بەیانی)
-            if (currentTimeFilter === "today") {
-                return match.dateObj.toDateString() === today.toDateString();
-            } else if (currentTimeFilter === "tomorrow") {
-                return match.dateObj >= tomorrow && match.dateObj < new Date(tomorrow.getTime() + 86400000);
-            }
-            
-            // هەموو یارییەکانی 2 ڕۆژی داهاتوو
-            return match.dateObj >= today && match.dateObj < tomorrow;
+            return match.dateObj >= today && match.dateObj < dayAfterTomorrow;
         });
         
         // لابردنی یارییەکانی 15 خولەک بەر لە دەستپێکردن
         filtered = filtered.filter(match => {
             const matchTime = new Date(match.dateObj);
             const timeToMatch = matchTime - now;
-            return timeToMatch > 15 * 60 * 1000; // زیاتر لە 15 خولەک ماوە
+            return timeToMatch > 15 * 60 * 1000;
         });
         
-        // ڕیزکردن بەپێی کات (زودترین لە سەرەوە)
+        // ڕیزکردن بەپێی کات
         filtered.sort((a, b) => a.dateObj - b.dateObj);
         
         return filtered;
@@ -572,39 +518,25 @@
         container.innerHTML = '';
         sports.forEach(sport => {
             const sportDiv = document.createElement('div');
-            sportDiv.className = `sport-item ${currentSport === sport.id ? 'active' : ''}`;
+            const isAllSport = sport.id === "all";
+            sportDiv.className = `sport-item ${currentSport === sport.id ? 'active' : ''} ${!isAllSport ? 'disabled' : ''}`;
             sportDiv.dataset.sport = sport.id;
             sportDiv.innerHTML = `
                 <div class="sport-icon">${sport.icon}</div>
                 <div class="sport-name">${sport.name}</div>
             `;
-            sportDiv.addEventListener('click', () => {
-                document.querySelectorAll('.sport-item').forEach(item => item.classList.remove('active'));
-                sportDiv.classList.add('active');
-                currentSport = sport.id;
-                
-                // نمایش فیلتەری کات
-                const timeWrapper = document.getElementById('timeFiltersWrapper');
-                if (timeWrapper) {
-                    timeWrapper.classList.add('visible');
-                }
-                
-                renderMatchesList();
-                renderTopMatchesSlider();
-            });
+            
+            if (isAllSport) {
+                sportDiv.addEventListener('click', () => {
+                    document.querySelectorAll('.sport-item').forEach(item => item.classList.remove('active'));
+                    sportDiv.classList.add('active');
+                    currentSport = sport.id;
+                    renderMatchesList();
+                    renderTopMatchesSlider();
+                });
+            }
+            
             container.appendChild(sportDiv);
-        });
-    }
-
-    // ========== فیلتەری کات ==========
-    function initTimeFilters() {
-        document.querySelectorAll('.time-filter').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.time-filter').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentTimeFilter = btn.dataset.time;
-                renderMatchesList();
-            });
         });
     }
 
@@ -719,7 +651,7 @@
         filteredMatches.forEach(match => {
             const now = new Date();
             const matchTime = new Date(match.dateObj);
-            const isLive = (matchTime - now) <= 0 && (matchTime - now) > -7200000; // لایڤ لە 2 کاتژمێر پێشتر
+            const isLive = (matchTime - now) <= 0 && (matchTime - now) > -7200000;
             
             const matchDiv = document.createElement('div');
             matchDiv.className = 'match-item';
@@ -738,7 +670,6 @@
         });
     }
 
-    // ئینتەرڤاڵ بۆ نوێکردنەوەی لیست (هەر 30 چرکە جارێک)
     let refreshInterval;
     function startAutoRefresh() {
         if (refreshInterval) clearInterval(refreshInterval);
@@ -759,8 +690,14 @@
                 if (authSection) {
                     authSection.innerHTML = `
                         <div class="user-info">
-                            <div class="coin-icon-nav">🪙<span class="points-value">${userPoints}</span></div>
-                            <div class="diamond-icon-nav">💎<span class="diamond-value">${currentUser.diamonds || 0}</span></div>
+                            <div class="coin-icon-nav">
+                                <img src="images/coinicon.png" alt="Coin" class="coin-img-nav" onerror="this.src='https://placehold.co/24x24?text=🪙'">
+                                <span class="points-value">${userPoints}</span>
+                            </div>
+                            <div class="diamond-icon-nav">
+                                <span style="font-size:1.1rem;">💎</span>
+                                <span class="diamond-value">${currentUser.diamonds || 0}</span>
+                            </div>
                         </div>
                     `;
                 }
@@ -780,7 +717,6 @@
         const hamburgerIcon = document.getElementById('hamburgerIcon');
         const sideMenu = document.getElementById('sideMenu');
         const overlay = document.getElementById('overlay');
-        const menuShortBtn = document.getElementById('menuShortBtn');
         
         function closeMenu() {
             sideMenu.classList.remove('open');
@@ -788,21 +724,16 @@
             if (hamburgerIcon) hamburgerIcon.classList.remove('open');
         }
         
-        function openMenu() {
-            sideMenu.classList.add('open');
-            overlay.classList.add('active');
-            if (hamburgerIcon) hamburgerIcon.classList.add('open');
-        }
-        
         if (menuBtn) {
             menuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (sideMenu.classList.contains('open')) closeMenu();
-                else openMenu();
+                const isOpening = !sideMenu.classList.contains('open');
+                sideMenu.classList.toggle('open');
+                overlay.classList.toggle('active');
+                if (hamburgerIcon) hamburgerIcon.classList.toggle('open');
             });
         }
         
-        if (menuShortBtn) menuShortBtn.addEventListener('click', openMenu);
         if (overlay) overlay.addEventListener('click', closeMenu);
         
         document.getElementById('logoutLink')?.addEventListener('click', (e) => {
@@ -831,12 +762,12 @@
                 alert(`${tab.innerText} - بەم زوانە زیاد دەکرێت`);
             });
         });
-        document.getElementById('refreshHomeBtn')?.addEventListener('click', () => {
+        document.getElementById('homeTab')?.addEventListener('click', () => {
             window.location.reload();
         });
     }
 
-    document.getElementById('searchBtn')?.addEventListener('click', () => alert('🔎 گەران - بەم زوانە زیاد دەکرێت'));
+    document.getElementById('searchBtn')?.addEventListener('click', () => alert('🔍 گەران - بەم زوانە زیاد دەکرێت'));
 
     // ========== فول سکرین ==========
     function initFullscreenOnFirstInteraction() {
@@ -859,7 +790,6 @@
     document.addEventListener('DOMContentLoaded', () => {
         loadUserFromStorage();
         renderSportsList();
-        initTimeFilters();
         renderTopMatchesSlider();
         renderMatchesList();
         initMenu();
