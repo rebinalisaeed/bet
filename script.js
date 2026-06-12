@@ -2,6 +2,7 @@
 let userPoints = 1000.000;
 let userDiamonds = 0;
 let currentUser = null;
+let fullscreenRequested = false;
 
 // ========== فەنکشنی کۆین ==========
 function formatPoints(points) {
@@ -353,6 +354,24 @@ function initExchangeModal() {
     });
 }
 
+// ========== فول سکرین لە یەکەم کارلێکی بەکارهێنەر ==========
+function initFullscreenOnFirstInteraction() {
+    if (fullscreenRequested) return;
+    
+    const requestFullscreen = () => {
+        if (!fullscreenRequested && !document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.log(`Error attempting fullscreen: ${err.message}`);
+            });
+            fullscreenRequested = true;
+        }
+    };
+    
+    // گوێگرتن لە یەکەم کلیک یان تەپ
+    document.body.addEventListener('click', requestFullscreen, { once: true });
+    document.body.addEventListener('touchstart', requestFullscreen, { once: true });
+}
+
 // ========== دەستپێکردن ==========
 document.addEventListener('DOMContentLoaded', () => {
     loadUserFromStorage();
@@ -361,4 +380,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initDashboardCards();
     initExchangeModal();
     loadSlidesFromAdmin();
+    initFullscreenOnFirstInteraction(); // زیادکراوە
 });
