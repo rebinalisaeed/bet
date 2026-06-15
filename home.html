@@ -445,7 +445,6 @@
         <h3>یاریەکانی ئەمڕۆ</h3>
         <a href="matches.html">هەموو ببینە</a>
       </div>
-
       <div id="todayMatches"></div>
     </section>
 
@@ -454,7 +453,6 @@
         <h3>یاریەکانی بەیانی</h3>
         <a href="matches.html">هەموو ببینە</a>
       </div>
-
       <div id="tomorrowMatches"></div>
     </section>
 
@@ -463,7 +461,6 @@
         <h3>لیگەکان</h3>
         <a href="matches.html">زیاتر</a>
       </div>
-
       <div class="league-scroll" id="leaguesList"></div>
     </section>
 
@@ -614,7 +611,9 @@
 
     import {
       getAuth,
-      onAuthStateChanged
+      onAuthStateChanged,
+      setPersistence,
+      browserLocalPersistence
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     import {
@@ -638,6 +637,10 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+
+    await setPersistence(auth, browserLocalPersistence);
+
+    let authChecked = false;
 
     function getBaghdadDateInfo() {
       const now = new Date();
@@ -713,8 +716,14 @@
     }
 
     onAuthStateChanged(auth, async (user) => {
+      authChecked = true;
+
       if (!user) {
-        window.location.href = "login.html";
+        setTimeout(() => {
+          if (!auth.currentUser) {
+            window.location.href = "login.html";
+          }
+        }, 3000);
         return;
       }
 
@@ -723,6 +732,7 @@
         const userSnap = await getDoc(userRef);
 
         if (!userSnap.exists()) {
+          alert("زانیارییەکانی هەژمارەکەت نەدۆزرایەوە");
           window.location.href = "login.html";
           return;
         }
@@ -733,13 +743,17 @@
 
         showUser(userData);
 
-        localStorage.setItem("kurdligaLoggedIn", "true");
-
       } catch (error) {
         console.log(error);
         alert("هەڵەیەک ڕوویدا لە هێنانی زانیارییەکان");
       }
     });
+
+    setTimeout(() => {
+      if (!authChecked && !auth.currentUser) {
+        window.location.href = "login.html";
+      }
+    }, 6000);
   </script>
 
 </body>
