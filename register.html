@@ -1,1 +1,310 @@
-<!doctype html><html lang="ku" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>خۆتۆمارکردن</title><script src="https://cdn.tailwindcss.com"></script></head><body class="bg-[#07131F] text-white min-h-screen"><main class="max-w-md mx-auto p-6 pt-10"><img src="assets/images/logo.png" class="w-64 mx-auto mb-8"><section class="bg-[#102030] rounded-[2rem] p-6 border border-white/10 shadow-2xl"><h1 class="text-2xl font-black mb-6">خۆتۆمارکردن</h1><form id="registerForm" class="space-y-4"><input id="username" required placeholder="ناوی بەکارهێنەر" class="w-full p-4 rounded-2xl bg-[#07131F] border border-white/10 outline-none"><input id="email" type="email" required placeholder="ئیمەیڵ" class="w-full p-4 rounded-2xl bg-[#07131F] border border-white/10 outline-none"><input id="password" type="password" required minlength="6" placeholder="وشەی نهێنی" class="w-full p-4 rounded-2xl bg-[#07131F] border border-white/10 outline-none"><button class="w-full p-4 rounded-2xl bg-[#00C853] font-bold">دروستکردنی هەژمار</button></form><a href="login.html" class="block text-center mt-5 text-[#00C853]">پێشتر هەژمارت هەیە؟</a></section></main><script type="module">import{registerUser,redirectIfLoggedIn}from'./assets/js/auth.js';import{showMessage}from'./assets/js/app.js';redirectIfLoggedIn();registerForm.onsubmit=async e=>{e.preventDefault();try{await registerUser(username.value,email.value,password.value)}catch(err){showMessage(err.message,'error')}}</script></body></html>
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>خۆتۆمارکردن - Kurdliga</title>
+
+  <style>
+    @font-face {
+      font-family: 'Kurdliga-Regular';
+      src: url('fonts/kurdliga-Reg.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'Kurdliga-Bold';
+      src: url('fonts/kurdliga-bold.ttf') format('truetype');
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background: #021133;
+      font-family: 'Kurdliga-Regular', sans-serif;
+    }
+
+    body {
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 20px 28px;
+      overflow-x: hidden;
+    }
+
+    .register-box {
+      width: 100%;
+      max-width: 430px;
+      text-align: center;
+      padding-top: 8px;
+    }
+
+    .logo {
+      width: min(62%, 260px);
+      display: block;
+      margin: 0 auto 24px;
+    }
+
+    .title {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 26px;
+      margin-bottom: 22px;
+    }
+
+    .input-box, .select-box {
+      width: 100%;
+      height: 58px;
+      border: 2px solid #F5F7FA;
+      border-radius: 16px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      background: transparent;
+    }
+
+    .right-icon {
+      font-size: 22px;
+      color: #F5F7FA;
+      margin-left: 10px;
+      line-height: 1;
+    }
+
+    input, select {
+      flex: 1;
+      min-width: 0;
+      background: transparent !important;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-size: 17px;
+      text-align: right;
+      font-family: 'Kurdliga-Regular', sans-serif;
+      width: 100%;
+    }
+
+    select {
+      appearance: none;
+      cursor: pointer;
+    }
+
+    option {
+      color: #021133;
+      background: #ffffff;
+      font-family: 'Kurdliga-Regular', sans-serif;
+    }
+
+    input::placeholder {
+      color: #BFC8D4;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      box-shadow: none;
+      background: transparent !important;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #ffffff;
+      -webkit-box-shadow: 0 0 0px 1000px #021133 inset;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    .eye-icon {
+      font-size: 22px;
+      color: #F5F7FA;
+      cursor: pointer;
+      margin-right: 10px;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      text-align: right;
+      font-size: 15px;
+      line-height: 1.8;
+      margin: 10px 2px 18px;
+      color: #F5F7FA;
+    }
+
+    .terms input {
+      flex: none;
+      width: 18px;
+      height: 18px;
+      margin-top: 6px;
+      accent-color: #00C853;
+    }
+
+    .terms a {
+      color: #00C853;
+      text-decoration: none;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .register-btn {
+      width: 100%;
+      height: 62px;
+      border: none;
+      border-radius: 16px;
+      background: #00C853;
+      color: #ffffff;
+      font-size: 23px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      cursor: pointer;
+      margin-bottom: 18px;
+    }
+
+    .register-btn:active { transform: scale(0.98); }
+
+    .login-text {
+      font-size: 17px;
+      color: #ffffff;
+      line-height: 1.8;
+    }
+
+    .login-text a {
+      color: #00C853;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="register-box">
+
+    <img src="assets/images/logo.png" alt="Kurdliga Logo" class="logo" />
+
+    <h1 class="title">خۆتۆمارکردن</h1>
+
+    <form onsubmit="registerUser(event)">
+
+      <div class="input-box">
+        <span class="right-icon">👤</span>
+        <input type="text" id="firstName" placeholder="ناوی یەکەم" required />
+      </div>
+
+      <div class="input-box">
+        <span class="right-icon">👤</span>
+        <input type="text" id="secondName" placeholder="ناوی دووەم" required />
+      </div>
+
+      <div class="input-box">
+        <span class="right-icon">🏷</span>
+        <input type="text" id="username" placeholder="یوزەرناو" required />
+      </div>
+
+      <div class="input-box">
+        <span class="right-icon">🔒</span>
+        <input type="password" id="password" placeholder="پاسوۆرد" required />
+        <span class="eye-icon" onclick="togglePassword('password')">👁</span>
+      </div>
+
+      <div class="input-box">
+        <span class="right-icon">🔒</span>
+        <input type="password" id="confirmPassword" placeholder="دووبارە پاسوۆرد" required />
+        <span class="eye-icon" onclick="togglePassword('confirmPassword')">👁</span>
+      </div>
+
+      <div class="input-box">
+        <span class="right-icon">📱</span>
+        <input type="tel" id="phone" placeholder="ژمارەی مۆبایل" required />
+      </div>
+
+      <div class="input-box">
+        <span class="right-icon">✉️</span>
+        <input type="email" id="email" placeholder="ئیمەیڵ" required />
+      </div>
+
+      <div class="select-box">
+        <span class="right-icon">🌍</span>
+        <select id="country" required onchange="loadCities()">
+          <option value="">وڵات هەڵبژێرە</option>
+          <option value="باشوری کوردستان">باشوری کوردستان</option>
+          <option value="باکوری کوردستان">باکوری کوردستان</option>
+          <option value="ڕۆژهەڵاتی کوردستان">ڕۆژهەڵاتی کوردستان</option>
+          <option value="ڕۆژئاوای کوردستان">ڕۆژئاوای کوردستان</option>
+        </select>
+      </div>
+
+      <div class="select-box">
+        <span class="right-icon">🏙</span>
+        <select id="city" required>
+          <option value="">سەرەتا وڵات هەڵبژێرە</option>
+        </select>
+      </div>
+
+      <div class="input-box">
+        <span class="right-icon">🪪</span>
+        <input type="text" id="nationalId" placeholder="ژمارەی پێناس / کارتی نیشتمانی" required />
+      </div>
+
+      <label class="terms">
+        <input type="checkbox" id="terms" required />
+        <span>ڕازیم بە <a href="#">مەرج و ڕێساکانی Kurdliga</a></span>
+      </label>
+
+      <button type="submit" class="register-btn">خۆتۆمارکردن</button>
+
+      <div class="login-text">
+        پێشتر هەژمارت هەیە؟ <a href="login.html">چوونەژوورەوە</a>
+      </div>
+
+    </form>
+
+  </div>
+
+  <script>
+    const cities = {
+      "باشوری کوردستان": ["هەولێر", "سلێمانی", "دهۆک", "هەڵەبجە", "کەرکوک", "موسڵ"],
+      "باکوری کوردستان": ["ئامەد", "ئاگری", "وان", "جۆلەمێرگ", "شڕناخ", "مێردین", "مامەکی", "سەمسوور", "سێرت", "بەدلیس", "مووش", "ئەرزنگان", "چەولیگ", "ڕحا", "ئەنتاکیا", "مەرعەش", "ڕەشقەلاس", "قەرس", "ئەرزیڕۆم", "سێواس", "مەلەتی", "ئەردێخان", "ئێلح", "دیلۆک", "خارپێت"],
+      "ڕۆژهەڵاتی کوردستان": ["کرماشان", "سنە", "مەهاباد", "ورمێ", "ئیلام", "سەقز", "بۆکان", "مەریوان", "بانە", "پاوە", "پیرانشار", "سەردەشت", "کامیاران", "شنۆ", "جوانڕۆ", "خۆی"],
+      "ڕۆژئاوای کوردستان": ["قامیشلۆ", "کۆبانێ", "عەفرین", "حەسەکە", "سەرێ کانیێ", "عاموودا", "دێرک (مالیکیە)", "عەین عیسا", "دەرباسیێ"]
+    };
+
+    function loadCities() {
+      const country = document.getElementById("country").value;
+      const citySelect = document.getElementById("city");
+
+      citySelect.innerHTML = '<option value="">شار هەڵبژێرە</option>';
+
+      if (cities[country]) {
+        cities[country].forEach(city => {
+          const option = document.createElement("option");
+          option.value = city;
+          option.textContent = city;
+          citySelect.appendChild(option);
+        });
+      }
+    }
+
+    function togglePassword(id) {
+      const input = document.getElementById(id);
+      input.type = input.type === "password" ? "text" : "password";
+    }
+
+    function registerUser(event) {
+      event.preventDefault();
+
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        alert("پاسوۆردەکان وەک یەک نین");
+        return;
+      }
+
+      window.location.href = "home.html";
+    }
+  </script>
+
+</body>
+</html>
