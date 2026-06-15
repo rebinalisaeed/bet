@@ -16,7 +16,11 @@
       src: url('fonts/kurdliga-bold.ttf') format('truetype');
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     html, body {
       width: 100%;
@@ -53,7 +57,8 @@
       margin-bottom: 22px;
     }
 
-    .input-box, .select-box {
+    .input-box,
+    .select-box {
       width: 100%;
       height: 58px;
       border: 2px solid #F5F7FA;
@@ -72,7 +77,8 @@
       line-height: 1;
     }
 
-    input, select {
+    input,
+    select {
       flex: 1;
       min-width: 0;
       background: transparent !important;
@@ -100,7 +106,8 @@
       color: #BFC8D4;
     }
 
-    input:focus, select:focus {
+    input:focus,
+    select:focus {
       outline: none;
       box-shadow: none;
       background: transparent !important;
@@ -161,7 +168,14 @@
       margin-bottom: 18px;
     }
 
-    .register-btn:active { transform: scale(0.98); }
+    .register-btn:active {
+      transform: scale(0.98);
+    }
+
+    .register-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
 
     .login-text {
       font-size: 17px;
@@ -244,7 +258,7 @@
 
       <div class="input-box">
         <span class="right-icon">🪪</span>
-        <input type="text" id="nationalId" placeholder="ژمارەی پێناس / کارتی نیشتمانی" required />
+        <input type="text" id="nationalId" inputmode="numeric" placeholder="ژمارەی پێناس / کارتی نیشتمانی" required />
       </div>
 
       <label class="terms">
@@ -252,7 +266,7 @@
         <span>ڕازیم بە <a href="#">مەرج و ڕێساکانی Kurdliga</a></span>
       </label>
 
-      <button type="submit" class="register-btn">خۆتۆمارکردن</button>
+      <button type="submit" class="register-btn" id="registerBtn">خۆتۆمارکردن</button>
 
       <div class="login-text">
         پێشتر هەژمارت هەیە؟ <a href="login.html">چوونەژوورەوە</a>
@@ -290,20 +304,146 @@
       const input = document.getElementById(id);
       input.type = input.type === "password" ? "text" : "password";
     }
+  </script>
 
-    function registerUser(event) {
+  <script type="module">
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+    import {
+      getAuth,
+      createUserWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      collection,
+      query,
+      where,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB2ENjViKDRHwwBUGTjrDJMrnrQePGhDqY",
+      authDomain: "kurdliga1.firebaseapp.com",
+      databaseURL: "https://kurdliga1-default-rtdb.firebaseio.com",
+      projectId: "kurdliga1",
+      storageBucket: "kurdliga1.firebasestorage.app",
+      messagingSenderId: "799164130957",
+      appId: "1:799164130957:web:a3ff5ec1ccb026ca59a4c4",
+      measurementId: "G-8TCVRT6GNK"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    async function checkIfExists(fieldName, value) {
+      const q = query(
+        collection(db, "users"),
+        where(fieldName, "==", value)
+      );
+
+      const snapshot = await getDocs(q);
+      return !snapshot.empty;
+    }
+
+    window.registerUser = async function(event) {
       event.preventDefault();
 
+      const registerBtn = document.getElementById("registerBtn");
+      registerBtn.disabled = true;
+      registerBtn.textContent = "تکایە چاوەڕێ بکە...";
+
+      const firstName = document.getElementById("firstName").value.trim();
+      const secondName = document.getElementById("secondName").value.trim();
+      const username = document.getElementById("username").value.trim().toLowerCase();
       const password = document.getElementById("password").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim().toLowerCase();
+      const country = document.getElementById("country").value;
+      const city = document.getElementById("city").value;
+      const nationalId = document.getElementById("nationalId").value.trim();
+      const terms = document.getElementById("terms").checked;
 
-      if (password !== confirmPassword) {
-        alert("پاسوۆردەکان وەک یەک نین");
-        return;
+      try {
+        if (!firstName || !secondName || !username || !password || !confirmPassword || !phone || !email || !country || !city || !nationalId) {
+          alert("تکایە هەموو خانەکان پڕ بکەوە");
+          return;
+        }
+
+        if (!/^[0-9]+$/.test(nationalId)) {
+          alert("ژمارەی پێناس دەبێت تەنها ژمارە بێت");
+          return;
+        }
+
+        if (password.length < 6) {
+          alert("پاسوۆرد دەبێت لانیکەم ٦ پیت یان ژمارە بێت");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert("پاسوۆردەکان وەک یەک نین");
+          return;
+        }
+
+        if (!terms) {
+          alert("پێویستە ڕازی بیت بە مەرج و ڕێساکانی Kurdliga");
+          return;
+        }
+
+        const usernameExists = await checkIfExists("username", username);
+        if (usernameExists) {
+          alert("ئەم یوزەرناوە پێشتر بەکارهاتووە");
+          return;
+        }
+
+        const nationalIdExists = await checkIfExists("nationalId", nationalId);
+        if (nationalIdExists) {
+          alert("ئەم ژمارەی پێناسە پێشتر تۆمارکراوە");
+          return;
+        }
+
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+          firstName: firstName,
+          secondName: secondName,
+          username: username,
+          phone: phone,
+          email: email,
+          country: country,
+          city: city,
+          nationalId: nationalId,
+          points: 1000,
+          rank: 0,
+          badges: [],
+          isAdmin: false,
+          createdAt: Date.now()
+        });
+
+        alert("هەژمارەکەت بە سەرکەوتوویی دروست کرا");
+        window.location.href = "home.html";
+
+      } catch (error) {
+        if (error.code === "auth/email-already-in-use") {
+          alert("ئەم ئیمەیڵە پێشتر بەکارهاتووە");
+        } else if (error.code === "auth/invalid-email") {
+          alert("ئیمەیڵەکە دروست نییە");
+        } else if (error.code === "auth/weak-password") {
+          alert("پاسوۆرد زۆر لاوازە");
+        } else {
+          alert("هەڵەیەک ڕوویدا: " + error.message);
+        }
+      } finally {
+        registerBtn.disabled = false;
+        registerBtn.textContent = "خۆتۆمارکردن";
       }
-
-      window.location.href = "home.html";
-    }
+    };
   </script>
 
 </body>
