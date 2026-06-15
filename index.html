@@ -91,7 +91,7 @@
     }
 
     @keyframes logoPulse {
-      0%, 100% {
+      0%,100% {
         transform: scale(1);
       }
 
@@ -122,7 +122,8 @@
       }
     }
 
-    @media (max-height: 650px) {
+    @media (max-height:650px) {
+
       .logo {
         width: min(65%, 260px);
         margin-bottom: 18px;
@@ -152,7 +153,12 @@
 <body>
 
   <main class="splash">
-    <img src="assets/images/logo.png" alt="Kurdliga Logo" class="logo" />
+
+    <img
+      src="assets/images/logo.png"
+      alt="Kurdliga Logo"
+      class="logo"
+    />
 
     <div class="slogan">
       یەکەمین ماڵپەری پێشبینی یاریەکان بە خۆڕایی
@@ -160,20 +166,19 @@
 
     <div class="loader"></div>
 
-    <div class="loading-text">تکایە چاوەڕێ بکە...</div>
+    <div class="loading-text">
+      تکایە چاوەڕێ بکە...
+    </div>
 
-    <div class="version">Version 1.0.0</div>
+    <div class="version">
+      Version 1.0.0
+    </div>
+
   </main>
 
   <script>
     setTimeout(() => {
-      const isLoggedIn = localStorage.getItem("kurdligaLoggedIn");
-
-      if (isLoggedIn === "true") {
-        window.location.href = "home.html";
-      } else {
-        window.location.href = "login.html";
-      }
+      window.location.href = "login.html";
     }, 6000);
   </script>
 
