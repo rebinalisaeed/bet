@@ -22,7 +22,8 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       width: 100%;
       height: 100%;
       background: #021133;
@@ -57,6 +58,7 @@
       color: #F5F7FA;
       margin-bottom: 34px;
       line-height: 1.8;
+      animation: fadeText 2s ease infinite alternate;
     }
 
     .loader {
@@ -75,13 +77,27 @@
       color: #BFC8D4;
     }
 
+    .version {
+      margin-top: 15px;
+      color: #7A869A;
+      font-size: 14px;
+      font-family: 'Kurdliga-Regular', sans-serif;
+    }
+
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     @keyframes logoPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.04); }
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.04);
+      }
     }
 
     @keyframes fadeIn {
@@ -89,9 +105,20 @@
         opacity: 0;
         transform: translateY(18px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeText {
+      from {
+        opacity: 0.65;
+      }
+
+      to {
+        opacity: 1;
       }
     }
 
@@ -110,6 +137,14 @@
         width: 38px;
         height: 38px;
       }
+
+      .loading-text {
+        font-size: 14px;
+      }
+
+      .version {
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -120,17 +155,25 @@
     <img src="assets/images/logo.png" alt="Kurdliga Logo" class="logo" />
 
     <div class="slogan">
-       یەکەمین ماڵپەری پێشبینی یاریەکان بە خۆڕایی   
+      یەکەمین ماڵپەری پێشبینی یاریەکان بە خۆڕایی
     </div>
 
     <div class="loader"></div>
 
     <div class="loading-text">تکایە چاوەڕێ بکە...</div>
+
+    <div class="version">Version 1.0.0</div>
   </main>
 
   <script>
     setTimeout(() => {
-      window.location.href = "login.html";
+      const isLoggedIn = localStorage.getItem("kurdligaLoggedIn");
+
+      if (isLoggedIn === "true") {
+        window.location.href = "home.html";
+      } else {
+        window.location.href = "login.html";
+      }
     }, 6000);
   </script>
 
