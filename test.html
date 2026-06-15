@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <title>KURDLIGA - پێشبینی و پێشبڕکێ</title>
+  <!-- Google Fonts + Arabic/Kurdish friendly -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Noto+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #07131F;
+      font-family: 'Noto Sans Arabic', 'Inter', sans-serif;
+      color: #FFFFFF;
+      overflow-x: hidden;
+    }
+
+    /* Custom RTL scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #102030;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #00C853;
+      border-radius: 10px;
+    }
+
+    /* App container - mobile first */
+    .app-container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #07131F;
+      min-height: 100vh;
+      position: relative;
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    }
+
+    /* Screen visibility */
+    .screen {
+      display: none;
+      padding-bottom: 80px;
+      animation: fadeIn 0.25s ease;
+    }
+    .active-screen {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    /* Splash specific */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      max-width: 500px;
+      right: 0;
+      margin: auto;
+      height: 100vh;
+      background: #07131F;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s;
+    }
+    .splash-logo {
+      width: 160px;
+      height: 160px;
+      background: linear-gradient(145deg, #00C853, #0D47A1);
+      border-radius: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 35px rgba(0,200,83,0.2);
+      margin-bottom: 24px;
+      animation: pulseGlow 1.8s infinite;
+    }
+    .splash-logo span {
+      font-size: 68px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: 4px;
+      text-shadow: 2px 2px 0 #0D47A1;
+    }
+    .football-animation {
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle at 30% 30%, #fff, #ddd);
+      border-radius: 50%;
+      position: relative;
+      margin-top: 30px;
+      animation: bounceRotate 0.9s infinite alternate;
+      box-shadow: 0 0 0 4px #00C85366;
+    }
+    .football-animation::before {
+      content: "⚽";
+      font-size: 48px;
+      position: absolute;
+      top: -8px;
+      left: 6px;
+    }
+    @keyframes bounceRotate {
+      0% { transform: translateY(0px) rotate(0deg);}
+      100% { transform: translateY(-25px) rotate(15deg);}
+    }
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 10px 25px rgba(0,200,83,0.3);}
+      100% { box-shadow: 0 20px 45px rgba(0,200,83,0.6);}
+    }
+    .splash-slogan {
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #FFD700, #00C853);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 1px;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      max-width: 500px;
+      width: 100%;
+      background: rgba(16,32,48,0.92);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 12px 20px 20px;
+      border-top: 1px solid rgba(0,200,83,0.2);
+      z-index: 100;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: #aaa;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .nav-item i {
+      font-size: 24px;
+    }
+    .nav-item.active {
+      color: #00C853;
+      text-shadow: 0 0 5px #00C85366;
+    }
+    /* Cards glassmorphism */
+    .glass-card {
+      background: rgba(16, 32, 48, 0.8);
+      backdrop-filter: blur(4px);
+      border-radius: 28px;
+      padding: 16px;
+      margin: 12px 16px;
+      border: 1px solid rgba(0,200,83,0.2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    .btn-primary {
+      background: linear-gradient(95deg, #00C853, #0D47A1);
+      border: none;
+      border-radius: 40px;
+      padding: 14px 20px;
+      font-weight: bold;
+      color: white;
+      font-size: 16px;
+      width: 100%;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+    .btn-primary:active { transform: scale(0.97);}
+    input, .input-field {
+      background: #07131F;
+      border: 1px solid #2c3e50;
+      border-radius: 28px;
+      padding: 14px 18px;
+      color: white;
+      font-size: 15px;
+      width: 100%;
+      margin-bottom: 16px;
+      outline: none;
+      transition: 0.2s;
+    }
+    input:focus {
+      border-color: #00C853;
+    }
+    .match-card, .badge-card, .notification-item {
+      background: #102030;
+      border-radius: 24px;
+      padding: 14px;
+      margin-bottom: 12px;
+      transition: 0.2s;
+    }
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .badge-gold { background: linear-gradient(145deg, #FFD70030, #FFB30030); border-right: 4px solid #FFD700;}
+    .rank-number {
+      font-size: 20px;
+      font-weight: 800;
+    }
+    .avatar-circle {
+      width: 48px;
+      height: 48px;
+      background: #0D47A1;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 22px;
+    }
+    .point-chip {
+      background: #00C85320;
+      padding: 6px 12px;
+      border-radius: 40px;
+      font-weight: bold;
+    }
+    .prediction-buttons {
+      display: flex;
+      gap: 12px;
+      margin: 15px 0;
+    }
+    .pred-option {
+      flex: 1;
+      background: #07131F;
+      padding: 8px;
+      border-radius: 40px;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid #2a4058;
+    }
+    .pred-option.selected {
+      background: #00C853;
+      border-color: #FFD700;
+      color: #000;
+      font-weight: bold;
+    }
+    .points-select {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+    .points-badge {
+      background: #0D47A1;
+      padding: 8px 14px;
+      border-radius: 32px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .points-badge.selected {
+      background: #FFD700;
+      color: #07131F;
+    }
+    h2, h3 {
+      font-weight: 800;
+    }
+    .leaderboard-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 24px;
+      background: #102030;
+      margin-bottom: 8px;
+    }
+    .admin-only {
+      display: none;
+    }
+    .show-admin .admin-only {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container" id="appRoot">
+
+  <!-- splash -->
+  <div id="splashScreen" class="splash-screen">
+    <div class="splash-logo"><span>K</span></div>
+    <div class="football-animation"></div>
+    <div class="splash-slogan">پێشبینی • پێشبڕکێ • سەرکەوتن</div>
+  </div>
+
+  <!-- main screens wrapper -->
+  <div id="mainApp" style="display: none;">
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav" id="bottomNav">
+      <div class="nav-item" data-screen="home"><i class="fas fa-home"></i><span>خانه</span></div>
+      <div class="nav-item" data-screen="matches"><i class="fas fa-calendar-alt"></i><span>یارییه‌کان</span></div>
+      <div class="nav-item" data-screen="leaderboard"><i class="fas fa-trophy"></i><span>پلەکان</span></div>
+      <div class="nav-item" data-screen="profile"><i class="fas fa-user"></i><span>پڕۆفایل</span></div>
+    </div>
+
+    <!-- HOME SCREEN -->
+    <div id="homeScreen" class="screen">
+      <div class="glass-card" style="margin-top: 20px;">
+        <div class="flex-between">
+          <div><img src="#" alt="KURDLIGA" style="font-size: 26px; font-weight: 800; background: linear-gradient(135deg,#00C853,#FFD700); -webkit-background-clip:text; background-clip:text; color:transparent;"> KURDLIGA</div>
+          <i class="fas fa-bell" style="font-size: 22px; color:#FFD700;"></i>
+        </div>
+        <div class="flex-between" style="margin-top: 16px;">
+          <div class="flex-between" style="gap:12px"><div class="avatar-circle">K</div><div><div id="homeUsername">KurdishFan</div><div class="point-chip" id="homePoints">0 خاڵ</div></div></div>
+          <div><span class="rank-number" id="homeRank">#1</span><br>ڕیزبەندی</div>
+        </div>
+      </div>
+      <div style="padding: 0 16px;"><h3>خولی پێشبڕکێکان</h3></div>
+      <div style="display: flex; overflow-x: auto; gap: 12px; padding: 12px 16px;" id="featuredLeagues">
+        <div class="glass-card" style="min-width: 100px;">🏆 جامی جیهان</div><div class="glass-card" style="min-width: 100px;">⭐ چامپیۆنزلیگ</div><div class="glass-card" style="min-width: 100px;">🏴󠁧󠁢󠁥󠁮󠁧󠁿 پریمیرلیگ</div><div class="glass-card" style="min-width: 100px;">🇪🇸 لا لیگا</div><div class="glass-card" style="min-width: 100px;">🇩🇪 بۆندسلیگا</div><div class="glass-card" style="min-width: 100px;">🇮🇹 سێریا A</div>
+      </div>
+      <div style="padding: 0 16px;"><h3>یارییە داهاتووەکان</h3></div>
+      <div id="homeMatchesList"></div>
+    </div>
+
+    <!-- MATCHES SCREEN (upcoming matches list) -->
+    <div id="matchesScreen" class="screen">
+      <div style="padding: 16px;"><h2>یارییەکان</h2></div>
+      <div id="allMatchesList"></div>
+    </div>
+
+    <!-- MATCH DETAILS SCREEN (dynamic) hidden until click -->
+    <div id="matchDetailScreen" class="screen">
+      <div style="padding: 16px;"><button id="backToMatchesBtn" style="background:none; border:none; color:#00C853; font-size:18px;"><i class="fas fa-arrow-right"></i> گەڕانەوە</button></div>
+      <div id="matchDetailContent"></div>
+    </div>
+
+    <!-- LEADERBOARD SCREEN -->
+    <div id="leaderboardScreen" class="screen">
+      <div style="padding: 16px;"><h2>ڕیزبەندی <i class="fas fa-chart-line"></i></h2></div>
+      <div id="leaderboardList"></div>
+    </div>
+
+    <!-- PROFILE SCREEN -->
+    <div id="profileScreen" class="screen">
+      <div class="glass-card" style="text-align: center;">
+        <div class="avatar-circle" style="margin: 0 auto 12px; width: 80px; height:80px; font-size:36px;">K</div>
+        <h3 id="profileUsername">KurdishFan</h3>
+        <div id="profileEmail">fan@kurdliga.com</div>
+        <div class="flex-between" style="margin-top: 20px;"><span>خاڵەکان:</span><strong id="profilePoints">0</strong></div>
+        <div class="flex-between"><span>وردی پێشبینی:</span><strong id="profileAccuracy">0%</strong></div>
+        <div class="flex-between"><span>باجەکان:</span><strong id="profileBadgeCount">0</strong></div>
+      </div>
+      <div class="glass-card">
+        <div class="flex-between" style="margin-bottom: 16px; cursor:pointer;" id="gotoHistory"><i class="fas fa-history"></i><span> مێژووی پێشبینی</span><i class="fas fa-chevron-left"></i></div>
+        <div class="flex-between" style="margin-bottom: 16px; cursor:pointer;" id="gotoBadges"><i class="fas fa-medal"></i><span> باجەکان</span><i class="fas fa-chevron-left"></i></div>
+        <div class="flex-between" style="margin-bottom: 16px; cursor:pointer;" id="gotoSettings"><i class="fas fa-sliders-h"></i><span> ڕێکخستنەکان</span><i class="fas fa-chevron-left"></i></div>
+        <div class="flex-between" style="cursor:pointer;" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span> دەرچون</span></div>
+      </div>
+    </div>
+
+    <!-- BADGES SCREEN (sub) -->
+    <div id="badgesScreen" class="screen">
+      <div style="padding:16px;"><button id="backProfileBtn" style="background:none; color:#00C853;"><i class="fas fa-arrow-right"></i> گەڕانەوە</button></div>
+      <div id="badgesContainer"></div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="settingsScreen" class="screen">
+      <div style="padding:16px;"><button id="backSettingsBtn" style="background:none; color:#00C853;"><i class="fas fa-arrow-right"></i> گەڕانەوە</button></div>
+      <div class="glass-card"><div class="flex-between">🌙 داری ڕووناکی <i class="fas fa-toggle-on" style="color:#00C853;"></i></div></div>
+      <div class="glass-card"><div class="flex-between">🗣 زمان (کوردی)<span>سۆرانی</span></div></div>
+      <div class="glass-card"><div class="flex-between">🔔 ئاگانامەکان <i class="fas fa-bell"></i></div></div>
+    </div>
+    
+    <!-- login + register overlay (simple modals) -->
+    <div id="loginOverlay" style="position:fixed; top:0; left:0; width:100%; max-width:500px; margin:auto; height:100%; background:#07131FCC; backdrop-filter:blur(12px); z-index:1500; display:flex; align-items:center; justify-content:center; flex-direction:column; padding:20px;" class="glass-card">
+      <div style="background:#102030; border-radius: 40px; padding: 24px; width:100%;"><h2 style="text-align:center;">چوونەژوورەوە</h2>
+      <input type="email" id="loginEmail" placeholder="ئیمەیڵ" class="input-field"><input type="password" id="loginPass" placeholder="تێپەڕەوشە"><button id="doLoginBtn" class="btn-primary">چوونەژوورەوە</button><div style="text-align:center; margin-top:12px;"><span id="showRegisterLink">نەتۆماربوویت؟ تۆماربە</span></div></div>
+    </div>
+    <div id="registerOverlay" style="position:fixed; top:0; left:0; max-width:500px; margin:auto; width:100%; height:100%; background:#07131FCC; backdrop-filter:blur(12px); z-index:1500; display:none; align-items:center; justify-content:center; padding:20px;">
+      <div style="background:#102030; border-radius: 40px; padding: 24px; width:100%;"><h2>تۆمارکردن</h2>
+      <input type="text" id="regUser" placeholder="ناوی بەکارهێنەر"><input type="email" id="regEmail" placeholder="ئیمەیڵ"><input type="password" id="regPass" placeholder="تێپەڕەوشە"><input type="password" id="regConfirm" placeholder="دڵنیاکردنەوە"><button id="doRegisterBtn" class="btn-primary">دروستکردنی هەژمار</button><div style="text-align:center; margin-top:10px;"><span id="gotoLoginLink">چوونەژوورەوە</span></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- STATE ----------
+  let currentUser = null;
+  let users = []; // store {username, email, password, points, rank, badges, predictions, accuracy}
+  let matches = [
+    { id: 1, homeTeam: "هەولێر", awayTeam: "سلێمانی", homeLogo:"⚪", awayLogo:"⚫", date: "2026-06-18", time: "20:00", result: null, homeScore:null, awayScore:null },
+    { id: 2, homeTeam: "ڕیاڵ مەدرید", awayTeam: "بەرشەلۆنە", homeLogo:"👑", awayLogo:"🔵", date: "2026-06-20", time: "22:00", result: null },
+    { id: 3, homeTeam: "بەیەرن مونیخ", awayTeam: "دۆرتموند", homeLogo:"🟡", awayLogo:"⚫", date: "2026-06-22", time: "21:30", result: null }
+  ];
+  let predictions = []; // { matchId, userId, prediction: 'H','D','A', pointsStaked, status }
+
+  // helper: save to localStorage
+  function saveData() {
+    localStorage.setItem('kurddb_users', JSON.stringify(users));
+    localStorage.setItem('kurddb_matches', JSON.stringify(matches));
+    localStorage.setItem('kurddb_predictions', JSON.stringify(predictions));
+  }
+  function loadData() {
+    let u = localStorage.getItem('kurddb_users');
+    if(u) users = JSON.parse(u); else users = [{ username: "کاربەری نموونە", email: "demo@kurdliga.com", password: "123", points: 1250, rank: 1, badges: ["Bronze Predictor"], accuracy: 68, predictionsHistory: [] }];
+    let m = localStorage.getItem('kurddb_matches');
+    if(m) matches = JSON.parse(m);
+    let p = localStorage.getItem('kurddb_predictions');
+    if(p) predictions = JSON.parse(p);
+  }
+  function updatePointsAndRank() {
+    if(!currentUser) return;
+    let totalPoints = users.find(u=>u.email===currentUser.email)?.points || 0;
+    let sorted = [...users].sort((a,b)=>b.points - a.points);
+    let rank = sorted.findIndex(u=>u.email===currentUser.email)+1;
+    if(currentUser) currentUser.rank = rank;
+    document.getElementById('homePoints').innerText = totalPoints + " خاڵ";
+    document.getElementById('homeRank').innerText = "#"+rank;
+    if(document.getElementById('profilePoints')) document.getElementById('profilePoints').innerText = totalPoints;
+    let acc = users.find(u=>u.email===currentUser.email)?.accuracy || 0;
+    document.getElementById('profileAccuracy').innerText = acc+"%";
+    document.getElementById('profileUsername').innerText = currentUser.username;
+    document.getElementById('profileEmail').innerText = currentUser.email;
+    document.getElementById('homeUsername').innerText = currentUser.username;
+  }
+  function renderLeaderboard() {
+    let sorted = [...users].sort((a,b)=>b.points - a.points);
+    let html = '';
+    sorted.forEach((u,idx)=>{
+      let medal = idx===0 ? '🥇' : (idx===1?'🥈':(idx===2?'🥉':''));
+      html += `<div class="leaderboard-item"><div style="width: 40px; font-size:24px;">${medal || idx+1}</div><div class="avatar-circle" style="width:40px;height:40px;">${u.username.charAt(0)}</div><div><strong>${u.username}</strong><div>${u.points} خاڵ</div></div></div>`;
+    });
+    document.getElementById('leaderboardList').innerHTML = html;
+  }
+  function renderBadgesScreen() {
+    let badgesList = currentUser?.badges || ["Bronze Predictor"];
+    let allPossible = ["Bronze Predictor","Silver Predictor","Gold Predictor","Champion","Legend"];
+    let html = `<div class="glass-card"><h3>باجەکانت</h3></div>`;
+    allPossible.forEach(b=>{
+      let owned = badgesList.includes(b);
+      html += `<div class="badge-card ${owned?'':'opacity-50'}"><div class="flex-between"><span>${b}</span>${owned?'✅':'🔒'}</div></div>`;
+    });
+    document.getElementById('badgesContainer').innerHTML = html;
+  }
+  function renderMatchesList(containerId, limit=null) {
+    let list = matches.slice();
+    if(limit) list = list.slice(0,limit);
+    let html = '';
+    list.forEach(m=>{
+      html += `<div class="match-card"><div class="flex-between"><div><span>${m.homeLogo || '🏆'} ${m.homeTeam}</span> vs <span>${m.awayTeam} ${m.awayLogo || '🏆'}</span></div><div>${m.date} ${m.time}</div></div><button class="btn-primary predict-btn" data-id="${m.id}" style="margin-top:8px;">پێشبینی بکە</button></div>`;
+    });
+    document.getElementById(containerId).innerHTML = html;
+    document.querySelectorAll('.predict-btn').forEach(btn=>{
+      btn.addEventListener('click',(e)=>{
+        let matchId = parseInt(btn.dataset.id);
+        showMatchDetail(matchId);
+      });
+    });
+  }
+  function showMatchDetail(matchId) {
+    let match = matches.find(m=>m.id===matchId);
+    let content = `
+      <div class="glass-card"><div class="flex-between"><h3>${match.homeTeam} 🆚 ${match.awayTeam}</h3></div>
+      <p>${match.date} - ${match.time}</p>
+      <div><strong>ئامار:</strong> پێشبینی گشتی</div>
+      <div style="margin:15px 0;">هەڵبژاردنی ئەنجام:</div>
+      <div class="prediction-buttons">
+        <div class="pred-option" data-pred="H">سەرکەوتنی ماڵەوە</div>
+        <div class="pred-option" data-pred="D">یەکسان</div>
+        <div class="pred-option" data-pred="A">سەرکەوتنی دەرەوە</div>
+      </div>
+      <div>خاڵەکان:</div>
+      <div class="points-select">
+        <div class="points-badge" data-points="25">25</div><div class="points-badge" data-points="50">50</div><div class="points-badge" data-points="100">100</div><div class="points-badge" data-points="250">250</div><div class="points-badge" data-points="500">500</div>
+      </div>
+      <button id="submitPredictionBtn" class="btn-primary">ناردنی پێشبینی</button>
+    `;
+    document.getElementById('matchDetailContent').innerHTML = content;
+    let selectedPred = null;
+    let selectedPoints = 25;
+    document.querySelectorAll('.pred-option').forEach(el=>{
+      el.addEventListener('click',()=>{
+        document.querySelectorAll('.pred-option').forEach(c=>c.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedPred = el.dataset.pred;
+      });
+    });
+    document.querySelectorAll('.points-badge').forEach(el=>{
+      el.addEventListener('click',()=>{
+        document.querySelectorAll('.points-badge').forEach(c=>c.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedPoints = parseInt(el.dataset.points);
+      });
+    });
+    document.getElementById('submitPredictionBtn').addEventListener('click',()=>{
+      if(!selectedPred) { alert("تکایە ئەنجامێک هەڵبژێرە"); return; }
+      let userPoints = users.find(u=>u.email===currentUser.email).points;
+      if(userPoints < selectedPoints) { alert("خاڵەکانت بەسەر نین"); return; }
+      users = users.map(u=>{ if(u.email===currentUser.email) u.points -= selectedPoints; return u;});
+      predictions.push({ matchId, userId: currentUser.email, prediction: selectedPred, pointsStaked: selectedPoints, status:'pending' });
+      saveData();
+      currentUser.points -= selectedPoints;
+      updatePointsAndRank();
+      alert(`پێشبینی تۆمارکرا! ${selectedPoints} خاڵ بەکارهات`);
+      showScreen('matches');
+      renderMatchesList('allMatchesList');
+    });
+    showScreen('matchDetail');
+  }
+  function showScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active-screen'));
+    document.getElementById(screenId+'Screen')?.classList.add('active-screen');
+    if(screenId === 'leaderboard') renderLeaderboard();
+    if(screenId === 'matches') renderMatchesList('allMatchesList');
+    if(screenId === 'home') { renderMatchesList('homeMatchesList',2); updatePointsAndRank();}
+    if(screenId === 'profile') updatePointsAndRank();
+    if(screenId === 'badges') renderBadgesScreen();
+  }
+  function initNavigation() {
+    document.querySelectorAll('.nav-item').forEach(nav=>{
+      nav.addEventListener('click',()=>{
+        let scr = nav.dataset.screen;
+        if(scr === 'home') showScreen('home');
+        if(scr === 'matches') showScreen('matches');
+        if(scr === 'leaderboard') showScreen('leaderboard');
+        if(scr === 'profile') showScreen('profile');
+        document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+        nav.classList.add('active');
+      });
+    });
+    document.getElementById('gotoBadges')?.addEventListener('click',()=>showScreen('badges'));
+    document.getElementById('backProfileBtn')?.addEventListener('click',()=>showScreen('profile'));
+    document.getElementById('gotoSettings')?.addEventListener('click',()=>showScreen('settings'));
+    document.getElementById('backSettingsBtn')?.addEventListener('click',()=>showScreen('profile'));
+    document.getElementById('logoutBtn')?.addEventListener('click',()=>{ currentUser=null; location.reload(); });
+    document.getElementById('backToMatchesBtn')?.addEventListener('click',()=>showScreen('matches'));
+  }
+  // Auth
+  function initAuth() {
+    document.getElementById('doLoginBtn').onclick=()=>{
+      let email = document.getElementById('loginEmail').value;
+      let pwd = document.getElementById('loginPass').value;
+      let user = users.find(u=>u.email===email && u.password===pwd);
+      if(user) { currentUser=user; document.getElementById('loginOverlay').style.display='none'; showScreen('home'); updatePointsAndRank(); renderLeaderboard();}
+      else alert("هەڵەی ئیمەیڵ یان تێپەڕەوشە");
+    };
+    document.getElementById('showRegisterLink').onclick=()=>{ document.getElementById('loginOverlay').style.display='none'; document.getElementById('registerOverlay').style.display='flex';};
+    document.getElementById('gotoLoginLink').onclick=()=>{ document.getElementById('registerOverlay').style.display='none'; document.getElementById('loginOverlay').style.display='flex';};
+    document.getElementById('doRegisterBtn').onclick=()=>{
+      let uname = document.getElementById('regUser').value;
+      let email = document.getElementById('regEmail').value;
+      let pwd = document.getElementById('regPass').value;
+      let conf = document.getElementById('regConfirm').value;
+      if(pwd !== conf) alert("تێپەڕەوشەکان یەکسان نین");
+      else if(users.find(u=>u.email===email)) alert("ئیمەیڵ بوونی هەیە");
+      else { let newUser = { username: uname, email, password:pwd, points:500, rank:0, badges:["Bronze Predictor"], accuracy:0, predictionsHistory:[] };
+        users.push(newUser); saveData(); alert("تۆمارکرا! تکایە بچۆ ژوورەوە"); document.getElementById('registerOverlay').style.display='none'; document.getElementById('loginOverlay').style.display='flex';}
+    };
+  }
+  // splash timeout
+  setTimeout(()=>{
+    document.getElementById('splashScreen').style.display='none';
+    document.getElementById('mainApp').style.display='block';
+    loadData();
+    initAuth();
+    initNavigation();
+    if(!currentUser) { document.getElementById('loginOverlay').style.display='flex'; }
+    else { showScreen('home'); updatePointsAndRank(); renderLeaderboard(); renderMatchesList('homeMatchesList',2); renderMatchesList('allMatchesList'); }
+  }, 2000);
+</script>
+</body>
+</html>
