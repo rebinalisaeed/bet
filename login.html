@@ -6,11 +6,20 @@
   <title>چوونەژوورەوە - Kurdliga</title>
 
   <style>
+    @font-face {
+      font-family: 'Kurdliga-Regular';
+      src: url('assets/fonts/kurdliga-Reg.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'Kurdliga-Bold';
+      src: url('assets/fonts/kurdliga-bold.ttf') format('truetype');
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, "Noto Sans Arabic", sans-serif;
     }
 
     body {
@@ -19,8 +28,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      color: white;
+      color: #ffffff;
       padding: 25px;
+      font-family: 'Kurdliga-Regular', sans-serif;
     }
 
     .login-box {
@@ -47,40 +57,58 @@
       background: transparent;
     }
 
-    .input-box .right-icon {
-      font-size: 28px;
+    .right-icon {
+      font-size: 27px;
       color: #F5F7FA;
       margin-left: 15px;
     }
 
     .input-box input {
       flex: 1;
-      background: transparent;
+      background: transparent !important;
       border: none;
       outline: none;
-      color: white;
+      color: #ffffff;
       font-size: 22px;
       text-align: right;
+      font-family: 'Kurdliga-Regular', sans-serif;
     }
 
     .input-box input::placeholder {
-      color: #d6d6d6;
+      color: #BFC8D4;
+      font-family: 'Kurdliga-Regular', sans-serif;
+    }
+
+    .input-box input:focus {
+      outline: none;
+      box-shadow: none;
+      background: transparent !important;
+    }
+
+    .input-box input:-webkit-autofill,
+    .input-box input:-webkit-autofill:hover,
+    .input-box input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #ffffff;
+      -webkit-box-shadow: 0 0 0px 1000px #021133 inset;
+      transition: background-color 5000s ease-in-out 0s;
     }
 
     .eye-icon {
-      font-size: 28px;
+      font-size: 27px;
       color: #F5F7FA;
       cursor: pointer;
       margin-right: 15px;
+      user-select: none;
     }
 
     .forgot {
       display: block;
       text-align: left;
-      color: white;
+      color: #ffffff;
       font-size: 20px;
       text-decoration: none;
       margin-bottom: 36px;
+      font-family: 'Kurdliga-Bold', sans-serif;
     }
 
     .login-btn {
@@ -89,21 +117,26 @@
       border: none;
       border-radius: 16px;
       background: #00C853;
-      color: white;
+      color: #ffffff;
       font-size: 28px;
-      font-weight: bold;
+      font-family: 'Kurdliga-Bold', sans-serif;
       cursor: pointer;
       margin-bottom: 30px;
     }
 
+    .login-btn:active {
+      transform: scale(0.98);
+    }
+
     .register-text {
       font-size: 21px;
-      color: white;
+      color: #ffffff;
+      font-family: 'Kurdliga-Regular', sans-serif;
     }
 
     .register-text a {
       color: #00C853;
-      font-weight: bold;
+      font-family: 'Kurdliga-Bold', sans-serif;
       text-decoration: none;
     }
   </style>
@@ -148,7 +181,7 @@
 
     function login(event) {
       event.preventDefault();
-      alert("چوونەژوورەوە ئەنجام دەدرێت");
+      window.location.href = "home.html";
     }
   </script>
 
