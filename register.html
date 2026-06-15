@@ -71,7 +71,7 @@
       align-items: center;
       padding: 0 16px;
       background: transparent;
-      transition: .2s ease;
+      transition: 0.2s ease;
     }
 
     .input-box.error,
@@ -119,8 +119,9 @@
       appearance: none;
       cursor: pointer;
       padding-left: 25px;
-      background-image: linear-gradient(45deg, transparent 50%, #fff 50%),
-                        linear-gradient(135deg, #fff 50%, transparent 50%);
+      background-image:
+        linear-gradient(45deg, transparent 50%, #fff 50%),
+        linear-gradient(135deg, #fff 50%, transparent 50%);
       background-position: left 8px center, left 2px center;
       background-size: 7px 7px, 7px 7px;
       background-repeat: no-repeat;
@@ -391,6 +392,7 @@
     function loadCities() {
       const country = document.getElementById("country").value;
       const citySelect = document.getElementById("city");
+
       citySelect.innerHTML = '<option value="">شار هەڵبژێرە</option>';
 
       if (cities[country]) {
@@ -435,8 +437,17 @@
 
     function clearAllErrors() {
       [
-        "firstName","secondName","username","password","confirmPassword",
-        "phone","email","country","city","nationalId","terms"
+        "firstName",
+        "secondName",
+        "username",
+        "password",
+        "confirmPassword",
+        "phone",
+        "email",
+        "country",
+        "city",
+        "nationalId",
+        "terms"
       ].forEach(clearError);
     }
 
@@ -483,7 +494,11 @@
     const db = getFirestore(app);
 
     async function checkIfExists(fieldName, value) {
-      const q = query(collection(db, "users"), where(fieldName, "==", value));
+      const q = query(
+        collection(db, "users"),
+        where(fieldName, "==", value)
+      );
+
       const snapshot = await getDocs(q);
       return !snapshot.empty;
     }
@@ -516,26 +531,85 @@
       const terms = document.getElementById("terms").checked;
 
       try {
-        if (!firstName) { showError("firstName", "تکایە ناوی یەکەم بنووسە"); scrollToField("firstName"); return; }
-        if (!secondName) { showError("secondName", "تکایە ناوی دووەم بنووسە"); scrollToField("secondName"); return; }
-        if (!username) { showError("username", "تکایە یوزەرناو بنووسە"); scrollToField("username"); return; }
-        if (!password) { showError("password", "تکایە پاسوۆرد بنووسە"); scrollToField("password"); return; }
-        if (password.length < 6) { showError("password", "پاسوۆرد دەبێت لانیکەم ٦ پیت یان ژمارە بێت"); scrollToField("password"); return; }
-        if (!confirmPassword) { showError("confirmPassword", "تکایە پاسوۆرد دووبارە بنووسە"); scrollToField("confirmPassword"); return; }
-        if (password !== confirmPassword) { showError("confirmPassword", "پاسوۆردەکان وەک یەک نین"); scrollToField("confirmPassword"); return; }
-        if (!phone) { showError("phone", "تکایە ژمارەی مۆبایل بنووسە"); scrollToField("phone"); return; }
-        if (!email) { showError("email", "تکایە ئیمەیڵ بنووسە"); scrollToField("email"); return; }
+        if (!firstName) {
+          showError("firstName", "تکایە ناوی یەکەم بنووسە");
+          scrollToField("firstName");
+          return;
+        }
+
+        if (!secondName) {
+          showError("secondName", "تکایە ناوی دووەم بنووسە");
+          scrollToField("secondName");
+          return;
+        }
+
+        if (!username) {
+          showError("username", "تکایە یوزەرناو بنووسە");
+          scrollToField("username");
+          return;
+        }
+
+        if (!password) {
+          showError("password", "تکایە پاسوۆرد بنووسە");
+          scrollToField("password");
+          return;
+        }
+
+        if (password.length < 6) {
+          showError("password", "پاسوۆرد دەبێت لانیکەم ٦ پیت یان ژمارە بێت");
+          scrollToField("password");
+          return;
+        }
+
+        if (!confirmPassword) {
+          showError("confirmPassword", "تکایە پاسوۆرد دووبارە بنووسە");
+          scrollToField("confirmPassword");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          showError("confirmPassword", "پاسوۆردەکان وەک یەک نین");
+          scrollToField("confirmPassword");
+          return;
+        }
+
+        if (!phone) {
+          showError("phone", "تکایە ژمارەی مۆبایل بنووسە");
+          scrollToField("phone");
+          return;
+        }
+
+        if (!email) {
+          showError("email", "تکایە ئیمەیڵ بنووسە");
+          scrollToField("email");
+          return;
+        }
 
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
         if (!emailPattern.test(email)) {
           showError("email", "ئیمەیڵەکە دروست نییە");
           scrollToField("email");
           return;
         }
 
-        if (!country) { showError("country", "تکایە وڵات هەڵبژێرە"); scrollToField("country"); return; }
-        if (!city) { showError("city", "تکایە شار هەڵبژێرە"); scrollToField("city"); return; }
-        if (!nationalId) { showError("nationalId", "تکایە ژمارەی پێناس بنووسە"); scrollToField("nationalId"); return; }
+        if (!country) {
+          showError("country", "تکایە وڵات هەڵبژێرە");
+          scrollToField("country");
+          return;
+        }
+
+        if (!city) {
+          showError("city", "تکایە شار هەڵبژێرە");
+          scrollToField("city");
+          return;
+        }
+
+        if (!nationalId) {
+          showError("nationalId", "تکایە ژمارەی پێناس بنووسە");
+          scrollToField("nationalId");
+          return;
+        }
 
         if (!/^[0-9]+$/.test(nationalId)) {
           showError("nationalId", "ژمارەی پێناس دەبێت تەنها ژمارە بێت");
@@ -550,6 +624,7 @@
         }
 
         const usernameExists = await checkIfExists("username", username);
+
         if (usernameExists) {
           showError("username", "ئەم یوزەرناوە پێشتر بەکارهاتووە");
           scrollToField("username");
@@ -557,6 +632,7 @@
         }
 
         const nationalIdExists = await checkIfExists("nationalId", nationalId);
+
         if (nationalIdExists) {
           showError("nationalId", "ئەم ژمارەی پێناسە پێشتر تۆمارکراوە");
           scrollToField("nationalId");
@@ -566,15 +642,19 @@
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
         await setDoc(doc(db, "users", userCredential.user.uid), {
-          firstName,
-          secondName,
-          username,
-          phone,
-          email,
-          country,
-          city,
-          nationalId,
-          points: 1000,
+          firstName: firstName,
+          secondName: secondName,
+          username: username,
+          phone: phone,
+          email: email,
+          country: country,
+          city: city,
+          nationalId: nationalId,
+
+          coins: 1000,
+          diamonds: 0,
+          lastDailyReward: null,
+
           rank: 0,
           badges: [],
           isAdmin: false,
