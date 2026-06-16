@@ -17,6 +17,7 @@
       font-family: 'Kurdliga-Regular', sans-serif;
       padding-top: 76px;
       padding-bottom: 88px;
+      overflow-x: hidden;
     }
 
     .header {
@@ -45,12 +46,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 24px;
+      font-family: 'Kurdliga-Bold', sans-serif;
     }
 
-    .logo {
-      width: 145px;
-    }
+    .logo { width: 145px; }
 
     .wallet-mini {
       min-width: 92px;
@@ -70,14 +70,43 @@
     }
 
     .coin-line span,
-    .diamond-line span {
-      color: #00C853;
-    }
+    .diamond-line span { color: #00C853; }
 
     .wallet-divider {
       height: 1px;
       background: rgba(180,180,180,.45);
       margin: 4px 0;
+    }
+
+    .date-filter {
+      position: sticky;
+      top: 76px;
+      z-index: 2500;
+      width: 100%;
+      height: 70px;
+      background: linear-gradient(145deg, #061a48, #021133);
+      border-bottom: 1px solid rgba(245,247,250,.16);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 10px 14px;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+    }
+
+    .date-btn {
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: #BFC8D4;
+      border-radius: 16px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .date-btn.active {
+      background: rgba(0,200,83,.18);
+      border-color: #00C853;
+      color: #00C853;
     }
 
     .page {
@@ -113,9 +142,14 @@
       background: #061a48;
       border: 1px solid rgba(245,247,250,.14);
       border-radius: 22px;
-      padding: 16px;
       margin-bottom: 14px;
       box-shadow: 0 10px 24px rgba(0,0,0,.18);
+      overflow: hidden;
+    }
+
+    .archive-summary {
+      padding: 16px;
+      cursor: pointer;
     }
 
     .archive-top {
@@ -151,11 +185,33 @@
       font-size: 12px;
     }
 
+    .summary-title {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .summary-sub {
+      color: #BFC8D4;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .archive-content {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+
+    .archive-card.open .archive-content {
+      display: block;
+    }
+
     .info-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
-      margin-bottom: 12px;
+      margin: 14px 0 12px;
     }
 
     .info-box {
@@ -184,6 +240,10 @@
       border-radius: 16px;
       padding: 12px;
       margin-top: 8px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
     }
 
     .match-name {
@@ -198,8 +258,26 @@
       margin-top: 4px;
     }
 
-    .pick-line b {
+    .pick-line b { color: #00C853; }
+
+    .game-status {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      background: rgba(255,215,0,.16);
+      color: #FFD700;
+      white-space: nowrap;
+    }
+
+    .game-status.win {
+      background: rgba(0,200,83,.16);
       color: #00C853;
+    }
+
+    .game-status.lost {
+      background: rgba(255,59,59,.16);
+      color: #ff4d4d;
     }
 
     .empty-box {
@@ -264,10 +342,15 @@
     </div>
   </header>
 
+  <section class="date-filter">
+    <button class="date-btn active" id="todayBtn" onclick="setDayFilter(0)">ئەمڕۆ</button>
+    <button class="date-btn" id="yesterdayBtn" onclick="setDayFilter(-1)">دوێنێ</button>
+  </section>
+
   <main class="page">
     <div class="title-box">
       <h1>پێشبینیەکانم</h1>
-      <p>ئەرشیفی هەموو پسولە پێشبینییەکانت لێرە دەبینیت.</p>
+      <p>ئەرشیفی پسولەکانت تەنها بۆ دوو ڕۆژی دوایی نیشان دەدرێت.</p>
     </div>
 
     <div id="archiveList">
@@ -312,7 +395,9 @@
       collection,
       query,
       orderBy,
-      getDocs
+      where,
+      getDocs,
+      Timestamp
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -329,6 +414,22 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+
+    let currentUser = null;
+    let selectedDayOffset = 0;
+
+    window.setDayFilter = function(offset) {
+      selectedDayOffset = offset;
+
+      document.getElementById("todayBtn").classList.toggle("active", offset === 0);
+      document.getElementById("yesterdayBtn").classList.toggle("active", offset === -1);
+
+      if (currentUser) loadArchive(currentUser);
+    };
+
+    window.toggleCard = function(id) {
+      document.getElementById(id).classList.toggle("open");
+    };
 
     function formatPoint(value) {
       if (value === undefined || value === null || value === "") return "0.00";
@@ -349,13 +450,56 @@
       }).format(date);
     }
 
-    function getStatusText(status) {
+    function getDayRange(offset) {
+      const start = new Date();
+      start.setHours(0, 0, 0, 0);
+      start.setDate(start.getDate() + offset);
+
+      const end = new Date(start);
+      end.setDate(end.getDate() + 1);
+
+      return {
+        start: Timestamp.fromDate(start),
+        end: Timestamp.fromDate(end)
+      };
+    }
+
+    function getGameStatus(item) {
+      if (item.gameStatus === "win" || item.status === "win" || item.isWin === true) {
+        return "win";
+      }
+
+      if (item.gameStatus === "lost" || item.status === "lost" || item.isWin === false) {
+        return "lost";
+      }
+
+      return "pending";
+    }
+
+    function getGameStatusText(status) {
       if (status === "win") return "براوە";
-      if (status === "lost") return "دۆڕاوە";
+      if (status === "lost") return "دۆڕاو";
       return "چاوەڕێ";
     }
 
-    function getStatusClass(status) {
+    function getSlipStatus(items) {
+      if (!items || items.length === 0) return "pending";
+
+      const statuses = items.map(getGameStatus);
+
+      if (statuses.includes("pending")) return "pending";
+      if (statuses.every(s => s === "win")) return "win";
+
+      return "lost";
+    }
+
+    function getSlipStatusText(status) {
+      if (status === "win") return "باری پسولە: براوە";
+      if (status === "lost") return "باری پسولە: سوتاوە";
+      return "باری پسولە: چاوەڕێ";
+    }
+
+    function getSlipStatusClass(status) {
       if (status === "win") return "win";
       if (status === "lost") return "lost";
       return "";
@@ -375,16 +519,26 @@
 
     async function loadArchive(user) {
       const archiveList = document.getElementById("archiveList");
+      archiveList.innerHTML = `<div class="empty-box">چاوەڕێ بکە...</div>`;
 
       try {
+        const range = getDayRange(selectedDayOffset);
+
         const archiveRef = collection(db, "users", user.uid, "predictionArchive");
-        const q = query(archiveRef, orderBy("createdAt", "desc"));
+
+        const q = query(
+          archiveRef,
+          where("createdAt", ">=", range.start),
+          where("createdAt", "<", range.end),
+          orderBy("createdAt", "desc")
+        );
+
         const snap = await getDocs(q);
 
         if (snap.empty) {
           archiveList.innerHTML = `
             <div class="empty-box">
-              هێشتا هیچ پێشبینییەکت نییە.
+              هیچ پسولەیەک بۆ ئەم ڕۆژە نییە.
             </div>
           `;
           return;
@@ -392,44 +546,65 @@
 
         archiveList.innerHTML = "";
 
-        snap.forEach(docSnap => {
+        snap.forEach((docSnap, index) => {
           const data = docSnap.data();
           const items = data.items || [];
+          const slipStatus = getSlipStatus(items);
+          const cardId = "archiveCard_" + docSnap.id;
 
-          const matchesHtml = items.map(item => `
-            <div class="match-item">
-              <div class="match-name">${item.matchName || ""}</div>
-              <div class="pick-line">
-                ${item.pickTitle || ""} | پۆینت: <b>${formatPoint(item.point)}</b>
+          const matchesHtml = items.map(item => {
+            const gameStatus = getGameStatus(item);
+
+            return `
+              <div class="match-item">
+                <div>
+                  <div class="match-name">${item.matchName || ""}</div>
+                  <div class="pick-line">
+                    ${item.pickTitle || ""} | پۆینت: <b>${formatPoint(item.point)}</b>
+                  </div>
+                </div>
+
+                <span class="game-status ${getSlipStatusClass(gameStatus)}">
+                  ${getGameStatusText(gameStatus)}
+                </span>
               </div>
-            </div>
-          `).join("");
+            `;
+          }).join("");
 
           archiveList.innerHTML += `
-            <div class="archive-card">
-              <div class="archive-top">
-                <span class="status ${getStatusClass(data.status)}">${getStatusText(data.status)}</span>
-                <span class="date-text">${formatDate(data.createdAt)}</span>
-              </div>
-
-              <div class="info-grid">
-                <div class="info-box">
-                  <span>کۆین</span>
-                  <b>${data.stake || 0}</b>
+            <div class="archive-card" id="${cardId}">
+              <div class="archive-summary" onclick="toggleCard('${cardId}')">
+                <div class="archive-top">
+                  <span class="status ${getSlipStatusClass(slipStatus)}">${getSlipStatusText(slipStatus)}</span>
+                  <span class="date-text">${formatDate(data.createdAt)}</span>
                 </div>
 
-                <div class="info-box">
-                  <span>تۆتال پۆینت</span>
-                  <b>${formatPoint(data.totalPoint)}</b>
-                </div>
-
-                <div class="info-box">
-                  <span>بردنەوەی پێشبینی</span>
-                  <b>${data.possibleWin || 0}</b>
+                <div class="summary-title">پسولەی ژمارە ${index + 1}</div>
+                <div class="summary-sub">
+                  ${items.length} یاری | کۆین: ${data.stake || 0} | تۆتال: ${formatPoint(data.totalPoint)}
                 </div>
               </div>
 
-              ${matchesHtml}
+              <div class="archive-content">
+                <div class="info-grid">
+                  <div class="info-box">
+                    <span>کۆین</span>
+                    <b>${data.stake || 0}</b>
+                  </div>
+
+                  <div class="info-box">
+                    <span>تۆتال پۆینت</span>
+                    <b>${formatPoint(data.totalPoint)}</b>
+                  </div>
+
+                  <div class="info-box">
+                    <span>بردنەوەی پێشبینی</span>
+                    <b>${data.possibleWin || 0}</b>
+                  </div>
+                </div>
+
+                ${matchesHtml}
+              </div>
             </div>
           `;
         });
@@ -449,6 +624,8 @@
         window.location.href = "login.html";
         return;
       }
+
+      currentUser = user;
 
       await loadUserInfo(user);
       await loadArchive(user);
