@@ -16,11 +16,7 @@
       src: url('fonts/kurdliga-bold.ttf') format('truetype');
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
       width: 100%;
@@ -41,7 +37,6 @@
       top: 0;
       right: 0;
       left: 0;
-      width: 100%;
       height: 76px;
       background: linear-gradient(145deg, #061a48, #021133);
       border-bottom: 1px solid rgba(245,247,250,.16);
@@ -110,13 +105,13 @@
     .logo {
       width: 145px;
       display: block;
-      transition: .28s ease;
+      transition: .32s ease;
       z-index: 5;
       position: relative;
     }
 
     .logo.menu-open {
-      transform: translateY(38px) scale(1.05);
+      transform: translateY(38px) scale(1.14);
     }
 
     .wallet-mini {
@@ -277,7 +272,6 @@
       position: absolute;
       bottom: 12px;
       left: 50%;
-      right: auto;
       transform: translateX(-50%);
       display: flex;
       gap: 6px;
@@ -315,9 +309,7 @@
       box-shadow: 0 10px 22px rgba(0,0,0,.22);
     }
 
-    .date-banner::-webkit-scrollbar {
-      display: none;
-    }
+    .date-banner::-webkit-scrollbar { display: none; }
 
     .date-item {
       flex: 0 0 33.333%;
@@ -478,7 +470,6 @@
       bottom: 0;
       right: 0;
       left: 0;
-      width: 100%;
       height: 74px;
       background: rgba(6,26,72,.98);
       border-top: 1px solid rgba(245,247,250,.16);
@@ -520,9 +511,7 @@
       padding: 20px;
     }
 
-    .modal.show {
-      display: flex;
-    }
+    .modal.show { display: flex; }
 
     .modal-box {
       background: #ffffff;
@@ -674,12 +663,10 @@
       "-2": [
         { league: "Premier League", time: "20:00", home: "مانچستەر یونایتد", away: "چێڵسی", homeScore: 2, awayScore: 1 }
       ],
-
       "-1": [
         { league: "La Liga", time: "21:00", home: "ڕیاڵ سۆسیداد", away: "ڤیاڕیاڵ", homeScore: 1, awayScore: 1 },
         { league: "Serie A", time: "22:30", home: "ڕۆما", away: "ناپۆلی", homeScore: 0, awayScore: 2 }
       ],
-
       "0": [
         { league: "La Liga", time: "21:00", home: "ڕیاڵ مەدرید", away: "بارسێلۆنا", homePoint: 1.85, drawPoint: 3.10, awayPoint: 2.20 },
         { league: "Premier League", time: "23:00", home: "لیڤەرپوڵ", away: "ئارسێناڵ", homePoint: 1.95, drawPoint: 3.30, awayPoint: 2.05 },
@@ -687,12 +674,10 @@
         { league: "Bundesliga", time: "20:30", home: "بایرن میونخ", away: "دۆرتمۆند", homePoint: 1.65, drawPoint: 3.50, awayPoint: 2.80 },
         { league: "Iraqi Stars League", time: "18:00", home: "هەولێر", away: "زاخۆ", homePoint: 1.75, drawPoint: 2.90, awayPoint: 2.40 }
       ],
-
       "1": [
         { league: "Champions League", time: "20:45", home: "مانچستەر ستی", away: "بایرن میونخ", homePoint: 1.90, drawPoint: 3.25, awayPoint: 2.15 },
         { league: "Serie A", time: "22:30", home: "میلان", away: "یۆڤێنتۆس", homePoint: 2.20, drawPoint: 3.10, awayPoint: 1.95 }
       ],
-
       "2": [
         { league: "Bundesliga", time: "19:30", home: "دۆرتمۆند", away: "لەیپزگ", homePoint: 1.85, drawPoint: 3.00, awayPoint: 2.25 }
       ]
@@ -784,10 +769,16 @@
       document.querySelectorAll(".date-item").forEach(item => item.classList.remove("active"));
 
       const activeItem = document.querySelector(`.date-item[data-offset="${offset}"]`);
+
       if (activeItem) {
         activeItem.classList.add("active");
+
         if (scrollToCenter) {
-          activeItem.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+          activeItem.scrollIntoView({
+            behavior: "smooth",
+            inline: "center",
+            block: "nearest"
+          });
         }
       }
 
@@ -876,6 +867,7 @@
 
     function handleSwipe() {
       const diff = touchEndX - touchStartX;
+
       if (Math.abs(diff) < 55) return;
 
       if (diff > 0) {
