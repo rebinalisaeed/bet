@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پێشبینیەکانم - Kurdliga</title>
+
+  <style>
+    @font-face { font-family: 'Kurdliga-Regular'; src: url('fonts/kurdliga-Reg.ttf') format('truetype'); }
+    @font-face { font-family: 'Kurdliga-Bold'; src: url('fonts/kurdliga-bold.ttf') format('truetype'); }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #021133;
+      color: #fff;
+      font-family: 'Kurdliga-Regular', sans-serif;
+      padding-top: 76px;
+      padding-bottom: 88px;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 76px;
+      background: linear-gradient(145deg, #061a48, #021133);
+      border-bottom: 1px solid rgba(245,247,250,.16);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 3000;
+      box-shadow: 0 10px 25px rgba(0,0,0,.28);
+    }
+
+    .back-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .logo {
+      width: 145px;
+    }
+
+    .wallet-mini {
+      min-width: 92px;
+      text-align: left;
+      line-height: 1.4;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .coin-line,
+    .diamond-line {
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 4px;
+      direction: ltr;
+    }
+
+    .coin-line span,
+    .diamond-line span {
+      color: #00C853;
+    }
+
+    .wallet-divider {
+      height: 1px;
+      background: rgba(180,180,180,.45);
+      margin: 4px 0;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 18px 14px;
+    }
+
+    .title-box {
+      background: linear-gradient(135deg, #063b28, #061a48);
+      border: 1px solid rgba(0,200,83,.25);
+      border-radius: 24px;
+      padding: 18px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .title-box h1 {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 24px;
+      color: #00C853;
+      margin-bottom: 6px;
+    }
+
+    .title-box p {
+      color: #BFC8D4;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .archive-card {
+      background: #061a48;
+      border: 1px solid rgba(245,247,250,.14);
+      border-radius: 22px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+    }
+
+    .archive-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+
+    .status {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      background: rgba(255,215,0,.16);
+      color: #FFD700;
+      white-space: nowrap;
+    }
+
+    .status.win {
+      background: rgba(0,200,83,.16);
+      color: #00C853;
+    }
+
+    .status.lost {
+      background: rgba(255,59,59,.16);
+      color: #ff4d4d;
+    }
+
+    .date-text {
+      color: #BFC8D4;
+      font-size: 12px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .info-box {
+      background: rgba(255,255,255,.06);
+      border-radius: 16px;
+      padding: 10px 6px;
+      text-align: center;
+    }
+
+    .info-box span {
+      display: block;
+      color: #BFC8D4;
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    .info-box b {
+      color: #00C853;
+      font-size: 15px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .match-item {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      padding: 12px;
+      margin-top: 8px;
+    }
+
+    .match-name {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .pick-line {
+      color: #BFC8D4;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .pick-line b {
+      color: #00C853;
+    }
+
+    .empty-box {
+      background: rgba(255,255,255,.06);
+      border: 1px dashed rgba(255,255,255,.20);
+      border-radius: 22px;
+      padding: 34px 16px;
+      text-align: center;
+      color: #BFC8D4;
+      line-height: 1.8;
+      margin-top: 20px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 74px;
+      background: rgba(6,26,72,.98);
+      border-top: 1px solid rgba(245,247,250,.16);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      align-items: center;
+      z-index: 3000;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 -10px 25px rgba(0,0,0,.28);
+    }
+
+    .nav-item {
+      color: #BFC8D4;
+      text-decoration: none;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .nav-icon {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+
+    .nav-item.active {
+      color: #00C853;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="home.html" class="back-btn">‹</a>
+
+    <img src="assets/images/logo.png" alt="Kurdliga Logo" class="logo" />
+
+    <div class="wallet-mini">
+      <div class="coin-line">🪙 <span id="coinsText">0</span></div>
+      <div class="wallet-divider"></div>
+      <div class="diamond-line">💎 <span id="diamondsText">0</span></div>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="title-box">
+      <h1>پێشبینیەکانم</h1>
+      <p>ئەرشیفی هەموو پسولە پێشبینییەکانت لێرە دەبینیت.</p>
+    </div>
+
+    <div id="archiveList">
+      <div class="empty-box">چاوەڕێ بکە...</div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="my-predictions.html" class="nav-item active">
+      <span class="nav-icon">🧾</span>
+      پێشبینیەکانم
+    </a>
+
+    <a href="#" class="nav-item">
+      <span class="nav-icon">🔄</span>
+      ئاڵوگۆرکردن
+    </a>
+
+    <a href="#" class="nav-item">
+      <span class="nav-icon">🛒</span>
+      بازاری کردن
+    </a>
+
+    <a href="leaderboard.html" class="nav-item">
+      <span class="nav-icon">🏆</span>
+      ڕیزبەندی
+    </a>
+  </nav>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      collection,
+      query,
+      orderBy,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB2ENjViKDRHwwBUGTjrDJMrnrQePGhDqY",
+      authDomain: "kurdliga1.firebaseapp.com",
+      databaseURL: "https://kurdliga1-default-rtdb.firebaseio.com",
+      projectId: "kurdliga1",
+      storageBucket: "kurdliga1.firebasestorage.app",
+      messagingSenderId: "799164130957",
+      appId: "1:799164130957:web:a3ff5ec1ccb026ca59a4c4",
+      measurementId: "G-8TCVRT6GNK"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    function formatPoint(value) {
+      if (value === undefined || value === null || value === "") return "0.00";
+      return Number(value).toFixed(2);
+    }
+
+    function formatDate(timestamp) {
+      if (!timestamp || !timestamp.toDate) return "بەروار نەزانراوە";
+
+      const date = timestamp.toDate();
+
+      return new Intl.DateTimeFormat("ku-IQ", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      }).format(date);
+    }
+
+    function getStatusText(status) {
+      if (status === "win") return "براوە";
+      if (status === "lost") return "دۆڕاوە";
+      return "چاوەڕێ";
+    }
+
+    function getStatusClass(status) {
+      if (status === "win") return "win";
+      if (status === "lost") return "lost";
+      return "";
+    }
+
+    async function loadUserInfo(user) {
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) return;
+
+      const data = userSnap.data();
+
+      document.getElementById("coinsText").textContent = data.coins || 0;
+      document.getElementById("diamondsText").textContent = data.diamonds || 0;
+    }
+
+    async function loadArchive(user) {
+      const archiveList = document.getElementById("archiveList");
+
+      try {
+        const archiveRef = collection(db, "users", user.uid, "predictionArchive");
+        const q = query(archiveRef, orderBy("createdAt", "desc"));
+        const snap = await getDocs(q);
+
+        if (snap.empty) {
+          archiveList.innerHTML = `
+            <div class="empty-box">
+              هێشتا هیچ پێشبینییەکت نییە.
+            </div>
+          `;
+          return;
+        }
+
+        archiveList.innerHTML = "";
+
+        snap.forEach(docSnap => {
+          const data = docSnap.data();
+          const items = data.items || [];
+
+          const matchesHtml = items.map(item => `
+            <div class="match-item">
+              <div class="match-name">${item.matchName || ""}</div>
+              <div class="pick-line">
+                ${item.pickTitle || ""} | پۆینت: <b>${formatPoint(item.point)}</b>
+              </div>
+            </div>
+          `).join("");
+
+          archiveList.innerHTML += `
+            <div class="archive-card">
+              <div class="archive-top">
+                <span class="status ${getStatusClass(data.status)}">${getStatusText(data.status)}</span>
+                <span class="date-text">${formatDate(data.createdAt)}</span>
+              </div>
+
+              <div class="info-grid">
+                <div class="info-box">
+                  <span>کۆین</span>
+                  <b>${data.stake || 0}</b>
+                </div>
+
+                <div class="info-box">
+                  <span>تۆتال پۆینت</span>
+                  <b>${formatPoint(data.totalPoint)}</b>
+                </div>
+
+                <div class="info-box">
+                  <span>بردنەوەی پێشبینی</span>
+                  <b>${data.possibleWin || 0}</b>
+                </div>
+              </div>
+
+              ${matchesHtml}
+            </div>
+          `;
+        });
+
+      } catch (error) {
+        archiveList.innerHTML = `
+          <div class="empty-box">
+            هەڵە ڕوویدا: ${error.code || ""}<br>
+            ${error.message || ""}
+          </div>
+        `;
+      }
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      await loadUserInfo(user);
+      await loadArchive(user);
+    });
+  </script>
+
+</body>
+</html>
