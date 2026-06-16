@@ -25,6 +25,11 @@
       overflow-x: hidden;
     }
 
+    body.no-scroll {
+      overflow: hidden;
+      height: 100vh;
+    }
+
     .header {
       position: fixed;
       top: 0;
@@ -495,9 +500,7 @@
       direction: rtl;
     }
 
-    .bet-slip-toggle.show {
-      display: flex;
-    }
+    .bet-slip-toggle.show { display: flex; }
 
     .bet-slip-panel {
       position: fixed;
@@ -617,8 +620,76 @@
     }
 
     .submit-slip { background: #00C853; }
+
+    .submit-slip:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      background: #26364d;
+    }
+
     .clear-slip { background: #ff3b3b; }
     .close-slip { background: #26364d; }
+
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.62);
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .confirm-overlay.show { display: flex; }
+
+    .confirm-box {
+      width: 100%;
+      max-width: 340px;
+      background: #ffffff;
+      color: #021133;
+      border-radius: 24px;
+      padding: 24px 18px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,.35);
+      animation: popIn .22s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .confirm-box h3 {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      color: #00C853;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .confirm-box p {
+      line-height: 1.8;
+      font-size: 16px;
+      margin-bottom: 14px;
+    }
+
+    .countdown-text {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      color: #ff3b3b;
+      margin-bottom: 14px;
+    }
+
+    .cancel-confirm {
+      width: 100%;
+      height: 46px;
+      border-radius: 14px;
+      border: none;
+      background: #ff3b3b;
+      color: #ffffff;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
     .bottom-nav {
       position: fixed;
@@ -790,11 +861,20 @@
     </div>
 
     <div class="slip-actions">
-      <button class="submit-slip" onclick="submitSlip()">جێبەجێ کردن</button>
+      <button class="submit-slip" id="submitSlipBtn" onclick="submitSlip()" disabled>جێبەجێ کردن</button>
       <button class="clear-slip" onclick="clearSlip()">بەتاڵکردنەوە</button>
       <button class="close-slip" onclick="closeBetSlip()">داخستن</button>
     </div>
   </section>
+
+  <div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-box">
+      <h3>چاوەڕێ بکە</h3>
+      <p>چاوەڕانی جێبەجێکردنی پسولەکە بە</p>
+      <div class="countdown-text" id="countdownText">٦ چرکە</div>
+      <button class="cancel-confirm" onclick="cancelPendingSlip()">پاشگەزبوونەوە</button>
+    </div>
+  </div>
 
   <nav class="bottom-nav">
     <a href="home.html" class="nav-item active">
@@ -820,7 +900,7 @@
 
   <div class="modal" id="rewardModal">
     <div class="modal-box">
-      <h3>کۆینی ڕۆژانە</h3>
+      <h3 id="modalTitle">کۆینی ڕۆژانە</h3>
       <p id="rewardModalText">کۆین زیادکرا</p>
       <button onclick="closeRewardModal()">باشە</button>
     </div>
@@ -861,6 +941,8 @@
     let adTouchStartX = 0;
     let adTouchEndX = 0;
     let slip = [];
+    let pendingTimer = null;
+    let pendingCountdown = 6;
 
     function formatPoint(value) {
       if (value === undefined || value === null || value === "") return "--";
@@ -1019,18 +1101,19 @@
     function selectPrediction(matchId, home, away, pickTitle, point, type) {
       const existingIndex = slip.findIndex(item => item.matchId === matchId);
 
-      const newItem = {
-        matchId,
-        matchName: `${home} - ${away}`,
-        pickTitle,
-        point: Number(point),
-        type
-      };
-
-      if (existingIndex >= 0) {
-        slip[existingIndex] = newItem;
+      if (existingIndex >= 0 && slip[existingIndex].type === type) {
+        slip.splice(existingIndex, 1);
       } else {
-        slip.push(newItem);
+        const newItem = {
+          matchId,
+          matchName: `${home} - ${away}`,
+          pickTitle,
+          point: Number(point),
+          type
+        };
+
+        if (existingIndex >= 0) slip[existingIndex] = newItem;
+        else slip.push(newItem);
       }
 
       renderMatches(selectedOffset);
@@ -1057,12 +1140,17 @@
       const totalPoint = document.getElementById("slipTotalPoint");
       const headerTotal = document.getElementById("slipHeaderTotal");
       const body = document.getElementById("slipBody");
-      const stake = Number(document.getElementById("stakeInput").value || 0);
+      const stakeInput = document.getElementById("stakeInput");
+      const submitBtn = document.getElementById("submitSlipBtn");
+
+      const stake = Number(stakeInput.value || 0);
       const total = getSlipTotalPoint();
 
       count.textContent = slip.length;
       totalPoint.textContent = formatPoint(total);
       headerTotal.textContent = `${slip.length} یاری | ${formatPoint(total)}`;
+
+      submitBtn.disabled = !(slip.length > 0 && stake > 0);
 
       if (slip.length > 0) {
         toggle.classList.add("show");
@@ -1089,32 +1177,58 @@
 
     function toggleBetSlip() {
       document.getElementById("betSlipPanel").classList.toggle("show");
+      document.body.classList.toggle("no-scroll", document.getElementById("betSlipPanel").classList.contains("show"));
       renderSlip();
     }
 
     function closeBetSlip() {
       document.getElementById("betSlipPanel").classList.remove("show");
+      document.body.classList.remove("no-scroll");
     }
 
     function submitSlip() {
       const stake = Number(document.getElementById("stakeInput").value || 0);
+      if (slip.length === 0 || stake <= 0) return;
 
-      if (slip.length === 0) {
-        alert("هیچ پێشبینییەک هەڵنەبژێردراوە");
-        return;
+      closeBetSlip();
+      pendingCountdown = 6;
+      document.getElementById("confirmOverlay").classList.add("show");
+      document.getElementById("countdownText").textContent = `${pendingCountdown} چرکە`;
+
+      pendingTimer = setInterval(() => {
+        pendingCountdown--;
+        document.getElementById("countdownText").textContent = `${pendingCountdown} چرکە`;
+
+        if (pendingCountdown <= 0) {
+          clearInterval(pendingTimer);
+          pendingTimer = null;
+          document.getElementById("confirmOverlay").classList.remove("show");
+          executeSlip();
+        }
+      }, 1000);
+    }
+
+    function cancelPendingSlip() {
+      if (pendingTimer) {
+        clearInterval(pendingTimer);
+        pendingTimer = null;
       }
 
-      if (!stake || stake <= 0) {
-        alert("تکایە بڕی کۆین بنووسە");
-        return;
-      }
+      document.getElementById("confirmOverlay").classList.remove("show");
+      document.getElementById("betSlipPanel").classList.add("show");
+      document.body.classList.add("no-scroll");
+    }
 
-      alert("پسولەکە ئامادەیە بۆ ناردن");
+    function showMessage(title, text) {
+      document.getElementById("modalTitle").textContent = title;
+      document.getElementById("rewardModalText").textContent = text;
+      document.getElementById("rewardModal").classList.add("show");
     }
 
     function enableHomeSwipe() {
       document.body.addEventListener("touchstart", function(e) {
         if (document.getElementById("sideMenu").classList.contains("show")) return;
+        if (document.getElementById("betSlipPanel").classList.contains("show")) return;
 
         if (
           e.target.closest(".header") ||
@@ -1133,6 +1247,7 @@
 
       document.body.addEventListener("touchend", function(e) {
         if (document.getElementById("sideMenu").classList.contains("show")) return;
+        if (document.getElementById("betSlipPanel").classList.contains("show")) return;
 
         if (
           e.target.closest(".header") ||
@@ -1155,11 +1270,8 @@
       const diff = touchEndX - touchStartX;
       if (Math.abs(diff) < 55) return;
 
-      if (diff > 0) {
-        selectDay(selectedOffset + 1, true);
-      } else {
-        selectDay(selectedOffset - 1, true);
-      }
+      if (diff > 0) selectDay(selectedOffset + 1, true);
+      else selectDay(selectedOffset - 1, true);
     }
 
     function showAdSlide(index) {
@@ -1224,7 +1336,10 @@
       getFirestore,
       doc,
       getDoc,
-      updateDoc
+      updateDoc,
+      collection,
+      addDoc,
+      serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -1244,10 +1359,69 @@
 
     await setPersistence(auth, browserLocalPersistence);
 
+    let currentUser = null;
+    let currentUserData = null;
+
     window.logoutUser = async function() {
       await signOut(auth);
       localStorage.removeItem("kurdligaLoggedIn");
       window.location.href = "login.html";
+    };
+
+    window.executeSlip = async function() {
+      try {
+        if (!currentUser || !currentUserData) {
+          showMessage("هەڵە", "تکایە دووبارە بچۆ ژوورەوە");
+          return;
+        }
+
+        const stake = Number(document.getElementById("stakeInput").value || 0);
+        const totalPoint = getSlipTotalPoint();
+        const possibleWin = Math.floor(stake * totalPoint);
+        const currentCoins = Number(currentUserData.coins || 0);
+
+        if (stake <= 0 || slip.length === 0) {
+          showMessage("هەڵە", "پسولەکە بەتاڵە");
+          return;
+        }
+
+        if (stake > currentCoins) {
+          showMessage("کۆین ناکات", "بڕی کۆینەکەت کەمترە لە بڕی پسولەکە");
+          document.getElementById("betSlipPanel").classList.add("show");
+          document.body.classList.add("no-scroll");
+          return;
+        }
+
+        const archiveData = {
+          userId: currentUser.uid,
+          items: slip,
+          stake,
+          totalPoint: Number(totalPoint.toFixed(2)),
+          possibleWin,
+          status: "pending",
+          createdAt: serverTimestamp()
+        };
+
+        await addDoc(collection(db, "users", currentUser.uid, "predictionArchive"), archiveData);
+
+        const newCoins = currentCoins - stake;
+
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          coins: newCoins
+        });
+
+        currentUserData.coins = newCoins;
+        document.getElementById("coinsText").textContent = newCoins;
+
+        slip = [];
+        document.getElementById("stakeInput").value = "";
+        renderSlip();
+        renderMatches(selectedOffset);
+
+        showMessage("سەرکەوتوو بوو", "پسولەکە جێبەجێ کرا و چووە بەشی ئەرشیف");
+      } catch (error) {
+        showMessage("هەڵە", "پسولەکە جێبەجێ نەکرا، تکایە دووبارە هەوڵبدە");
+      }
     };
 
     function getBaghdadDateInfo() {
@@ -1286,6 +1460,7 @@
         lastDailyReward: info.dateKey
       });
 
+      document.getElementById("modalTitle").textContent = "کۆینی ڕۆژانە";
       document.getElementById("rewardModalText").textContent =
         "١٠٠ کۆینی ڕۆژانەت زیادکرا";
 
@@ -1300,16 +1475,18 @@
         return;
       }
 
+      currentUser = user;
+
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
 
       if (!userSnap.exists()) return;
 
-      let userData = userSnap.data();
-      userData = await checkDailyReward(userRef, userData);
+      currentUserData = userSnap.data();
+      currentUserData = await checkDailyReward(userRef, currentUserData);
 
-      document.getElementById("coinsText").textContent = userData.coins || 0;
-      document.getElementById("diamondsText").textContent = userData.diamonds || 0;
+      document.getElementById("coinsText").textContent = currentUserData.coins || 0;
+      document.getElementById("diamondsText").textContent = currentUserData.diamonds || 0;
     });
   </script>
 
