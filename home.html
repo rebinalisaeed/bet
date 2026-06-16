@@ -49,7 +49,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      z-index: 2000;
+      z-index: 3000;
       box-shadow: 0 10px 25px rgba(0,0,0,.28);
     }
 
@@ -63,8 +63,6 @@
       justify-content: center;
       font-size: 22px;
       color: #ffffff;
-      text-decoration: none;
-      flex-shrink: 0;
       border: none;
       cursor: pointer;
     }
@@ -94,7 +92,7 @@
 
     .wallet-divider {
       height: 1px;
-      background: rgba(180, 180, 180, 0.45);
+      background: rgba(180,180,180,.45);
       margin: 4px 0;
     }
 
@@ -102,7 +100,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,.55);
-      z-index: 2500;
+      z-index: 4000;
       display: none;
     }
 
@@ -117,7 +115,7 @@
       width: 280px;
       height: 100vh;
       background: #061a48;
-      z-index: 2600;
+      z-index: 4100;
       padding: 22px 16px;
       transition: .25s ease;
       box-shadow: -10px 0 30px rgba(0,0,0,.35);
@@ -150,7 +148,6 @@
       margin-bottom: 12px;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
       gap: 10px;
       padding: 0 14px;
       font-family: 'Kurdliga-Bold', sans-serif;
@@ -260,6 +257,9 @@
     }
 
     .date-banner {
+      position: sticky;
+      top: 76px;
+      z-index: 2500;
       width: 100%;
       height: 76px;
       background: linear-gradient(145deg, #061a48, #021133);
@@ -271,6 +271,7 @@
       scroll-snap-type: x mandatory;
       scrollbar-width: none;
       direction: rtl;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
     }
 
     .date-banner::-webkit-scrollbar {
@@ -312,13 +313,15 @@
     .page {
       width: 100%;
       max-width: 480px;
+      min-height: 70vh;
       margin: 0 auto;
-      padding: 0 14px;
+      padding: 0 14px 20px;
       touch-action: pan-y;
     }
 
     .section {
       margin-top: 24px;
+      min-height: 70vh;
     }
 
     .section-title {
@@ -415,12 +418,12 @@
       left: 0;
       width: 100%;
       height: 74px;
-      background: rgba(6, 26, 72, .98);
+      background: rgba(6,26,72,.98);
       border-top: 1px solid rgba(245,247,250,.16);
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       align-items: center;
-      z-index: 2000;
+      z-index: 3000;
       backdrop-filter: blur(14px);
       box-shadow: 0 -10px 25px rgba(0,0,0,.28);
     }
@@ -451,7 +454,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 3000;
+      z-index: 4200;
       padding: 20px;
     }
 
@@ -502,7 +505,6 @@
 
   <aside class="side-menu" id="sideMenu">
     <img src="assets/images/logo.png" alt="Kurdliga Logo" class="side-logo" />
-
     <div class="menu-title">مێنوی Kurdliga</div>
 
     <button class="menu-item" disabled>👤 پرۆفایل</button>
@@ -604,72 +606,29 @@
   <script>
     const matchesByOffset = {
       "-2": [
-        {
-          league: "Premier League",
-          time: "20:00",
-          home: "مانچستەر یونایتد",
-          away: "چێڵسی",
-          homeScore: 2,
-          awayScore: 1
-        }
+        { league: "Premier League", time: "20:00", home: "مانچستەر یونایتد", away: "چێڵسی", homeScore: 2, awayScore: 1 }
       ],
 
       "-1": [
-        {
-          league: "La Liga",
-          time: "21:00",
-          home: "ڕیاڵ سۆسیداد",
-          away: "ڤیاڕیاڵ",
-          homeScore: 1,
-          awayScore: 1
-        },
-        {
-          league: "Serie A",
-          time: "22:30",
-          home: "ڕۆما",
-          away: "ناپۆلی",
-          homeScore: 0,
-          awayScore: 2
-        }
+        { league: "La Liga", time: "21:00", home: "ڕیاڵ سۆسیداد", away: "ڤیاڕیاڵ", homeScore: 1, awayScore: 1 },
+        { league: "Serie A", time: "22:30", home: "ڕۆما", away: "ناپۆلی", homeScore: 0, awayScore: 2 }
       ],
 
       "0": [
-        {
-          league: "La Liga",
-          time: "21:00",
-          home: "ڕیاڵ مەدرید",
-          away: "بارسێلۆنا"
-        },
-        {
-          league: "Premier League",
-          time: "23:00",
-          home: "لیڤەرپوڵ",
-          away: "ئارسێناڵ"
-        }
+        { league: "La Liga", time: "21:00", home: "ڕیاڵ مەدرید", away: "بارسێلۆنا" },
+        { league: "Premier League", time: "23:00", home: "لیڤەرپوڵ", away: "ئارسێناڵ" },
+        { league: "Champions League", time: "19:45", home: "پاریس سانجێرمان", away: "ئینتەر میلان" },
+        { league: "Bundesliga", time: "20:30", home: "بایرن میونخ", away: "دۆرتمۆند" },
+        { league: "Iraqi Stars League", time: "18:00", home: "هەولێر", away: "زاخۆ" }
       ],
 
       "1": [
-        {
-          league: "Champions League",
-          time: "20:45",
-          home: "مانچستەر ستی",
-          away: "بایرن میونخ"
-        },
-        {
-          league: "Serie A",
-          time: "22:30",
-          home: "میلان",
-          away: "یۆڤێنتۆس"
-        }
+        { league: "Champions League", time: "20:45", home: "مانچستەر ستی", away: "بایرن میونخ" },
+        { league: "Serie A", time: "22:30", home: "میلان", away: "یۆڤێنتۆس" }
       ],
 
       "2": [
-        {
-          league: "Bundesliga",
-          time: "19:30",
-          home: "دۆرتمۆند",
-          away: "لەیپزگ"
-        }
+        { league: "Bundesliga", time: "19:30", home: "دۆرتمۆند", away: "لەیپزگ" }
       ]
     };
 
@@ -854,13 +813,16 @@
     }
 
     function enableHomeSwipe() {
-      const page = document.getElementById("homePage");
+      const area = document.body;
 
-      page.addEventListener("touchstart", function(e) {
+      area.addEventListener("touchstart", function(e) {
+        if (sideMenu.classList.contains("show")) return;
         touchStartX = e.changedTouches[0].screenX;
       }, { passive: true });
 
-      page.addEventListener("touchend", function(e) {
+      area.addEventListener("touchend", function(e) {
+        if (sideMenu.classList.contains("show")) return;
+
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
       }, { passive: true });
@@ -872,9 +834,9 @@
       if (Math.abs(diff) < 55) return;
 
       if (diff > 0) {
-        selectDay(selectedOffset - 1, true);
-      } else {
         selectDay(selectedOffset + 1, true);
+      } else {
+        selectDay(selectedOffset - 1, true);
       }
     }
 
@@ -1002,9 +964,7 @@
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
 
-      if (!userSnap.exists()) {
-        return;
-      }
+      if (!userSnap.exists()) return;
 
       let userData = userSnap.data();
       userData = await checkDailyReward(userRef, userData);
