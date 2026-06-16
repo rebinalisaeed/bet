@@ -82,7 +82,6 @@
     .coin-line,
     .diamond-line {
       font-size: 14px;
-      color: #ffffff;
       white-space: nowrap;
     }
 
@@ -95,10 +94,6 @@
       height: 1px;
       background: rgba(180, 180, 180, 0.45);
       margin: 4px 0;
-    }
-
-    .full-width {
-      width: 100%;
     }
 
     .ad-slider {
@@ -135,12 +130,12 @@
     }
 
     .slide-content {
-      position: relative;
-      z-index: 2;
-      text-align: right;
       width: 100%;
       max-width: 480px;
       margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      text-align: right;
     }
 
     .slide-content h3 {
@@ -199,7 +194,7 @@
       overflow-y: hidden;
       scroll-snap-type: x mandatory;
       scrollbar-width: none;
-      direction: ltr;
+      direction: rtl;
     }
 
     .date-banner::-webkit-scrollbar {
@@ -217,7 +212,6 @@
       border-left: 1px solid rgba(255,255,255,.08);
       color: #BFC8D4;
       cursor: pointer;
-      direction: rtl;
       text-align: center;
       transition: .2s ease;
     }
@@ -251,9 +245,6 @@
     }
 
     .section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       margin-bottom: 14px;
     }
 
@@ -308,17 +299,26 @@
       font-size: 18px;
     }
 
-    .predict-btn {
+    .predict-btn,
+    .result-btn {
       width: 100%;
       margin-top: 16px;
       height: 48px;
       border: none;
       border-radius: 15px;
-      background: #00C853;
       color: #ffffff;
       font-family: 'Kurdliga-Bold', sans-serif;
       font-size: 17px;
       cursor: pointer;
+    }
+
+    .predict-btn {
+      background: #00C853;
+    }
+
+    .result-btn {
+      background: #26364d;
+      cursor: default;
     }
 
     .empty-box {
@@ -509,17 +509,73 @@
 
   <script>
     const matchesByOffset = {
+      "-2": [
+        {
+          league: "Premier League",
+          time: "20:00",
+          home: "مانچستەر یونایتد",
+          away: "چێڵسی",
+          homeScore: 2,
+          awayScore: 1
+        }
+      ],
+
       "-1": [
-        { league: "La Liga", time: "21:00", home: "ڕیاڵ سۆسیداد", away: "ڤیاڕیاڵ" },
-        { league: "Serie A", time: "22:30", home: "ڕۆما", away: "ناپۆلی" }
+        {
+          league: "La Liga",
+          time: "21:00",
+          home: "ڕیاڵ سۆسیداد",
+          away: "ڤیاڕیاڵ",
+          homeScore: 1,
+          awayScore: 1
+        },
+        {
+          league: "Serie A",
+          time: "22:30",
+          home: "ڕۆما",
+          away: "ناپۆلی",
+          homeScore: 0,
+          awayScore: 2
+        }
       ],
+
       "0": [
-        { league: "La Liga", time: "21:00", home: "ڕیاڵ مەدرید", away: "بارسێلۆنا" },
-        { league: "Premier League", time: "23:00", home: "لیڤەرپوڵ", away: "ئارسێناڵ" }
+        {
+          league: "La Liga",
+          time: "21:00",
+          home: "ڕیاڵ مەدرید",
+          away: "بارسێلۆنا"
+        },
+        {
+          league: "Premier League",
+          time: "23:00",
+          home: "لیڤەرپوڵ",
+          away: "ئارسێناڵ"
+        }
       ],
+
       "1": [
-        { league: "Champions League", time: "20:45", home: "مانچستەر ستی", away: "بایرن میونخ" },
-        { league: "Serie A", time: "22:30", home: "میلان", away: "یۆڤێنتۆس" }
+        {
+          league: "Champions League",
+          time: "20:45",
+          home: "مانچستەر ستی",
+          away: "بایرن میونخ"
+        },
+        {
+          league: "Serie A",
+          time: "22:30",
+          home: "میلان",
+          away: "یۆڤێنتۆس"
+        }
+      ],
+
+      "2": [
+        {
+          league: "Bundesliga",
+          time: "19:30",
+          home: "دۆرتمۆند",
+          away: "لەیپزگ"
+        }
       ]
     };
 
@@ -574,7 +630,7 @@
       const banner = document.getElementById("dateBanner");
       let html = "";
 
-      for (let i = -10; i <= 10; i++) {
+      for (let i = 10; i >= -10; i--) {
         html += `
           <div class="date-item ${i === 0 ? "active" : ""}" data-offset="${i}">
             <div class="date-title">${getDateLabel(i)}</div>
@@ -612,6 +668,7 @@
       });
 
       const activeItem = document.querySelector(`.date-item[data-offset="${offset}"]`);
+
       if (activeItem) {
         activeItem.classList.add("active");
 
@@ -633,6 +690,7 @@
     function renderMatches(offset) {
       const container = document.getElementById("matchesContainer");
       const matches = matchesByOffset[offset] || [];
+      const isPastDay = offset < 0;
 
       if (matches.length === 0) {
         container.innerHTML = `
@@ -643,30 +701,48 @@
         return;
       }
 
-      container.innerHTML = matches.map(match => `
-        <div class="match-card">
-          <div class="match-meta">
-            <span>${match.league}</span>
-            <span>🕒 ${match.time}</span>
-          </div>
+      container.innerHTML = matches.map(match => {
+        const hasResult =
+          match.homeScore !== undefined &&
+          match.awayScore !== undefined;
 
-          <div class="teams">
-            <div class="team">
-              <div class="team-name">${match.home}</div>
+        return `
+          <div class="match-card">
+            <div class="match-meta">
+              <span>${match.league}</span>
+              <span>🕒 ${match.time}</span>
             </div>
 
-            <div class="vs">VS</div>
+            <div class="teams">
+              <div class="team">
+                <div class="team-name">${match.home}</div>
+              </div>
 
-            <div class="team">
-              <div class="team-name">${match.away}</div>
+              <div class="vs">
+                ${
+                  isPastDay && hasResult
+                    ? `${match.homeScore} - ${match.awayScore}`
+                    : "VS"
+                }
+              </div>
+
+              <div class="team">
+                <div class="team-name">${match.away}</div>
+              </div>
             </div>
-          </div>
 
-          <button class="predict-btn" onclick="goPredict()">
-            پێشبینی بکە
-          </button>
-        </div>
-      `).join("");
+            ${
+              isPastDay
+                ? `<button class="result-btn">ئەنجام: ${
+                    hasResult
+                      ? match.homeScore + " - " + match.awayScore
+                      : "چاوەڕێی ئەنجام"
+                  }</button>`
+                : `<button class="predict-btn" onclick="goPredict()">پێشبینی بکە</button>`
+            }
+          </div>
+        `;
+      }).join("");
     }
 
     function goPredict() {
