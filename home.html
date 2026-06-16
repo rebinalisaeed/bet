@@ -65,6 +65,8 @@
       color: #ffffff;
       text-decoration: none;
       flex-shrink: 0;
+      border: none;
+      cursor: pointer;
     }
 
     .logo {
@@ -94,6 +96,80 @@
       height: 1px;
       background: rgba(180, 180, 180, 0.45);
       margin: 4px 0;
+    }
+
+    .side-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 2500;
+      display: none;
+    }
+
+    .side-overlay.show {
+      display: block;
+    }
+
+    .side-menu {
+      position: fixed;
+      top: 0;
+      right: -290px;
+      width: 280px;
+      height: 100vh;
+      background: #061a48;
+      z-index: 2600;
+      padding: 22px 16px;
+      transition: .25s ease;
+      box-shadow: -10px 0 30px rgba(0,0,0,.35);
+    }
+
+    .side-menu.show {
+      right: 0;
+    }
+
+    .side-logo {
+      width: 160px;
+      display: block;
+      margin: 10px auto 24px;
+    }
+
+    .menu-title {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 20px;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .menu-item {
+      width: 100%;
+      height: 52px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: #BFC8D4;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      padding: 0 14px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 15px;
+      opacity: .65;
+      cursor: not-allowed;
+    }
+
+    .close-menu {
+      width: 100%;
+      height: 48px;
+      border: none;
+      border-radius: 16px;
+      background: #00C853;
+      color: white;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
     }
 
     .ad-slider {
@@ -238,6 +314,7 @@
       max-width: 480px;
       margin: 0 auto;
       padding: 0 14px;
+      touch-action: pan-y;
     }
 
     .section {
@@ -421,8 +498,25 @@
 
 <body>
 
+  <div class="side-overlay" id="sideOverlay" onclick="closeSideMenu()"></div>
+
+  <aside class="side-menu" id="sideMenu">
+    <img src="assets/images/logo.png" alt="Kurdliga Logo" class="side-logo" />
+
+    <div class="menu-title">مێنوی Kurdliga</div>
+
+    <button class="menu-item" disabled>👤 پرۆفایل</button>
+    <button class="menu-item" disabled>⚙️ ڕێکخستن</button>
+    <button class="menu-item" disabled>🌐 زمان</button>
+    <button class="menu-item" disabled>📜 مەرج و ڕێسا</button>
+    <button class="menu-item" disabled>❓ یارمەتی</button>
+    <button class="menu-item" disabled>🚪 چوونەدەرەوە</button>
+
+    <button class="close-menu" onclick="closeSideMenu()">داخستن</button>
+  </aside>
+
   <header class="header">
-    <a href="#" class="menu-btn">☰</a>
+    <button class="menu-btn" onclick="openSideMenu()">☰</button>
 
     <img src="assets/images/logo.png" alt="Kurdliga Logo" class="logo" />
 
@@ -467,7 +561,7 @@
 
   <section class="date-banner" id="dateBanner"></section>
 
-  <div class="page">
+  <div class="page" id="homePage">
     <section class="section">
       <div class="section-title">
         <h3 id="selectedDayTitle">یاریەکانی ئەمڕۆ</h3>
@@ -485,17 +579,17 @@
 
     <a href="matches.html" class="nav-item">
       <span class="nav-icon">⚽</span>
-      یاریەکان
-    </a>
-
-    <a href="notifications.html" class="nav-item">
-      <span class="nav-icon">🔔</span>
-      ئاگاداری
+      لیگەگان
     </a>
 
     <a href="leaderboard.html" class="nav-item">
       <span class="nav-icon">🏆</span>
       ڕیزبەندی
+    </a>
+
+    <a href="notifications.html" class="nav-item">
+      <span class="nav-icon">🔔</span>
+      ئاگاداری
     </a>
   </nav>
 
@@ -605,6 +699,18 @@
     ];
 
     let selectedOffset = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    function openSideMenu() {
+      document.getElementById("sideMenu").classList.add("show");
+      document.getElementById("sideOverlay").classList.add("show");
+    }
+
+    function closeSideMenu() {
+      document.getElementById("sideMenu").classList.remove("show");
+      document.getElementById("sideOverlay").classList.remove("show");
+    }
 
     function getDateByOffset(offset) {
       const date = new Date();
@@ -630,7 +736,7 @@
       const banner = document.getElementById("dateBanner");
       let html = "";
 
-      for (let i = 10; i >= -10; i--) {
+      for (let i = -10; i <= 10; i++) {
         html += `
           <div class="date-item ${i === 0 ? "active" : ""}" data-offset="${i}">
             <div class="date-title">${getDateLabel(i)}</div>
@@ -661,6 +767,8 @@
     }
 
     function selectDay(offset, scrollToCenter = false) {
+      if (offset < -10 || offset > 10) return;
+
       selectedOffset = offset;
 
       document.querySelectorAll(".date-item").forEach(item => {
@@ -745,6 +853,31 @@
       }).join("");
     }
 
+    function enableHomeSwipe() {
+      const page = document.getElementById("homePage");
+
+      page.addEventListener("touchstart", function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      page.addEventListener("touchend", function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }, { passive: true });
+    }
+
+    function handleSwipe() {
+      const diff = touchEndX - touchStartX;
+
+      if (Math.abs(diff) < 55) return;
+
+      if (diff > 0) {
+        selectDay(selectedOffset - 1, true);
+      } else {
+        selectDay(selectedOffset + 1, true);
+      }
+    }
+
     function goPredict() {
       window.location.href = "predict.html";
     }
@@ -771,6 +904,7 @@
 
     renderDateBanner();
     selectDay(0);
+    enableHomeSwipe();
     startSlider();
   </script>
 
