@@ -31,16 +31,9 @@
     }
 
     body {
-      padding-top: 86px;
+      padding-top: 76px;
       padding-bottom: 88px;
       overflow-x: hidden;
-    }
-
-    .page {
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 0 14px;
     }
 
     .header {
@@ -104,13 +97,17 @@
       margin: 4px 0;
     }
 
+    .full-width {
+      width: 100%;
+    }
+
     .ad-slider {
-      border-radius: 24px;
+      width: 100%;
       min-height: 150px;
       overflow: hidden;
       position: relative;
       background: #061a48;
-      border: 1px solid rgba(245,247,250,.14);
+      border-bottom: 1px solid rgba(245,247,250,.14);
     }
 
     .slide {
@@ -141,6 +138,9 @@
       position: relative;
       z-index: 2;
       text-align: right;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
     }
 
     .slide-content h3 {
@@ -188,6 +188,64 @@
       border-radius: 999px;
     }
 
+    .date-banner {
+      width: 100%;
+      height: 76px;
+      background: linear-gradient(145deg, #061a48, #021133);
+      border-bottom: 1px solid rgba(245,247,250,.16);
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      direction: ltr;
+    }
+
+    .date-banner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .date-item {
+      flex: 0 0 33.333%;
+      height: 76px;
+      scroll-snap-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-left: 1px solid rgba(255,255,255,.08);
+      color: #BFC8D4;
+      cursor: pointer;
+      direction: rtl;
+      text-align: center;
+      transition: .2s ease;
+    }
+
+    .date-item.active {
+      color: #00C853;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      background: rgba(0,200,83,.10);
+      transform: scale(1.03);
+    }
+
+    .date-title {
+      font-size: 17px;
+      margin-bottom: 4px;
+    }
+
+    .date-sub {
+      font-size: 11px;
+      color: #BFC8D4;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 14px;
+    }
+
     .section {
       margin-top: 24px;
     }
@@ -202,13 +260,6 @@
     .section-title h3 {
       font-family: 'Kurdliga-Bold', sans-serif;
       font-size: 21px;
-    }
-
-    .section-title a {
-      color: #00C853;
-      text-decoration: none;
-      font-size: 14px;
-      font-family: 'Kurdliga-Bold', sans-serif;
     }
 
     .match-card {
@@ -270,37 +321,14 @@
       cursor: pointer;
     }
 
-    .league-scroll {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      scrollbar-width: none;
-    }
-
-    .league-scroll::-webkit-scrollbar {
-      display: none;
-    }
-
-    .league-card {
-      flex: 0 0 auto;
-      min-width: 135px;
-      background: #061a48;
-      border: 1px solid rgba(245,247,250,.14);
-      border-radius: 20px;
-      padding: 16px 14px;
+    .empty-box {
+      background: rgba(255,255,255,.06);
+      border: 1px dashed rgba(255,255,255,.20);
+      border-radius: 22px;
+      padding: 28px 16px;
       text-align: center;
-    }
-
-    .league-card .emoji {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
-
-    .league-card h4 {
-      font-family: 'Kurdliga-Bold', sans-serif;
-      font-size: 15px;
-      line-height: 1.6;
+      color: #BFC8D4;
+      line-height: 1.8;
     }
 
     .bottom-nav {
@@ -313,7 +341,7 @@
       background: rgba(6, 26, 72, .98);
       border-top: 1px solid rgba(245,247,250,.16);
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       align-items: center;
       z-index: 2000;
       backdrop-filter: blur(14px);
@@ -405,64 +433,48 @@
     </div>
   </header>
 
+  <section class="ad-slider">
+    <div class="slide active">
+      <div class="slide-content">
+        <h3>شوێنی ڕیکلام</h3>
+        <p>ئەم شوێنە بۆ ڕیکلامی سپۆنسەر و هەواڵی گرنگی Kurdliga بەکاربێت.</p>
+        <span class="slide-badge">Kurdliga Ads</span>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-content">
+        <h3>پێشبینی بکە</h3>
+        <p>لە یاریەکانی ئەمڕۆ بەشداری بکە و کۆینەکانت بە زیرەکی بەکاربهێنە.</p>
+        <span class="slide-badge">پێشبینی</span>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-content">
+        <h3>ڕیزبەندی ڕۆژانە</h3>
+        <p>ئەڵماس کۆبکەرەوە و لە نێوان بەکارهێنەراندا پلەی خۆت بەرز بکەوە.</p>
+        <span class="slide-badge">ڕیزبەندی</span>
+      </div>
+    </div>
+
+    <div class="slider-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </section>
+
+  <section class="date-banner" id="dateBanner"></section>
+
   <div class="page">
-
-    <section class="ad-slider">
-      <div class="slide active">
-        <div class="slide-content">
-          <h3>شوێنی ڕیکلام</h3>
-          <p>ئەم شوێنە بۆ ڕیکلامی سپۆنسەر و هەواڵی گرنگی Kurdliga بەکاربێت.</p>
-          <span class="slide-badge">Kurdliga Ads</span>
-        </div>
-      </div>
-
-      <div class="slide">
-        <div class="slide-content">
-          <h3>پێشبینی بکە</h3>
-          <p>لە یاریەکانی ئەمڕۆ بەشداری بکە و کۆینەکانت بە زیرەکی بەکاربهێنە.</p>
-          <span class="slide-badge">پێشبینی</span>
-        </div>
-      </div>
-
-      <div class="slide">
-        <div class="slide-content">
-          <h3>ڕیزبەندی ڕۆژانە</h3>
-          <p>ئەڵماس کۆبکەرەوە و لە نێوان بەکارهێنەراندا پلەی خۆت بەرز بکەوە.</p>
-          <span class="slide-badge">ڕیزبەندی</span>
-        </div>
-      </div>
-
-      <div class="slider-dots">
-        <span class="dot active"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-    </section>
-
     <section class="section">
       <div class="section-title">
-        <h3>یاریەکانی ئەمڕۆ</h3>
-        <a href="matches.html">هەموو ببینە</a>
+        <h3 id="selectedDayTitle">یاریەکانی ئەمڕۆ</h3>
       </div>
-      <div id="todayMatches"></div>
-    </section>
 
-    <section class="section">
-      <div class="section-title">
-        <h3>یاریەکانی بەیانی</h3>
-        <a href="matches.html">هەموو ببینە</a>
-      </div>
-      <div id="tomorrowMatches"></div>
+      <div id="matchesContainer"></div>
     </section>
-
-    <section class="section">
-      <div class="section-title">
-        <h3>لیگەکان</h3>
-        <a href="matches.html">زیاتر</a>
-      </div>
-      <div class="league-scroll" id="leaguesList"></div>
-    </section>
-
   </div>
 
   <nav class="bottom-nav">
@@ -485,11 +497,6 @@
       <span class="nav-icon">🏆</span>
       ڕیزبەندی
     </a>
-
-    <a href="profile.html" class="nav-item">
-      <span class="nav-icon">👤</span>
-      پرۆفایل
-    </a>
   </nav>
 
   <div class="modal" id="rewardModal">
@@ -501,29 +508,140 @@
   </div>
 
   <script>
-    const todayMatches = [
-      { league: "La Liga", time: "21:00", home: "ڕیاڵ مەدرید", away: "بارسێلۆنا" },
-      { league: "Premier League", time: "23:00", home: "لیڤەرپوڵ", away: "ئارسێناڵ" }
+    const matchesByOffset = {
+      "-1": [
+        { league: "La Liga", time: "21:00", home: "ڕیاڵ سۆسیداد", away: "ڤیاڕیاڵ" },
+        { league: "Serie A", time: "22:30", home: "ڕۆما", away: "ناپۆلی" }
+      ],
+      "0": [
+        { league: "La Liga", time: "21:00", home: "ڕیاڵ مەدرید", away: "بارسێلۆنا" },
+        { league: "Premier League", time: "23:00", home: "لیڤەرپوڵ", away: "ئارسێناڵ" }
+      ],
+      "1": [
+        { league: "Champions League", time: "20:45", home: "مانچستەر ستی", away: "بایرن میونخ" },
+        { league: "Serie A", time: "22:30", home: "میلان", away: "یۆڤێنتۆس" }
+      ]
+    };
+
+    const weekDaysKu = [
+      "یەکشەممە",
+      "دووشەممە",
+      "سێشەممە",
+      "چوارشەممە",
+      "پێنجشەممە",
+      "هەینی",
+      "شەممە"
     ];
 
-    const tomorrowMatches = [
-      { league: "Champions League", time: "20:45", home: "مانچستەر ستی", away: "بایرن میونخ" },
-      { league: "Serie A", time: "22:30", home: "میلان", away: "یۆڤێنتۆس" }
+    const monthNamesKu = [
+      "کانوونی دووەم",
+      "شوبات",
+      "ئازار",
+      "نیسان",
+      "ئایار",
+      "حوزەیران",
+      "تەمموز",
+      "ئاب",
+      "ئەیلوول",
+      "تشرینی یەکەم",
+      "تشرینی دووەم",
+      "کانوونی یەکەم"
     ];
 
-    const leagues = [
-      { name: "World Cup", emoji: "🏆" },
-      { name: "Champions League", emoji: "⭐" },
-      { name: "Premier League", emoji: "🇬🇧" },
-      { name: "La Liga", emoji: "🇪🇸" },
-      { name: "Bundesliga", emoji: "🇩🇪" },
-      { name: "Serie A", emoji: "🇮🇹" },
-      { name: "Ligue 1", emoji: "🇫🇷" },
-      { name: "Iraqi Stars League", emoji: "🇮🇶" }
-    ];
+    let selectedOffset = 0;
 
-    function renderMatches(containerId, matches) {
-      const container = document.getElementById(containerId);
+    function getDateByOffset(offset) {
+      const date = new Date();
+      date.setDate(date.getDate() + offset);
+      return date;
+    }
+
+    function getDateLabel(offset) {
+      if (offset === 0) return "ئەمڕۆ";
+      if (offset === 1) return "سبەی";
+      if (offset === -1) return "دوێنێ";
+
+      const date = getDateByOffset(offset);
+      return `${date.getDate()} ${monthNamesKu[date.getMonth()]}`;
+    }
+
+    function getDateSub(offset) {
+      const date = getDateByOffset(offset);
+      return weekDaysKu[date.getDay()];
+    }
+
+    function renderDateBanner() {
+      const banner = document.getElementById("dateBanner");
+      let html = "";
+
+      for (let i = -10; i <= 10; i++) {
+        html += `
+          <div class="date-item ${i === 0 ? "active" : ""}" data-offset="${i}">
+            <div class="date-title">${getDateLabel(i)}</div>
+            <div class="date-sub">${getDateSub(i)}</div>
+          </div>
+        `;
+      }
+
+      banner.innerHTML = html;
+
+      document.querySelectorAll(".date-item").forEach(item => {
+        item.addEventListener("click", () => {
+          const offset = Number(item.dataset.offset);
+          selectDay(offset, true);
+        });
+      });
+
+      setTimeout(() => {
+        const today = document.querySelector('.date-item[data-offset="0"]');
+        if (today) {
+          today.scrollIntoView({
+            behavior: "smooth",
+            inline: "center",
+            block: "nearest"
+          });
+        }
+      }, 200);
+    }
+
+    function selectDay(offset, scrollToCenter = false) {
+      selectedOffset = offset;
+
+      document.querySelectorAll(".date-item").forEach(item => {
+        item.classList.remove("active");
+      });
+
+      const activeItem = document.querySelector(`.date-item[data-offset="${offset}"]`);
+      if (activeItem) {
+        activeItem.classList.add("active");
+
+        if (scrollToCenter) {
+          activeItem.scrollIntoView({
+            behavior: "smooth",
+            inline: "center",
+            block: "nearest"
+          });
+        }
+      }
+
+      document.getElementById("selectedDayTitle").textContent =
+        `یاریەکانی ${getDateLabel(offset)}`;
+
+      renderMatches(offset);
+    }
+
+    function renderMatches(offset) {
+      const container = document.getElementById("matchesContainer");
+      const matches = matchesByOffset[offset] || [];
+
+      if (matches.length === 0) {
+        container.innerHTML = `
+          <div class="empty-box">
+            هیچ یارییەک بۆ ئەم ڕۆژە تۆمار نەکراوە
+          </div>
+        `;
+        return;
+      }
 
       container.innerHTML = matches.map(match => `
         <div class="match-card">
@@ -547,17 +665,6 @@
           <button class="predict-btn" onclick="goPredict()">
             پێشبینی بکە
           </button>
-        </div>
-      `).join("");
-    }
-
-    function renderLeagues() {
-      const container = document.getElementById("leaguesList");
-
-      container.innerHTML = leagues.map(league => `
-        <div class="league-card">
-          <div class="emoji">${league.emoji}</div>
-          <h4>${league.name}</h4>
         </div>
       `).join("");
     }
@@ -586,9 +693,8 @@
       }, 5000);
     }
 
-    renderMatches("todayMatches", todayMatches);
-    renderMatches("tomorrowMatches", tomorrowMatches);
-    renderLeagues();
+    renderDateBanner();
+    selectDay(0);
     startSlider();
   </script>
 
@@ -653,67 +759,48 @@
 
       if (info.hour < 6) return userData;
 
-      if (userData.lastDailyReward === info.dateKey) return userData;
+      if (userData.lastDailyReward === info.dateKey) {
+        return userData;
+      }
 
       const currentCoins = Number(userData.coins || 0);
-      const newCoins = Math.min(currentCoins + 1000, 5000);
-      const addedCoins = newCoins - currentCoins;
+      const newCoins = currentCoins + 100;
 
       await updateDoc(userRef, {
         coins: newCoins,
         lastDailyReward: info.dateKey
       });
 
-      userData.coins = newCoins;
-      userData.lastDailyReward = info.dateKey;
+      document.getElementById("rewardModalText").textContent =
+        "١٠٠ کۆینی ڕۆژانەت زیادکرا";
 
-      if (addedCoins > 0) {
-        document.getElementById("rewardModalText").textContent =
-          `${addedCoins} کۆینی ڕۆژانە بۆ هەژمارەکەت زیادکرا.`;
-        document.getElementById("rewardModal").classList.add("show");
-      }
+      document.getElementById("rewardModal").classList.add("show");
 
-      return userData;
-    }
-
-    function showWallet(userData) {
-      document.getElementById("coinsText").textContent =
-        Number(userData.coins || 0).toLocaleString();
-
-      document.getElementById("diamondsText").textContent =
-        Number(userData.diamonds || 0).toLocaleString();
+      return {
+        ...userData,
+        coins: newCoins,
+        lastDailyReward: info.dateKey
+      };
     }
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        setTimeout(() => {
-          if (!auth.currentUser) {
-            window.location.href = "login.html";
-          }
-        }, 3000);
+        window.location.href = "login.html";
         return;
       }
 
-      try {
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
 
-        if (!userSnap.exists()) {
-          alert("زانیارییەکانی هەژمارەکەت نەدۆزرایەوە");
-          window.location.href = "login.html";
-          return;
-        }
-
-        let userData = userSnap.data();
-
-        userData = await checkDailyReward(userRef, userData);
-
-        showWallet(userData);
-
-      } catch (error) {
-        console.log(error);
-        alert("هەڵەیەک ڕوویدا لە هێنانی زانیارییەکان");
+      if (!userSnap.exists()) {
+        return;
       }
+
+      let userData = userSnap.data();
+      userData = await checkDailyReward(userRef, userData);
+
+      document.getElementById("coinsText").textContent = userData.coins || 0;
+      document.getElementById("diamondsText").textContent = userData.diamonds || 0;
     });
   </script>
 
