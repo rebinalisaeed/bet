@@ -158,7 +158,7 @@
       width: 100%;
       background: #061a48;
       z-index: 2600;
-      padding: 18px 16px 20px;
+      padding: 9px 16px 12px;
       transform: translateY(-120%);
       transition: .28s ease;
       border-bottom: 1px solid rgba(255,255,255,.14);
@@ -170,25 +170,25 @@
     }
 
     .side-logo {
-      width: 145px;
+      width: 120px;
       display: block;
-      margin: 0 auto 16px;
+      margin: 0 auto 8px;
     }
 
     .menu-item {
       width: 100%;
-      height: 52px;
+      height: 42px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
       color: #BFC8D4;
-      border-radius: 16px;
-      margin-bottom: 10px;
+      border-radius: 14px;
+      margin-bottom: 7px;
       display: flex;
       align-items: center;
       gap: 10px;
       padding: 0 14px;
       font-family: 'Kurdliga-Bold', sans-serif;
-      font-size: 15px;
+      font-size: 14px;
       opacity: .65;
       cursor: not-allowed;
     }
@@ -261,7 +261,9 @@
     .slider-dots {
       position: absolute;
       bottom: 12px;
-      right: 18px;
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
       display: flex;
       gap: 6px;
       z-index: 5;
@@ -559,7 +561,7 @@
     </div>
   </header>
 
-  <section class="ad-slider">
+  <section class="ad-slider" id="adSlider">
     <div class="slide active">
       <div class="slide-content">
         <h3>شوێنی ڕیکلام</h3>
@@ -690,6 +692,10 @@
     let selectedOffset = 0;
     let touchStartX = 0;
     let touchEndX = 0;
+
+    let adIndex = 0;
+    let adTouchStartX = 0;
+    let adTouchEndX = 0;
 
     function toggleSideMenu() {
       const menu = document.getElementById("sideMenu");
@@ -851,11 +857,32 @@
     function enableHomeSwipe() {
       document.body.addEventListener("touchstart", function(e) {
         if (document.getElementById("sideMenu").classList.contains("show")) return;
+
+        if (
+          e.target.closest(".header") ||
+          e.target.closest(".bottom-nav") ||
+          e.target.closest(".ad-slider") ||
+          e.target.closest(".side-menu")
+        ) {
+          touchStartX = 0;
+          return;
+        }
+
         touchStartX = e.changedTouches[0].screenX;
       }, { passive: true });
 
       document.body.addEventListener("touchend", function(e) {
         if (document.getElementById("sideMenu").classList.contains("show")) return;
+
+        if (
+          e.target.closest(".header") ||
+          e.target.closest(".bottom-nav") ||
+          e.target.closest(".ad-slider") ||
+          e.target.closest(".side-menu")
+        ) {
+          touchEndX = 0;
+          return;
+        }
 
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
@@ -874,6 +901,47 @@
       }
     }
 
+    function showAdSlide(index) {
+      const slides = document.querySelectorAll(".slide");
+      const dots = document.querySelectorAll(".dot");
+
+      slides[adIndex].classList.remove("active");
+      dots[adIndex].classList.remove("active");
+
+      adIndex = (index + slides.length) % slides.length;
+
+      slides[adIndex].classList.add("active");
+      dots[adIndex].classList.add("active");
+    }
+
+    function startSlider() {
+      setInterval(() => {
+        showAdSlide(adIndex + 1);
+      }, 5000);
+    }
+
+    function enableAdSwipe() {
+      const adSlider = document.getElementById("adSlider");
+
+      adSlider.addEventListener("touchstart", function(e) {
+        adTouchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      adSlider.addEventListener("touchend", function(e) {
+        adTouchEndX = e.changedTouches[0].screenX;
+
+        const diff = adTouchEndX - adTouchStartX;
+
+        if (Math.abs(diff) < 45) return;
+
+        if (diff > 0) {
+          showAdSlide(adIndex - 1);
+        } else {
+          showAdSlide(adIndex + 1);
+        }
+      }, { passive: true });
+    }
+
     function goPredict() {
       window.location.href = "predict.html";
     }
@@ -882,25 +950,10 @@
       document.getElementById("rewardModal").classList.remove("show");
     }
 
-    function startSlider() {
-      const slides = document.querySelectorAll(".slide");
-      const dots = document.querySelectorAll(".dot");
-      let index = 0;
-
-      setInterval(() => {
-        slides[index].classList.remove("active");
-        dots[index].classList.remove("active");
-
-        index = (index + 1) % slides.length;
-
-        slides[index].classList.add("active");
-        dots[index].classList.add("active");
-      }, 5000);
-    }
-
     renderDateBanner();
     selectDay(0);
     enableHomeSwipe();
+    enableAdSwipe();
     startSlider();
   </script>
 
