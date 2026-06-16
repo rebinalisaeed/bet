@@ -1420,8 +1420,13 @@
 
         showMessage("سەرکەوتوو بوو", "پسولەکە جێبەجێ کرا و چووە بەشی ئەرشیف");
       } catch (error) {
-        showMessage("هەڵە", "پسولەکە جێبەجێ نەکرا، تکایە دووبارە هەوڵبدە");
-      }
+  console.error("Slip Error:", error);
+
+  showMessage(
+    "هەڵە",
+    error.code + " - " + error.message
+  );
+}
     };
 
     function getBaghdadDateInfo() {
