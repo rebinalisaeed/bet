@@ -6,15 +6,8 @@
   <title>سەرەکی - Kurdliga</title>
 
   <style>
-    @font-face {
-      font-family: 'Kurdliga-Regular';
-      src: url('fonts/kurdliga-Reg.ttf') format('truetype');
-    }
-
-    @font-face {
-      font-family: 'Kurdliga-Bold';
-      src: url('fonts/kurdliga-bold.ttf') format('truetype');
-    }
+    @font-face { font-family: 'Kurdliga-Regular'; src: url('fonts/kurdliga-Reg.ttf') format('truetype'); }
+    @font-face { font-family: 'Kurdliga-Bold'; src: url('fonts/kurdliga-bold.ttf') format('truetype'); }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -344,22 +337,8 @@
       max-width: 480px;
       min-height: 70vh;
       margin: 0 auto;
-      padding: 0 14px 20px;
+      padding: 18px 14px 20px;
       touch-action: pan-y;
-    }
-
-    .section {
-      margin-top: 24px;
-      min-height: 70vh;
-    }
-
-    .section-title {
-      margin-bottom: 14px;
-    }
-
-    .section-title h3 {
-      font-family: 'Kurdliga-Bold', sans-serif;
-      font-size: 21px;
     }
 
     .match-card {
@@ -403,12 +382,6 @@
       align-items: center;
       justify-content: space-between;
       border: 1px solid rgba(255,255,255,.06);
-    }
-
-    .team-label {
-      font-size: 12px;
-      color: #BFC8D4;
-      margin-bottom: 3px;
     }
 
     .team-name {
@@ -643,13 +616,7 @@
   <section class="date-banner" id="dateBanner"></section>
 
   <div class="page" id="homePage">
-    <section class="section">
-      <div class="section-title">
-        <h3 id="selectedDayTitle">یاریەکانی ئەمڕۆ</h3>
-      </div>
-
-      <div id="matchesContainer"></div>
-    </section>
+    <div id="matchesContainer"></div>
   </div>
 
   <nav class="bottom-nav">
@@ -716,6 +683,11 @@
     let adIndex = 0;
     let adTouchStartX = 0;
     let adTouchEndX = 0;
+
+    function formatPoint(value) {
+      if (value === undefined || value === null || value === "") return "--";
+      return Number(value).toFixed(2);
+    }
 
     function toggleSideMenu() {
       const menu = document.getElementById("sideMenu");
@@ -806,7 +778,6 @@
         }
       }
 
-      document.getElementById("selectedDayTitle").textContent = `یاریەکانی ${getDateLabel(offset)}`;
       renderMatches(offset);
     }
 
@@ -826,32 +797,17 @@
         return `
           <div class="match-card">
             <div class="match-league">${match.league}</div>
-
             <div class="match-time-top">${match.time}</div>
 
             <div class="teams-vertical">
               <div class="team-row">
-                <div>
-                  <div class="team-label">ماڵ</div>
-                  <div class="team-name">${match.home}</div>
-                </div>
-                ${
-                  isPastDay && hasResult
-                    ? `<div class="score-box">${match.homeScore}</div>`
-                    : ``
-                }
+                <div class="team-name">${match.home} <span style="color:#BFC8D4;font-size:13px;">(ماڵ)</span></div>
+                ${isPastDay && hasResult ? `<div class="score-box">${match.homeScore}</div>` : ``}
               </div>
 
               <div class="team-row">
-                <div>
-                  <div class="team-label">میوان</div>
-                  <div class="team-name">${match.away}</div>
-                </div>
-                ${
-                  isPastDay && hasResult
-                    ? `<div class="score-box">${match.awayScore}</div>`
-                    : ``
-                }
+                <div class="team-name">${match.away} <span style="color:#BFC8D4;font-size:13px;">(میوان)</span></div>
+                ${isPastDay && hasResult ? `<div class="score-box">${match.awayScore}</div>` : ``}
               </div>
             </div>
 
@@ -862,17 +818,17 @@
                   <div class="points-row">
                     <div class="point-box">
                       <div class="point-title">بردنەوەی ماڵ</div>
-                      <div class="point-value">${match.homePoint || "--"}</div>
+                      <div class="point-value">${formatPoint(match.homePoint)}</div>
                     </div>
 
                     <div class="point-box draw">
                       <div class="point-title">یەکسان</div>
-                      <div class="point-value">${match.drawPoint || "--"}</div>
+                      <div class="point-value">${formatPoint(match.drawPoint)}</div>
                     </div>
 
                     <div class="point-box">
                       <div class="point-title">بردنەوەی میوان</div>
-                      <div class="point-value">${match.awayPoint || "--"}</div>
+                      <div class="point-value">${formatPoint(match.awayPoint)}</div>
                     </div>
                   </div>
                 `
@@ -1046,9 +1002,7 @@
 
       if (info.hour < 6) return userData;
 
-      if (userData.lastDailyReward === info.dateKey) {
-        return userData;
-      }
+      if (userData.lastDailyReward === info.dateKey) return userData;
 
       const currentCoins = Number(userData.coins || 0);
       const newCoins = currentCoins + 100;
@@ -1063,11 +1017,7 @@
 
       document.getElementById("rewardModal").classList.add("show");
 
-      return {
-        ...userData,
-        coins: newCoins,
-        lastDailyReward: info.dateKey
-      };
+      return { ...userData, coins: newCoins, lastDailyReward: info.dateKey };
     }
 
     onAuthStateChanged(auth, async (user) => {
