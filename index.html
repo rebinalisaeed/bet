@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kurdliga</title>
+
+  <style>
+    @font-face {
+      font-family: 'Kurdliga-Regular';
+      src: url('fonts/kurdliga-Reg.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'Kurdliga-Bold';
+      src: url('fonts/kurdliga-bold.ttf') format('truetype');
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #021133;
+      font-family: 'Kurdliga-Regular', sans-serif;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+    }
+
+    .splash {
+      width: 100%;
+      max-width: 430px;
+      padding: 25px;
+      text-align: center;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .logo {
+      width: min(78%, 330px);
+      display: block;
+      margin: 0 auto 28px;
+      animation: logoPulse 2s infinite ease-in-out;
+    }
+
+    .slogan {
+      font-size: 20px;
+      color: #F5F7FA;
+      margin-bottom: 34px;
+      line-height: 1.8;
+      animation: fadeText 2s ease infinite alternate;
+    }
+
+    .loader {
+      width: 46px;
+      height: 46px;
+      border: 4px solid rgba(245, 247, 250, 0.25);
+      border-top-color: #00C853;
+      border-radius: 50%;
+      margin: 0 auto;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-text {
+      margin-top: 18px;
+      font-size: 16px;
+      color: #BFC8D4;
+    }
+
+    .version {
+      margin-top: 15px;
+      color: #7A869A;
+      font-size: 14px;
+      font-family: 'Kurdliga-Regular', sans-serif;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes logoPulse {
+      0%,100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.04);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeText {
+      from {
+        opacity: 0.65;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (max-height:650px) {
+
+      .logo {
+        width: min(65%, 260px);
+        margin-bottom: 18px;
+      }
+
+      .slogan {
+        font-size: 17px;
+        margin-bottom: 24px;
+      }
+
+      .loader {
+        width: 38px;
+        height: 38px;
+      }
+
+      .loading-text {
+        font-size: 14px;
+      }
+
+      .version {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="splash">
+
+    <img
+      src="assets/images/logo.png"
+      alt="Kurdliga Logo"
+      class="logo"
+    />
+
+    <div class="slogan">
+      یەکەمین ماڵپەری پێشبینی یاریەکان بە خۆڕایی
+    </div>
+
+    <div class="loader"></div>
+
+    <div class="loading-text">
+      تکایە چاوەڕێ بکە...
+    </div>
+
+    <div class="version">
+      Version 1.0.0
+    </div>
+
+  </main>
+
+  <script>
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 6000);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>چوونەژوورەوە - Kurdliga</title>
+
+  <style>
+    @font-face {
+      font-family: 'Kurdliga-Regular';
+      src: url('fonts/kurdliga-Reg.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'Kurdliga-Bold';
+      src: url('fonts/kurdliga-bold.ttf') format('truetype');
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: #021133;
+      font-family: 'Kurdliga-Regular', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 28px 22px 18px;
+      overflow-x: hidden;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 430px;
+      text-align: center;
+      padding-top: clamp(8px, 5vh, 45px);
+    }
+
+    .logo {
+      width: min(82%, 330px);
+      display: block;
+      margin: 0 auto clamp(28px, 5vh, 52px);
+    }
+
+    .field-wrap {
+      margin-bottom: 18px;
+    }
+
+    .input-box {
+      width: 100%;
+      height: 64px;
+      border: 2px solid #F5F7FA;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      background: transparent;
+      transition: 0.2s ease;
+    }
+
+    .input-box.error {
+      border-color: #ff4d4d;
+      box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.15);
+    }
+
+    .error-text {
+      display: none;
+      color: #ff4d4d;
+      text-align: right;
+      font-size: 14px;
+      margin: 8px 8px 0;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      line-height: 1.7;
+    }
+
+    .field-wrap.show-error .error-text {
+      display: block;
+    }
+
+    .right-icon {
+      font-size: 24px;
+      color: #F5F7FA;
+      margin-left: 12px;
+      line-height: 1;
+    }
+
+    .input-box input {
+      flex: 1;
+      min-width: 0;
+      background: transparent !important;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-size: 20px;
+      text-align: right;
+      font-family: 'Kurdliga-Regular', sans-serif;
+    }
+
+    .input-box input::placeholder {
+      color: #BFC8D4;
+      font-family: 'Kurdliga-Regular', sans-serif;
+    }
+
+    .input-box input:focus {
+      outline: none;
+      box-shadow: none;
+      background: transparent !important;
+    }
+
+    .input-box input:-webkit-autofill,
+    .input-box input:-webkit-autofill:hover,
+    .input-box input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #ffffff;
+      -webkit-box-shadow: 0 0 0px 1000px #021133 inset;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    .eye-icon {
+      font-size: 24px;
+      color: #F5F7FA;
+      cursor: pointer;
+      margin-right: 12px;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .forgot {
+      display: block;
+      text-align: left;
+      color: #ffffff;
+      font-size: 18px;
+      text-decoration: none;
+      margin: 2px 0 26px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .login-btn {
+      width: 100%;
+      height: 64px;
+      border: none;
+      border-radius: 16px;
+      background: #00C853;
+      color: #ffffff;
+      font-size: 24px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      cursor: pointer;
+      margin-bottom: 22px;
+    }
+
+    .login-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .login-btn:active {
+      transform: scale(0.98);
+    }
+
+    .register-text {
+      font-size: 18px;
+      color: #ffffff;
+      font-family: 'Kurdliga-Regular', sans-serif;
+      line-height: 1.8;
+    }
+
+    .register-text a {
+      color: #00C853;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      text-decoration: none;
+    }
+
+    @media (max-height: 740px) {
+      body {
+        padding-top: 18px;
+      }
+
+      .login-box {
+        padding-top: 0;
+      }
+
+      .logo {
+        width: min(70%, 285px);
+        margin-bottom: 22px;
+      }
+
+      .input-box {
+        height: 58px;
+      }
+
+      .field-wrap {
+        margin-bottom: 14px;
+      }
+
+      .forgot {
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+
+      .login-btn {
+        height: 58px;
+        font-size: 22px;
+        margin-bottom: 16px;
+      }
+
+      .register-text {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-height: 640px) {
+      .logo {
+        width: min(62%, 250px);
+        margin-bottom: 18px;
+      }
+
+      .input-box {
+        height: 54px;
+      }
+
+      .input-box input {
+        font-size: 18px;
+      }
+
+      .login-btn {
+        height: 54px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-box">
+
+    <img src="assets/images/logo.png" alt="Kurdliga Logo" class="logo" />
+
+    <form onsubmit="login(event)">
+
+      <div class="field-wrap" id="wrap-email">
+        <div class="input-box" id="emailBox">
+          <span class="right-icon">✉️</span>
+          <input type="email" id="email" placeholder="ئیمەیڵ" />
+        </div>
+        <div class="error-text" id="emailError"></div>
+      </div>
+
+      <div class="field-wrap" id="wrap-password">
+        <div class="input-box" id="passwordBox">
+          <span class="right-icon">🔒</span>
+          <input type="password" id="password" placeholder="وشەی نهێنی" />
+          <span class="eye-icon" onclick="togglePassword()">👁</span>
+        </div>
+        <div class="error-text" id="passwordError"></div>
+      </div>
+
+      <a href="forgot-password.html" class="forgot">وشەی نهێنیت لەبیرکردووە؟</a>
+
+      <button type="submit" class="login-btn" id="loginBtn">چوونەژوورەوە</button>
+
+      <div class="register-text">
+        هەژمارت نیە؟ <a href="register.html">ئێستا خۆت تۆماربکە</a>
+      </div>
+
+    </form>
+
+  </div>
+
+  <script>
+    function togglePassword() {
+      const password = document.getElementById("password");
+      password.type = password.type === "password" ? "text" : "password";
+    }
+
+    function showError(id, message) {
+      const wrap = document.getElementById("wrap-" + id);
+      const box = document.getElementById(id + "Box");
+      const error = document.getElementById(id + "Error");
+
+      wrap.classList.add("show-error");
+      box.classList.add("error");
+      error.textContent = message;
+    }
+
+    function clearError(id) {
+      const wrap = document.getElementById("wrap-" + id);
+      const box = document.getElementById(id + "Box");
+      const error = document.getElementById(id + "Error");
+
+      wrap.classList.remove("show-error");
+      box.classList.remove("error");
+      error.textContent = "";
+    }
+
+    document.addEventListener("input", function(e) {
+      if (e.target.id === "email") clearError("email");
+      if (e.target.id === "password") clearError("password");
+    });
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+    import {
+      getAuth,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB2ENjViKDRHwwBUGTjrDJMrnrQePGhDqY",
+      authDomain: "kurdliga1.firebaseapp.com",
+      databaseURL: "https://kurdliga1-default-rtdb.firebaseio.com",
+      projectId: "kurdliga1",
+      storageBucket: "kurdliga1.firebasestorage.app",
+      messagingSenderId: "799164130957",
+      appId: "1:799164130957:web:a3ff5ec1ccb026ca59a4c4",
+      measurementId: "G-8TCVRT6GNK"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.login = async function(event) {
+      event.preventDefault();
+
+      clearError("email");
+      clearError("password");
+
+      const email = document.getElementById("email").value.trim().toLowerCase();
+      const password = document.getElementById("password").value;
+      const loginBtn = document.getElementById("loginBtn");
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!email) {
+        showError("email", "تکایە ئیمەیڵ بنووسە");
+        return;
+      }
+
+      if (!emailPattern.test(email)) {
+        showError("email", "ئیمەیڵەکە دروست نییە");
+        return;
+      }
+
+      if (!password) {
+        showError("password", "تکایە وشەی نهێنی بنووسە");
+        return;
+      }
+
+      try {
+        loginBtn.disabled = true;
+        loginBtn.textContent = "تکایە چاوەڕێ بکە...";
+
+        await signInWithEmailAndPassword(auth, email, password);
+
+        localStorage.setItem("kurdligaLoggedIn", "true");
+
+        window.location.href = "home.html";
+
+      } catch (error) {
+        if (
+          error.code === "auth/invalid-credential" ||
+          error.code === "auth/wrong-password" ||
+          error.code === "auth/user-not-found"
+        ) {
+          showError("password", "ئیمەیڵ یان وشەی نهێنی هەڵەیە");
+        } else if (error.code === "auth/invalid-email") {
+          showError("email", "ئیمەیڵەکە دروست نییە");
+        } else if (error.code === "auth/too-many-requests") {
+          showError("password", "هەوڵی زۆرت داوە، تکایە دواتر هەوڵ بدەوە");
+        } else {
+          showError("password", "هەڵەیەک ڕوویدا، تکایە دووبارە هەوڵ بدەوە");
+        }
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = "چوونەژوورەوە";
+      }
+    };
+  </script>
+
+</body>
+</html>
