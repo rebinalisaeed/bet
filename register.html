@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>خۆتۆمارکردن - Kurdliga</title>
+
+  
+  <link rel="stylesheet" href="css/register.css">
+</head>
+
+<body>
+
+  <div class="register-box">
+
+    <img src="assets/images/logo.png" alt="Kurdliga Logo" class="logo" />
+
+    <h1 class="title">خۆتۆمارکردن</h1>
+
+    <form onsubmit="registerUser(event)">
+
+      <div class="field-wrap" id="wrap-firstName">
+        <div class="input-box">
+          <span class="right-icon">👤</span>
+          <input type="text" id="firstName" placeholder="ناوی یەکەم" />
+        </div>
+        <div class="error-text"></div>
+      </div>
+
+      <div class="field-wrap" id="wrap-secondName">
+        <div class="input-box">
+          <span class="right-icon">👤</span>
+          <input type="text" id="secondName" placeholder="ناوی دووەم" />
+        </div>
+        <div class="error-text"></div>
+      </div>
+
+      <div class="field-wrap" id="wrap-username">
+        <div class="input-box">
+          <span class="right-icon">🏷</span>
+          <input type="text" id="username" placeholder="یوزەرناو" />
+        </div>
+        <div class="error-text"></div>
+      </div>
+
+      <div class="field-wrap" id="wrap-password">
+        <div class="input-box">
+          <span class="right-icon">🔒</span>
+          <input type="password" id="password" placeholder="پاسوۆرد" />
+          <span class="eye-icon" onclick="togglePassword('password')">👁</span>
+        </div>
+        <div class="error-text"></div>
+      </div>
+
+      <div class="field-wrap" id="wrap-confirmPassword">
+        <div class="input-box">
+          <span class="right-icon">🔒</span>
+          <input type="password" id="confirmPassword" placeholder="دووبارە پاسوۆرد" />
+          <span class="eye-icon" onclick="togglePassword('confirmPassword')">👁</span>
+        </div>
+        <div class="error-text"></div>
+      </div>
+
+      <div class="field-wrap" id="wrap-phone">
+        <div class="input-box">
+          <span class="right-icon">📱</span>
+          <input type="tel" id="phone" placeholder="ژمارەی مۆبایل" />
+        </div>
+        <div class="error-text"></div>
+      </div>
+
+      <div class="field-wrap" id="wrap-email">
+        <div class="input-box">
+          <span class="right-icon">✉️</span>
+          <input type="email" id="email" placeholder="ئیمەیڵ" />
+        </div>
+        <div class="error-text"></div>
+      </div>
+
+      <div class="field-wrap" id="wrap-country">
+        <div class="select-box">
+          <span class="right-icon">🌍</span>
+          <select id="country" onchange="loadCities()">
+            <option value="">وڵات هەڵبژێرە</option>
+            <option value="باشوری کوردستان">باشوری کوردستان</option>
+            <option value="باکوری کوردستان">باکوری کوردستان</option>
+            <option value="ڕۆژهەڵاتی کوردستان">ڕۆژهەڵاتی کوردستان</option>
+            <option value="ڕۆژئاوای کوردستان">ڕۆژئاوای کوردستان</option>
+          </select>
+        </div>
+        <div class="error-text"></div>
+      </div>
+
+      <div class="field-wrap" id="wrap-city">
+        <div class="select-box">
+          <span class="right-icon">🏙</span>
+          <select id="city">
+            <option value="">سەرەتا وڵات هەڵبژێرە</option>
+          </select>
+        </div>
+        <div class="error-text"></div>
+      </div>
+
+      <div class="field-wrap" id="wrap-nationalId">
+        <div class="input-box">
+          <span class="right-icon">🪪</span>
+          <input type="text" id="nationalId" inputmode="numeric" placeholder="ژمارەی پێناس / کارتی نیشتمانی" />
+        </div>
+        <div class="error-text"></div>
+      </div>
+
+      <div class="field-wrap" id="wrap-terms">
+        <label class="terms">
+          <input type="checkbox" id="terms" />
+          <span>ڕازیم بە <a href="#">مەرج و ڕێساکانی Kurdliga</a></span>
+        </label>
+        <div class="error-text"></div>
+      </div>
+
+      <button type="submit" class="register-btn" id="registerBtn">خۆتۆمارکردن</button>
+
+      <div class="login-text">
+        پێشتر هەژمارت هەیە؟ <a href="login.html">چوونەژوورەوە</a>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="modal" id="successModal">
+    <div class="modal-box">
+      <h2>سەرکەوتوو بوو</h2>
+      <p>تۆمارکردنەکە بە سەرکەوتوویی ئەنجام درا</p>
+    </div>
+  </div>
+
+  <script src="js/register-1.js"></script>
+
+  <script type="module" src="js/register-2.js"></script>
+
+</body>
+</html>
