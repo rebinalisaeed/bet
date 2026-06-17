@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پێشبینیەکانم - Kurdliga</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="my-predictions">
+  <div class="side-overlay" id="sideOverlay" onclick="closeSideMenu()"></div>
+
+  <aside class="side-menu" id="sideMenu">
+    <button class="menu-item" disabled>👤 پرۆفایل</button>
+    <button class="menu-item" disabled>🏆 خولەکانی تۆپی پێی</button>
+    <button class="menu-item" disabled>⚙️ ڕێکخستن</button>
+    <button class="menu-item" disabled>🌐 زمان</button>
+    <button class="menu-item" disabled>📜 مەرج و ڕێسا</button>
+    <button class="menu-item" disabled>❓ یارمەتی</button>
+    <button class="menu-item logout-active" onclick="logoutUser()">🚪 چوونەدەرەوە</button>
+  </aside>
+  <header class="header">
+    <div class="header-left">
+      <button class="menu-btn" id="menuBtn" onclick="toggleSideMenu()">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="notifications.html" class="notify-btn">🔔</a>
+    </div>
+
+    <img src="assets/images/logo.png" alt="Kurdliga Logo" class="logo" id="headerLogo" />
+
+    <div class="wallet-mini">
+      <div class="coin-line">🪙 <span id="coinsText">0</span></div>
+      <div class="wallet-divider"></div>
+      <div class="diamond-line">💎 <span id="diamondsText">0</span></div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="search-box">
+      <div class="search-title">گەڕانی پسولەکان</div>
+
+      <div class="field-label">ژمارەی پسولە</div>
+      <input type="text" id="betNoInput" class="filter-input" placeholder="# ژمارەی پسولە" />
+
+      <div class="field-label">ماوەی گەڕان</div>
+      <div class="range-display" id="rangeDisplay" onclick="openRangeModal()"></div>
+
+      <button class="get-btn" onclick="applyFilters()">گەڕان</button>
+
+      <div class="hint-text">دەتوانیت بە ژمارەی پسولە یان بە ماوەی بەروار گەڕان بکەیت.</div>
+    </section>
+
+    <div id="archiveList"><div class="empty-box">چاوەڕێ بکە...</div></div>
+  </main>
+
+  <section class="range-modal" id="rangeModal" onclick="closeRangeByOverlay(event)">
+    <div class="range-sheet">
+      <div class="quick-ranges">
+        <button class="quick-btn" id="qToday" onclick="setQuickRange('today')">ئەمڕۆ</button>
+        <button class="quick-btn" id="qYesterday" onclick="setQuickRange('yesterday')">دوێنێ</button>
+        <button class="quick-btn" id="q7" onclick="setQuickRange('last7')">٧ ڕۆژی ڕابردوو</button>
+        <button class="quick-btn" id="q30" onclick="setQuickRange('last30')">٣٠ ڕۆژی ڕابردوو</button>
+        <button class="quick-btn" id="qMonth" onclick="setQuickRange('thisMonth')">ئەم مانگە</button>
+        <button class="quick-btn" id="qCustom" onclick="setQuickActive('custom')">ماوەی تایبەت</button>
+      </div>
+
+      <div class="calendar-head">
+        <button class="month-nav" onclick="changeMonth(-1)">‹</button>
+        <div class="month-title" id="monthTitle"></div>
+        <button class="month-nav" onclick="changeMonth(1)">›</button>
+      </div>
+
+      <div class="weekdays">
+        <div>ی</div><div>د</div><div>س</div><div>چ</div><div>پ</div><div>ه</div><div>ش</div>
+      </div>
+      <div class="days-grid" id="daysGrid"></div>
+
+      <div class="time-row">
+        <div class="time-card">
+          <label>کاتی دەستپێک</label>
+          <input type="time" id="startTimeInput" value="00:00" oninput="updateRangePreview()" />
+        </div>
+        <div class="time-card">
+          <label>کاتی کۆتایی</label>
+          <input type="time" id="endTimeInput" value="23:59" oninput="updateRangePreview()" />
+        </div>
+      </div>
+
+      <div class="range-preview" id="rangePreview"></div>
+
+      <div class="range-actions">
+        <button class="apply-range" onclick="applyRangeFromModal()">جێبەجێکردن</button>
+        <button class="reset-range" onclick="resetRangeModal()">ڕیسێت</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="bottom-nav-wrap">
+    <nav class="bottom-nav">
+      <a href="my-predictions.html" class="nav-item active" aria-label="پێشبینیەکانم">
+        <span class="nav-icon">🧾</span>
+        <span class="nav-text">پێشبینیەکانم</span>
+      </a>
+
+      <a href="exchange.html" class="nav-item" aria-label="ئاڵوگۆڕکردن">
+        <span class="nav-icon">🔄</span>
+        <span class="nav-text">ئاڵوگۆڕکردن</span>
+      </a>
+
+      <a href="home.html" class="nav-item home-nav" aria-label="سەرەتا">
+        <span class="home-nav-circle">
+          <img src="assets/images/armlogo.png" alt="سەرەتا" class="home-nav-logo" />
+        </span>
+        <span class="home-nav-text">سەرەتا</span>
+      </a>
+
+      <a href="market.html" class="nav-item" aria-label="بازار">
+        <span class="nav-icon">🛒</span>
+        <span class="nav-text">بازار</span>
+      </a>
+
+      <a href="leaderboard.html" class="nav-item" aria-label="ڕێزبەندی">
+        <span class="nav-icon">🏆</span>
+        <span class="nav-text">ڕێزبەندی</span>
+      </a>
+    </nav>
+  </div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
