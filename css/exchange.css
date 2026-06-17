@@ -1,0 +1,41 @@
+@font-face { font-family: 'Kurdliga-Regular'; src: url('fonts/kurdliga-Reg.ttf') format('truetype'); }
+    @font-face { font-family: 'Kurdliga-Bold'; src: url('fonts/kurdliga-bold.ttf') format('truetype'); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width:100%; min-height:100%; background:#021133; font-family:'Kurdliga-Regular',sans-serif; color:#fff; }
+    body { padding-top:76px; padding-bottom:118px; overflow-x:hidden; }
+    .header { position:fixed; top:0; right:0; left:0; height:76px; background:linear-gradient(145deg,#061a48,#021133); border-bottom:1px solid rgba(245,247,250,.16); padding:10px 14px; display:flex; align-items:center; justify-content:space-between; z-index:3000; box-shadow:0 10px 25px rgba(0,0,0,.28); }
+    .header-left{display:flex;align-items:center;gap:8px;}
+    .menu-btn{width:42px;height:42px;border-radius:14px;background:rgba(255,255,255,.08);border:0;cursor:pointer;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;}
+    .menu-btn span{width:20px;height:2px;background:#fff;border-radius:99px;transition:.25s ease;}
+    .menu-btn.active span:nth-child(1){transform:translateY(7px) rotate(45deg);} .menu-btn.active span:nth-child(2){opacity:0;} .menu-btn.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+    .notify-btn{width:42px;height:42px;border-radius:14px;background:rgba(255,255,255,.08);color:#fff;text-decoration:none;display:flex;align-items:center;justify-content:center;font-size:21px;}
+    .logo{width:145px;display:block;transition:.32s ease;position:relative;z-index:5;} .logo.menu-open{transform:translateY(38px) scale(1.23);}
+    .wallet-mini{min-width:92px;text-align:left;line-height:1.4;font-family:'Kurdliga-Bold',sans-serif;}
+    .coin-line,.diamond-line{font-size:16px;white-space:nowrap;display:flex;align-items:center;justify-content:flex-start;gap:4px;direction:ltr;}
+    .coin-line span,.diamond-line span{color:#00C853;} .wallet-divider{height:1px;background:rgba(180,180,180,.45);margin:4px 0;}
+    .side-overlay{position:fixed;top:76px;right:0;left:0;bottom:0;background:rgba(0,0,0,.45);z-index:2400;display:none;} .side-overlay.show{display:block;}
+    .side-menu{position:fixed;top:76px;right:0;left:0;width:100%;background:#061a48;z-index:2600;padding:48px 16px 12px;transform:translateY(-120%);transition:.28s ease;border-bottom:1px solid rgba(255,255,255,.14);box-shadow:0 12px 28px rgba(0,0,0,.35);} .side-menu.show{transform:translateY(0);}
+    .menu-item{width:100%;height:42px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#BFC8D4;border-radius:14px;margin-bottom:7px;display:flex;align-items:center;gap:10px;padding:0 14px;font-family:'Kurdliga-Bold',sans-serif;font-size:18px;opacity:.65;cursor:not-allowed;}
+    .menu-item.logout-active{opacity:1;cursor:pointer;color:#fff;background:rgba(255,59,59,.22);border-color:rgba(255,59,59,.35);}
+    .page{width:100%;max-width:480px;margin:0 auto;padding:18px 14px 20px;}
+    .hero{background:linear-gradient(135deg,#063b28,#061a48);border:1px solid rgba(0,200,83,.25);border-radius:26px;padding:20px 16px;margin-bottom:16px;box-shadow:0 12px 28px rgba(0,0,0,.24);position:relative;overflow:hidden;}
+    .hero:after{content:'⚽';position:absolute;left:-18px;bottom:-30px;font-size:110px;opacity:.08;}
+    .hero h1{font-family:'Kurdliga-Bold',sans-serif;color:#00C853;font-size:25px;margin-bottom:8px;position:relative;z-index:1;}
+    .hero p{color:#BFC8D4;font-size:14px;line-height:1.8;position:relative;z-index:1;}
+    .card{background:#061a48;border:1px solid rgba(245,247,250,.14);border-radius:24px;padding:16px;margin-bottom:14px;box-shadow:0 10px 24px rgba(0,0,0,.18);}
+    .section-title{font-family:'Kurdliga-Bold',sans-serif;font-size:19px;margin-bottom:12px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .pill{font-family:'Kurdliga-Bold',sans-serif;font-size:12px;padding:7px 12px;border-radius:999px;background:rgba(0,200,83,.16);color:#00C853;white-space:nowrap;}
+    .item-row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);border-radius:17px;padding:12px;margin-top:8px;}
+    .item-main{min-width:0;} .item-title{font-family:'Kurdliga-Bold',sans-serif;font-size:15px;line-height:1.6;} .item-sub{color:#BFC8D4;font-size:12px;line-height:1.7;}
+    .big-value{font-family:'Kurdliga-Bold',sans-serif;color:#00C853;font-size:17px;white-space:nowrap;}
+    .btn{height:44px;border:0;border-radius:14px;background:#00C853;color:#fff;font-family:'Kurdliga-Bold',sans-serif;font-size:15px;padding:0 14px;cursor:pointer;box-shadow:0 10px 22px rgba(0,200,83,.18);}
+    .btn.secondary{background:rgba(255,255,255,.08);color:#BFC8D4;box-shadow:none;border:1px solid rgba(255,255,255,.1);}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;} .stat-box{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px;text-align:center;} .stat-box span{display:block;color:#BFC8D4;font-size:12px;margin-bottom:6px}.stat-box b{font-family:'Kurdliga-Bold',sans-serif;color:#00C853;font-size:20px;}
+    .input{width:100%;height:48px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;border-radius:15px;padding:0 14px;outline:none;font-family:'Kurdliga-Bold',sans-serif;text-align:center;font-size:15px;margin:8px 0;}
+    .bottom-nav-wrap{position:fixed;right:0;left:0;bottom:0;height:96px;z-index:3000;pointer-events:none;}
+    .bottom-nav{position:absolute;right:0;left:0;bottom:0;height:78px;background:rgba(6,26,72,.98);border-top:1px solid rgba(245,247,250,.16);display:grid;grid-template-columns:repeat(5,1fr);align-items:center;z-index:2;backdrop-filter:blur(16px);box-shadow:0 -12px 28px rgba(0,0,0,.34);border-radius:26px 26px 0 0;overflow:visible;pointer-events:auto;}
+    .nav-item{position:relative;z-index:3;color:#BFC8D4;text-decoration:none;text-align:center;font-size:10px;line-height:1.25;min-width:0;width:100%;height:78px;padding:7px 0 5px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;transition:.22s ease;cursor:pointer;-webkit-tap-highlight-color:transparent;pointer-events:auto;touch-action:manipulation;}
+    .nav-item span,.nav-item img{pointer-events:none;} .nav-icon{display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;margin-bottom:2px;opacity:.9;} .nav-item.active{color:#00C853;font-family:'Kurdliga-Bold',sans-serif;} .nav-item:not(.home-tab).active .nav-icon{transform:translateY(-2px) scale(1.08);}
+    .home-tab{width:100%;height:96px;transform:translateY(-24px);color:#fff;font-family:'Kurdliga-Bold',sans-serif;z-index:4;} .home-tab .home-circle{width:68px;height:68px;border-radius:50%;background:linear-gradient(145deg,#00C853,#00a846);border:6px solid #021133;box-shadow:0 10px 25px rgba(0,0,0,.36),0 0 0 1px rgba(0,200,83,.18);display:flex;align-items:center;justify-content:center;margin-bottom:3px;overflow:hidden;}
+    .home-logo-icon{width:34px;height:34px;object-fit:contain;display:block;filter:drop-shadow(0 2px 0 rgba(0,0,0,.12));}.home-tab span:last-child{font-size:11px;color:#fff;margin-top:-1px;}.nav-item:active{transform:scale(.96);}.home-tab:active{transform:translateY(-24px) scale(.96);}
+    @media(max-width:360px){.nav-item{font-size:9px}.nav-icon{font-size:20px}.home-tab .home-circle{width:62px;height:62px}.home-logo-icon{width:31px;height:31px}}
