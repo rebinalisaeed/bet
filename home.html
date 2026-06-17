@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>سەرەکی - Kurdliga</title>
+
+  <style>
+    @font-face { font-family: 'Kurdliga-Regular'; src: url('fonts/kurdliga-Reg.ttf') format('truetype'); }
+    @font-face { font-family: 'Kurdliga-Bold'; src: url('fonts/kurdliga-bold.ttf') format('truetype'); }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background: #021133;
+      font-family: 'Kurdliga-Regular', sans-serif;
+      color: #ffffff;
+    }
+
+    body {
+      padding-top: 76px;
+      padding-bottom: 88px;
+      overflow-x: hidden;
+    }
+
+    body.no-scroll {
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 76px;
+      background: linear-gradient(145deg, #061a48, #021133);
+      border-bottom: 1px solid rgba(245,247,250,.16);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 3000;
+      box-shadow: 0 10px 25px rgba(0,0,0,.28);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .menu-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.08);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      z-index: 4;
+    }
+
+    .menu-btn span {
+      width: 20px;
+      height: 2px;
+      background: #fff;
+      border-radius: 99px;
+      transition: .25s ease;
+    }
+
+    .menu-btn.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .menu-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-btn.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .notify-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.08);
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+    }
+
+    .logo {
+      width: 145px;
+      display: block;
+      transition: .32s ease;
+      z-index: 5;
+      position: relative;
+    }
+
+    .logo.menu-open {
+      transform: translateY(38px) scale(1.23);
+    }
+
+    .wallet-mini {
+      min-width: 92px;
+      text-align: left;
+      line-height: 1.4;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .coin-line,
+    .diamond-line {
+      font-size: 16px;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 4px;
+      direction: ltr;
+    }
+
+    .coin-line span,
+    .diamond-line span {
+      color: #00C853;
+    }
+
+    .wallet-divider {
+      height: 1px;
+      background: rgba(180,180,180,.45);
+      margin: 4px 0;
+    }
+
+    .side-overlay {
+      position: fixed;
+      top: 76px;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 2400;
+      display: none;
+    }
+
+    .side-overlay.show { display: block; }
+
+    .side-menu {
+      position: fixed;
+      top: 76px;
+      right: 0;
+      left: 0;
+      width: 100%;
+      background: #061a48;
+      z-index: 2600;
+      padding: 48px 16px 12px;
+      transform: translateY(-120%);
+      transition: .28s ease;
+      border-bottom: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 12px 28px rgba(0,0,0,.35);
+    }
+
+    .side-menu.show { transform: translateY(0); }
+
+    .menu-item {
+      width: 100%;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: #BFC8D4;
+      border-radius: 14px;
+      margin-bottom: 7px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 18px;
+      opacity: .65;
+      cursor: not-allowed;
+    }
+
+    .menu-item.logout-active {
+      opacity: 1;
+      cursor: pointer;
+      color: #ffffff;
+      background: rgba(255, 59, 59, .22);
+      border-color: rgba(255, 59, 59, .35);
+    }
+
+    .ad-slider {
+      width: 100%;
+      min-height: 150px;
+      overflow: hidden;
+      position: relative;
+      background: #061a48;
+      border-bottom: 1px solid rgba(245,247,250,.14);
+    }
+
+    .slide {
+      display: none;
+      min-height: 150px;
+      padding: 22px 18px;
+      position: relative;
+      background:
+        radial-gradient(circle at top left, rgba(0,200,83,.35), transparent 38%),
+        linear-gradient(135deg, #0D47A1, #061a48);
+    }
+
+    .slide.active {
+      display: flex;
+      align-items: center;
+    }
+
+    .slide::after {
+      content: "⚽";
+      position: absolute;
+      left: -12px;
+      bottom: -25px;
+      font-size: 105px;
+      opacity: .12;
+    }
+
+    .slide-content {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      text-align: right;
+    }
+
+    .slide-content h3 {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 23px;
+      margin-bottom: 8px;
+    }
+
+    .slide-content p {
+      font-size: 15px;
+      color: #F5F7FA;
+      line-height: 1.8;
+      max-width: 285px;
+    }
+
+    .slide-badge {
+      display: inline-block;
+      margin-top: 14px;
+      background: #00C853;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .slider-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 5;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.35);
+    }
+
+    .dot.active {
+      background: #00C853;
+      width: 18px;
+      border-radius: 999px;
+    }
+
+    .date-banner {
+      position: sticky;
+      top: 76px;
+      z-index: 2500;
+      width: 100%;
+      height: 76px;
+      background: linear-gradient(145deg, #061a48, #021133);
+      border-bottom: 1px solid rgba(245,247,250,.16);
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      direction: rtl;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+    }
+
+    .date-banner::-webkit-scrollbar { display: none; }
+
+    .date-item {
+      flex: 0 0 33.333%;
+      height: 76px;
+      scroll-snap-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-left: 1px solid rgba(255,255,255,.08);
+      color: #BFC8D4;
+      cursor: pointer;
+      text-align: center;
+      transition: .2s ease;
+    }
+
+    .date-item.active {
+      color: #00C853;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      background: rgba(0,200,83,.10);
+      transform: scale(1.03);
+    }
+
+    .date-title {
+      font-size: 17px;
+      margin-bottom: 4px;
+    }
+
+    .date-sub {
+      font-size: 11px;
+      color: #BFC8D4;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 480px;
+      min-height: 70vh;
+      margin: 0 auto;
+      padding: 18px 14px 20px;
+      touch-action: pan-y;
+    }
+
+    .match-card {
+      background: #061a48;
+      border: 1px solid rgba(245,247,250,.14);
+      border-radius: 22px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .match-league {
+      color: #BFC8D4;
+      font-size: 13px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .match-time-top {
+      width: fit-content;
+      margin: 0 auto 14px;
+      padding: 7px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      color: #ffffff;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 22px;
+    }
+
+    .teams-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .team-row {
+      min-height: 58px;
+      background: rgba(255,255,255,.06);
+      border-radius: 18px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .team-name {
+      font-size: 17px;
+      line-height: 1.5;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .score-box {
+      min-width: 48px;
+      height: 38px;
+      border-radius: 12px;
+      background: rgba(0,200,83,.14);
+      color: #00C853;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 18px;
+    }
+
+    .points-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .point-box {
+      min-height: 64px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(245,247,250,.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .point-box.selected {
+      background: rgba(0,200,83,.23);
+      border-color: #00C853;
+      box-shadow: 0 0 0 3px rgba(0,200,83,.14);
+      transform: scale(.98);
+    }
+
+    .point-title {
+      font-size: 12px;
+      color: #BFC8D4;
+      line-height: 1.4;
+    }
+
+    .point-value {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 17px;
+      color: #00C853;
+    }
+
+    .point-box.draw .point-value {
+      color: #FFD700;
+    }
+
+    .point-box.selected .point-title,
+    .point-box.selected .point-value {
+      color: #ffffff;
+    }
+
+
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-right: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255,59,59,.18);
+      color: #ff4d4d;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 11px;
+    }
+
+    .loading-box {
+      background: rgba(255,255,255,.06);
+      border: 1px dashed rgba(255,255,255,.20);
+      border-radius: 22px;
+      padding: 28px 16px;
+      text-align: center;
+      color: #BFC8D4;
+      line-height: 1.8;
+    }
+
+    .result-btn {
+      width: 100%;
+      margin-top: 16px;
+      height: 48px;
+      border: none;
+      border-radius: 15px;
+      color: #ffffff;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 17px;
+      background: #26364d;
+      cursor: default;
+    }
+
+    .empty-box {
+      background: rgba(255,255,255,.06);
+      border: 1px dashed rgba(255,255,255,.20);
+      border-radius: 22px;
+      padding: 28px 16px;
+      text-align: center;
+      color: #BFC8D4;
+      line-height: 1.8;
+    }
+
+    .bet-slip-toggle {
+      position: fixed;
+      left: 12px;
+      bottom: 84px;
+      z-index: 3100;
+      border: none;
+      border-radius: 18px;
+      padding: 10px 14px;
+      background: #00C853;
+      color: #fff;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      box-shadow: 0 10px 25px rgba(0,0,0,.32);
+      display: none;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      direction: rtl;
+    }
+
+    .bet-slip-toggle.show { display: flex; }
+
+    .bet-slip-panel {
+      position: fixed;
+      right: 10px;
+      left: 10px;
+      bottom: 84px;
+      max-height: calc(100vh - 170px);
+      background: #07131F;
+      border: 1px solid rgba(245,247,250,.18);
+      border-radius: 24px;
+      z-index: 3200;
+      box-shadow: 0 -12px 35px rgba(0,0,0,.45);
+      transform: translateY(120%);
+      opacity: 0;
+      transition: .28s ease;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bet-slip-panel.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .slip-header {
+      padding: 16px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .slip-body {
+      padding: 12px;
+      overflow-y: auto;
+    }
+
+    .slip-item {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 10px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .slip-match {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .slip-pick {
+      color: #BFC8D4;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .remove-slip-item {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255,59,59,.20);
+      color: #fff;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      cursor: pointer;
+    }
+
+    .stake-box {
+      padding: 12px;
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+
+    .stake-input {
+      width: 100%;
+      height: 48px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color: #fff;
+      border-radius: 14px;
+      padding: 0 14px;
+      outline: none;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .total-line {
+      text-align: center;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      color: #00C853;
+      line-height: 1.8;
+    }
+
+    .slip-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+
+    .slip-actions button {
+      height: 44px;
+      border-radius: 14px;
+      border: none;
+      color: #fff;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      cursor: pointer;
+    }
+
+    .submit-slip { background: #00C853; }
+
+    .submit-slip:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      background: #26364d;
+    }
+
+    .clear-slip { background: #ff3b3b; }
+    .close-slip { background: #26364d; }
+
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.62);
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .confirm-overlay.show { display: flex; }
+
+    .confirm-box {
+      width: 100%;
+      max-width: 340px;
+      background: #ffffff;
+      color: #021133;
+      border-radius: 24px;
+      padding: 24px 18px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,.35);
+      animation: popIn .22s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .confirm-box h3 {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      color: #00C853;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .confirm-box p {
+      line-height: 1.8;
+      font-size: 16px;
+      margin-bottom: 14px;
+    }
+
+    .countdown-text {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      color: #ff3b3b;
+      margin-bottom: 14px;
+    }
+
+    .cancel-confirm {
+      width: 100%;
+      height: 46px;
+      border-radius: 14px;
+      border: none;
+      background: #ff3b3b;
+      color: #ffffff;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 74px;
+      background: rgba(6,26,72,.98);
+      border-top: 1px solid rgba(245,247,250,.16);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      align-items: center;
+      z-index: 3000;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 -10px 25px rgba(0,0,0,.28);
+    }
+
+    .nav-item {
+      color: #BFC8D4;
+      text-decoration: none;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .nav-icon {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+
+    .nav-item.active {
+      color: #00C853;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.62);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 4200;
+      padding: 20px;
+    }
+
+    .modal.show { display: flex; }
+
+    .modal-box {
+      background: #ffffff;
+      color: #021133;
+      border-radius: 24px;
+      padding: 26px 20px;
+      width: 100%;
+      max-width: 350px;
+      text-align: center;
+    }
+
+    .modal-box h3 {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      color: #00C853;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .modal-box p {
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    .modal-box button {
+      margin-top: 18px;
+      width: 100%;
+      height: 48px;
+      border: none;
+      border-radius: 14px;
+      background: #00C853;
+      color: #ffffff;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 17px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="side-overlay" id="sideOverlay" onclick="closeSideMenu()"></div>
+
+  <aside class="side-menu" id="sideMenu">
+    <button class="menu-item" disabled>👤 پرۆفایل</button>
+    <button class="menu-item" disabled>🏆 خولەکانی تۆپی پێی</button>
+    <button class="menu-item" disabled>⚙️ ڕێکخستن</button>
+    <button class="menu-item" disabled>🌐 زمان</button>
+    <button class="menu-item" disabled>📜 مەرج و ڕێسا</button>
+    <button class="menu-item" disabled>❓ یارمەتی</button>
+    <button class="menu-item logout-active" onclick="logoutUser()">🚪 چوونەدەرەوە</button>
+  </aside>
+
+  <header class="header">
+    <div class="header-left">
+      <button class="menu-btn" id="menuBtn" onclick="toggleSideMenu()">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="notifications.html" class="notify-btn">🔔</a>
+    </div>
+
+    <img src="assets/images/logo.png" alt="Kurdliga Logo" class="logo" id="headerLogo" />
+
+    <div class="wallet-mini">
+      <div class="coin-line">🪙 <span id="coinsText">0</span></div>
+      <div class="wallet-divider"></div>
+      <div class="diamond-line">💎 <span id="diamondsText">0</span></div>
+    </div>
+  </header>
+
+  <section class="ad-slider" id="adSlider">
+    <div class="slide active">
+      <div class="slide-content">
+        <h3>شوێنی ڕیکلام</h3>
+        <p>ئەم شوێنە بۆ ڕیکلامی سپۆنسەر و هەواڵی گرنگی Kurdliga بەکاربێت.</p>
+        <span class="slide-badge">Kurdliga Ads</span>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-content">
+        <h3>پێشبینی بکە</h3>
+        <p>لە یاریەکانی ئەمڕۆ بەشداری بکە و کۆینەکانت بە زیرەکی بەکاربهێنە.</p>
+        <span class="slide-badge">پێشبینی</span>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-content">
+        <h3>ڕیزبەندی ڕۆژانە</h3>
+        <p>ئەڵماس کۆبکەرەوە و لە نێوان بەکارهێنەراندا پلەی خۆت بەرز بکەوە.</p>
+        <span class="slide-badge">ڕیزبەندی</span>
+      </div>
+    </div>
+
+    <div class="slider-dots">
+      <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+  </section>
+
+  <section class="date-banner" id="dateBanner"></section>
+
+  <div class="page" id="homePage">
+    <div id="matchesContainer"></div>
+  </div>
+
+  <button class="bet-slip-toggle" id="betSlipToggle" onclick="toggleBetSlip()">
+    🧾 <span id="slipCount">0</span> یاری | <span id="slipTotalPoint">0.00</span>
+  </button>
+
+  <section class="bet-slip-panel" id="betSlipPanel">
+    <div class="slip-header">
+      <span>پسولەی پێشبینی</span>
+      <span id="slipHeaderTotal">0.00</span>
+    </div>
+
+    <div class="slip-body" id="slipBody"></div>
+
+    <div class="stake-box">
+      <input class="stake-input" id="stakeInput" type="number" min="1" placeholder="بڕی کۆین بنووسە" oninput="renderSlip()" />
+      <div class="total-line" id="stakeTotalLine">0 × 0.00 = 0</div>
+    </div>
+
+    <div class="slip-actions">
+      <button class="submit-slip" id="submitSlipBtn" onclick="submitSlip()" disabled>جێبەجێ کردن</button>
+      <button class="clear-slip" onclick="clearSlip()">بەتاڵکردنەوە</button>
+      <button class="close-slip" onclick="closeBetSlip()">داخستن</button>
+    </div>
+  </section>
+
+  <div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-box">
+      <h3>چاوەڕێ بکە</h3>
+      <p>چاوەڕانی جێبەجێکردنی پسولەکە بە</p>
+      <div class="countdown-text" id="countdownText">٦ چرکە</div>
+      <button class="cancel-confirm" onclick="cancelPendingSlip()">پاشگەزبوونەوە</button>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="my-predictions.html" class="nav-item active">
+  <span class="nav-icon">🧾</span>
+  پێشبینیەکانم
+</a>
+
+    <a href="#" class="nav-item">
+      <span class="nav-icon">🔄</span>
+      ئاڵوگۆرکردن
+    </a>
+
+    <a href="#" class="nav-item">
+      <span class="nav-icon">🛒</span>
+      بازاری کردن
+    </a>
+
+    <a href="leaderboard.html" class="nav-item">
+      <span class="nav-icon">🏆</span>
+      ڕیزبەندی
+    </a>
+  </nav>
+
+  <div class="modal" id="rewardModal">
+    <div class="modal-box">
+      <h3 id="modalTitle">کۆینی ڕۆژانە</h3>
+      <p id="rewardModalText">کۆین زیادکرا</p>
+      <button onclick="closeRewardModal()">باشە</button>
+    </div>
+  </div>
+
+  <script>
+    const API_KEY = "e2340a5855ed7305d99931d0614b59c1";
+    const API_BASE = "https://v3.football.api-sports.io";
+    const WORLD_CUP_LEAGUE_ID = 1;
+    const WORLD_CUP_SEASON = 2026;
+    const LIVE_REFRESH_MS = 60000;
+
+    let matchesByOffset = {};
+    let liveRefreshTimer = null;
+
+    const teamTranslations = {
+      "Mexico": "مەکسیک",
+      "South Africa": "ئەفریقای باشوور",
+      "South Korea": "کۆریای باشوور",
+      "Czechia": "چیکیا",
+      "Canada": "کەنەدا",
+      "Bosnia and Herzegovina": "بۆسنە و هەرسەک",
+      "Qatar": "قەتەر",
+      "Switzerland": "سویسرا",
+      "United States": "ویلایەتە یەکگرتووەکان",
+      "USA": "ویلایەتە یەکگرتووەکان",
+      "Paraguay": "پاراگوای",
+      "Brazil": "بەرازیل",
+      "Morocco": "مەغریب",
+      "Haiti": "هایتی",
+      "Scotland": "سکۆتلەندا",
+      "Australia": "ئوسترالیا",
+      "Turkey": "تورکیا",
+      "Germany": "ئەڵمانیا",
+      "Curacao": "کوراساو",
+      "Ivory Coast": "کۆت دیڤوار",
+      "Côte d'Ivoire": "کۆت دیڤوار",
+      "Ecuador": "ئیکوادۆر",
+      "Netherlands": "هۆڵەندا",
+      "Japan": "ژاپۆن",
+      "Sweden": "سوید",
+      "Tunisia": "تونس",
+      "Spain": "ئیسپانیا",
+      "Cape Verde": "کەیپ ڤێرد",
+      "Saudi Arabia": "سعودیە",
+      "Uruguay": "ئوروگوای",
+      "Belgium": "بەلجیکا",
+      "Egypt": "میسر",
+      "Iran": "ئێران",
+      "New Zealand": "نیوزیلەندا",
+      "France": "فەرەنسا",
+      "Senegal": "سینیگال",
+      "Iraq": "عێراق",
+      "Norway": "نەرویج",
+      "Argentina": "ئەرجەنتین",
+      "Algeria": "جەزائیر",
+      "Austria": "نەمسا",
+      "Jordan": "ئوردن",
+      "Portugal": "پورتوگال",
+      "DR Congo": "کۆنگۆی دیموکراتی",
+      "Congo DR": "کۆنگۆی دیموکراتی",
+      "Uzbekistan": "ئوزبەکستان",
+      "Colombia": "کۆلۆمبیا",
+      "England": "ئینگلتەرا",
+      "Croatia": "کرواتیا",
+      "Ghana": "غەنا",
+      "Panama": "پاناما"
+    };
+
+    const weekDaysKu = ["یەکشەممە","دووشەممە","سێشەممە","چوارشەممە","پێنجشەممە","هەینی","شەممە"];
+    const monthNamesKu = ["کانوونی دووەم","شوبات","ئازار","نیسان","ئایار","حوزەیران","تەمموز","ئاب","ئەیلوول","تشرینی یەکەم","تشرینی دووەم","کانوونی یەکەم"];
+
+    let selectedOffset = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let adIndex = 0;
+    let adTouchStartX = 0;
+    let adTouchEndX = 0;
+    let slip = [];
+    let pendingTimer = null;
+    let pendingCountdown = 6;
+
+    function formatPoint(value) {
+      if (value === undefined || value === null || value === "") return "--";
+      return Number(value).toFixed(2);
+    }
+
+    function getSlipTotalPoint() {
+      if (slip.length === 0) return 0;
+      return slip.reduce((total, item) => total * Number(item.point), 1);
+    }
+
+    function toggleSideMenu() {
+      const menu = document.getElementById("sideMenu");
+      const overlay = document.getElementById("sideOverlay");
+      const btn = document.getElementById("menuBtn");
+      const logo = document.getElementById("headerLogo");
+
+      menu.classList.toggle("show");
+      overlay.classList.toggle("show");
+      btn.classList.toggle("active");
+      logo.classList.toggle("menu-open");
+    }
+
+    function closeSideMenu() {
+      document.getElementById("sideMenu").classList.remove("show");
+      document.getElementById("sideOverlay").classList.remove("show");
+      document.getElementById("menuBtn").classList.remove("active");
+      document.getElementById("headerLogo").classList.remove("menu-open");
+    }
+
+    function getDateByOffset(offset) {
+      const date = new Date();
+      date.setDate(date.getDate() + offset);
+      return date;
+    }
+
+    function getDateLabel(offset) {
+      if (offset === 0) return "ئەمڕۆ";
+      if (offset === 1) return "سبەی";
+      if (offset === -1) return "دوێنێ";
+      const date = getDateByOffset(offset);
+      return `${date.getDate()} ${monthNamesKu[date.getMonth()]}`;
+    }
+
+    function getDateSub(offset) {
+      return weekDaysKu[getDateByOffset(offset).getDay()];
+    }
+
+    function renderDateBanner() {
+      const banner = document.getElementById("dateBanner");
+      let html = "";
+
+      for (let i = -10; i <= 10; i++) {
+        html += `
+          <div class="date-item ${i === 0 ? "active" : ""}" data-offset="${i}">
+            <div class="date-title">${getDateLabel(i)}</div>
+            <div class="date-sub">${getDateSub(i)}</div>
+          </div>
+        `;
+      }
+
+      banner.innerHTML = html;
+
+      document.querySelectorAll(".date-item").forEach(item => {
+        item.addEventListener("click", () => selectDay(Number(item.dataset.offset), true));
+      });
+
+      setTimeout(() => {
+        document.querySelector('.date-item[data-offset="0"]')?.scrollIntoView({
+          behavior: "smooth",
+          inline: "center",
+          block: "nearest"
+        });
+      }, 200);
+    }
+
+    function getApiDateByOffset(offset) {
+      const date = getDateByOffset(offset);
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function getKurdishTeamName(team) {
+      if (!team) return "";
+      return teamTranslations[team.name] || team.name;
+    }
+
+    function getKurdishLeagueName(league) {
+      const round = league?.round ? ` - ${league.round.replace("Group Stage - ", "گرووپ ")}` : "";
+      return `جامی جیهان${round}`;
+    }
+
+    function isLiveStatus(shortStatus) {
+      return ["1H", "HT", "2H", "ET", "P", "BT", "INT", "LIVE"].includes(shortStatus);
+    }
+
+    function isFinishedStatus(shortStatus) {
+      return ["FT", "AET", "PEN"].includes(shortStatus);
+    }
+
+    function makeDemoPoints(homeId, awayId) {
+      const hSeed = Number(homeId || 11) % 9;
+      const aSeed = Number(awayId || 17) % 9;
+      const homePoint = 1.55 + (aSeed * 0.12);
+      const awayPoint = 1.65 + (hSeed * 0.12);
+      const drawPoint = 2.80 + (((hSeed + aSeed) % 6) * 0.15);
+      return {
+        homePoint: Number(homePoint.toFixed(2)),
+        drawPoint: Number(drawPoint.toFixed(2)),
+        awayPoint: Number(awayPoint.toFixed(2))
+      };
+    }
+
+    function normalizeApiFixture(item) {
+      const shortStatus = item.fixture?.status?.short || "NS";
+      const live = isLiveStatus(shortStatus);
+      const finished = isFinishedStatus(shortStatus);
+      const points = makeDemoPoints(item.teams?.home?.id, item.teams?.away?.id);
+      const kickoff = item.fixture?.date ? new Date(item.fixture.date) : null;
+      const time = kickoff
+        ? kickoff.toLocaleTimeString("ku-IQ", { hour: "2-digit", minute: "2-digit", hour12: false })
+        : "--:--";
+
+      return {
+        id: "api_" + item.fixture.id,
+        apiFixtureId: item.fixture.id,
+        league: getKurdishLeagueName(item.league),
+        time,
+        home: getKurdishTeamName(item.teams.home),
+        away: getKurdishTeamName(item.teams.away),
+        homePoint: points.homePoint,
+        drawPoint: points.drawPoint,
+        awayPoint: points.awayPoint,
+        homeScore: (finished || live) ? item.goals?.home : undefined,
+        awayScore: (finished || live) ? item.goals?.away : undefined,
+        isLive: live,
+        isFinished: finished,
+        statusShort: shortStatus,
+        statusText: item.fixture?.status?.elapsed ? `${item.fixture.status.elapsed}'` : ""
+      };
+    }
+
+    async function fetchApi(path) {
+      const response = await fetch(`${API_BASE}${path}`, {
+        method: "GET",
+        headers: { "x-apisports-key": API_KEY }
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || data.errors?.token || data.errors?.requests) {
+        throw new Error(JSON.stringify(data.errors || data));
+      }
+
+      return data.response || [];
+    }
+
+    async function loadWorldCupFixtures(offset) {
+      const container = document.getElementById("matchesContainer");
+      container.innerHTML = `<div class="loading-box">یاریەکانی جامی جیهان بار دەکرێن...</div>`;
+
+      try {
+        const date = getApiDateByOffset(offset);
+        const fixtures = await fetchApi(`/fixtures?league=${WORLD_CUP_LEAGUE_ID}&season=${WORLD_CUP_SEASON}&date=${date}`);
+        let normalized = fixtures.map(normalizeApiFixture);
+
+        if (offset === 0) {
+          const liveFixtures = await fetchApi(`/fixtures?live=all`);
+          const worldCupLive = liveFixtures
+            .filter(item => Number(item.league?.id) === WORLD_CUP_LEAGUE_ID && Number(item.league?.season) === WORLD_CUP_SEASON)
+            .map(normalizeApiFixture);
+
+          worldCupLive.forEach(liveMatch => {
+            const index = normalized.findIndex(match => match.apiFixtureId === liveMatch.apiFixtureId);
+            if (index >= 0) normalized[index] = liveMatch;
+            else normalized.unshift(liveMatch);
+          });
+        }
+
+        matchesByOffset[offset] = normalized;
+        renderMatches(offset);
+      } catch (error) {
+        console.error("World Cup API Error:", error);
+        matchesByOffset[offset] = [];
+        container.innerHTML = `
+          <div class="empty-box">
+            یاریەکانی جامی جیهان وەرنەگیرا.<br>
+            تکایە API Key و سنووری پلانی خۆڕایی بپشکنە.
+          </div>
+        `;
+      }
+    }
+
+    function startLiveRefresh() {
+      if (liveRefreshTimer) clearInterval(liveRefreshTimer);
+      liveRefreshTimer = setInterval(() => {
+        if (selectedOffset === 0) loadWorldCupFixtures(0);
+      }, LIVE_REFRESH_MS);
+    }
+
+    function selectDay(offset, scrollToCenter = false) {
+      if (offset < -10 || offset > 10) return;
+
+      selectedOffset = offset;
+
+      document.querySelectorAll(".date-item").forEach(item => item.classList.remove("active"));
+
+      const activeItem = document.querySelector(`.date-item[data-offset="${offset}"]`);
+      if (activeItem) {
+        activeItem.classList.add("active");
+        if (scrollToCenter) {
+          activeItem.scrollIntoView({ behavior:"smooth", inline:"center", block:"nearest" });
+        }
+      }
+
+      loadWorldCupFixtures(offset);
+    }
+
+    function escJs(value) {
+      return String(value || "").replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, " ");
+    }
+
+    function renderMatches(offset) {
+      const container = document.getElementById("matchesContainer");
+      const matches = matchesByOffset[offset] || [];
+      const isPastDay = offset < 0;
+
+      if (matches.length === 0) {
+        container.innerHTML = `<div class="empty-box">هیچ یارییەکی جامی جیهان بۆ ئەم ڕۆژە نییە</div>`;
+        return;
+      }
+
+      container.innerHTML = matches.map(match => {
+        const hasResult = match.homeScore !== undefined && match.homeScore !== null && match.awayScore !== undefined && match.awayScore !== null;
+        const selected = slip.find(item => item.matchId === match.id);
+        const shouldShowResult = isPastDay || match.isLive || match.isFinished;
+        const canPredict = !shouldShowResult;
+        const liveBadge = match.isLive ? `<span class="live-badge">🔴 لایڤ ${match.statusText || ""}</span>` : "";
+        const home = escJs(match.home);
+        const away = escJs(match.away);
+
+        return `
+          <div class="match-card">
+            <div class="match-league">${match.league} ${liveBadge}</div>
+            <div class="match-time-top">${match.isLive ? "لایڤ" : match.time}</div>
+
+            <div class="teams-vertical">
+              <div class="team-row">
+                <div class="team-name">${match.home} <span style="color:#BFC8D4;font-size:13px;">(ماڵ)</span></div>
+                ${shouldShowResult && hasResult ? `<div class="score-box">${match.homeScore}</div>` : ``}
+              </div>
+
+              <div class="team-row">
+                <div class="team-name">${match.away} <span style="color:#BFC8D4;font-size:13px;">(میوان)</span></div>
+                ${shouldShowResult && hasResult ? `<div class="score-box">${match.awayScore}</div>` : ``}
+              </div>
+            </div>
+
+            ${
+              shouldShowResult
+                ? `<button class="result-btn">${match.isLive ? "ئەنجامی ئێستا" : "ئەنجام"}: ${hasResult ? match.homeScore + " - " + match.awayScore : "چاوەڕێی ئەنجام"}</button>`
+                : `
+                  <div class="points-row">
+                    <div class="point-box ${selected?.type === "home" ? "selected" : ""}"
+                      onclick="selectPrediction('${match.id}','${home}','${away}','بردنەوەی ماڵ',${match.homePoint},'home')">
+                      <div class="point-title">بردنەوەی ماڵ</div>
+                      <div class="point-value">${formatPoint(match.homePoint)}</div>
+                    </div>
+
+                    <div class="point-box draw ${selected?.type === "draw" ? "selected" : ""}"
+                      onclick="selectPrediction('${match.id}','${home}','${away}','یەکسان',${match.drawPoint},'draw')">
+                      <div class="point-title">یەکسان</div>
+                      <div class="point-value">${formatPoint(match.drawPoint)}</div>
+                    </div>
+
+                    <div class="point-box ${selected?.type === "away" ? "selected" : ""}"
+                      onclick="selectPrediction('${match.id}','${home}','${away}','بردنەوەی میوان',${match.awayPoint},'away')">
+                      <div class="point-title">بردنەوەی میوان</div>
+                      <div class="point-value">${formatPoint(match.awayPoint)}</div>
+                    </div>
+                  </div>
+                `
+            }
+          </div>
+        `;
+      }).join("");
+    }
+
+    function selectPrediction(matchId, home, away, pickTitle, point, type) {
+      const existingIndex = slip.findIndex(item => item.matchId === matchId);
+
+      if (existingIndex >= 0 && slip[existingIndex].type === type) {
+        slip.splice(existingIndex, 1);
+      } else {
+        const newItem = {
+          matchId,
+          matchName: `${home} - ${away}`,
+          pickTitle,
+          point: Number(point),
+          type
+        };
+
+        if (existingIndex >= 0) slip[existingIndex] = newItem;
+        else slip.push(newItem);
+      }
+
+      renderMatches(selectedOffset);
+      renderSlip();
+    }
+
+    function removeSlipItem(matchId) {
+      slip = slip.filter(item => item.matchId !== matchId);
+      renderMatches(selectedOffset);
+      renderSlip();
+    }
+
+    function clearSlip() {
+      slip = [];
+      document.getElementById("stakeInput").value = "";
+      closeBetSlip();
+      renderMatches(selectedOffset);
+      renderSlip();
+    }
+
+    function renderSlip() {
+      const toggle = document.getElementById("betSlipToggle");
+      const count = document.getElementById("slipCount");
+      const totalPoint = document.getElementById("slipTotalPoint");
+      const headerTotal = document.getElementById("slipHeaderTotal");
+      const body = document.getElementById("slipBody");
+      const stakeInput = document.getElementById("stakeInput");
+      const submitBtn = document.getElementById("submitSlipBtn");
+
+      const stake = Number(stakeInput.value || 0);
+      const total = getSlipTotalPoint();
+
+      count.textContent = slip.length;
+      totalPoint.textContent = formatPoint(total);
+      headerTotal.textContent = `${slip.length} یاری | ${formatPoint(total)}`;
+
+      submitBtn.disabled = !(slip.length > 0 && stake > 0);
+
+      if (slip.length > 0) {
+        toggle.classList.add("show");
+      } else {
+        toggle.classList.remove("show");
+        closeBetSlip();
+      }
+
+      body.innerHTML = slip.length === 0
+        ? `<div class="empty-box">هیچ پێشبینییەک هەڵنەبژێردراوە</div>`
+        : slip.map(item => `
+            <div class="slip-item">
+              <div>
+                <div class="slip-match">${item.matchName}</div>
+                <div class="slip-pick">${item.pickTitle} | ${formatPoint(item.point)}</div>
+              </div>
+              <button class="remove-slip-item" onclick="removeSlipItem('${item.matchId}')">X</button>
+            </div>
+          `).join("");
+
+      document.getElementById("stakeTotalLine").textContent =
+        `${stake} × ${formatPoint(total)} = ${Math.floor(stake * total)}`;
+    }
+
+    function toggleBetSlip() {
+      document.getElementById("betSlipPanel").classList.toggle("show");
+      document.body.classList.toggle("no-scroll", document.getElementById("betSlipPanel").classList.contains("show"));
+      renderSlip();
+    }
+
+    function closeBetSlip() {
+      document.getElementById("betSlipPanel").classList.remove("show");
+      document.body.classList.remove("no-scroll");
+    }
+
+    function submitSlip() {
+      const stake = Number(document.getElementById("stakeInput").value || 0);
+      if (slip.length === 0 || stake <= 0) return;
+
+      closeBetSlip();
+      pendingCountdown = 6;
+      document.getElementById("confirmOverlay").classList.add("show");
+      document.getElementById("countdownText").textContent = `${pendingCountdown} چرکە`;
+
+      pendingTimer = setInterval(() => {
+        pendingCountdown--;
+        document.getElementById("countdownText").textContent = `${pendingCountdown} چرکە`;
+
+        if (pendingCountdown <= 0) {
+          clearInterval(pendingTimer);
+          pendingTimer = null;
+          document.getElementById("confirmOverlay").classList.remove("show");
+          executeSlip();
+        }
+      }, 1000);
+    }
+
+    function cancelPendingSlip() {
+      if (pendingTimer) {
+        clearInterval(pendingTimer);
+        pendingTimer = null;
+      }
+
+      document.getElementById("confirmOverlay").classList.remove("show");
+      document.getElementById("betSlipPanel").classList.add("show");
+      document.body.classList.add("no-scroll");
+    }
+
+    function showMessage(title, text) {
+      document.getElementById("modalTitle").textContent = title;
+      document.getElementById("rewardModalText").textContent = text;
+      document.getElementById("rewardModal").classList.add("show");
+    }
+
+    function enableHomeSwipe() {
+      document.body.addEventListener("touchstart", function(e) {
+        if (document.getElementById("sideMenu").classList.contains("show")) return;
+        if (document.getElementById("betSlipPanel").classList.contains("show")) return;
+
+        if (
+          e.target.closest(".header") ||
+          e.target.closest(".bottom-nav") ||
+          e.target.closest(".ad-slider") ||
+          e.target.closest(".side-menu") ||
+          e.target.closest(".bet-slip-panel") ||
+          e.target.closest(".bet-slip-toggle")
+        ) {
+          touchStartX = 0;
+          return;
+        }
+
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      document.body.addEventListener("touchend", function(e) {
+        if (document.getElementById("sideMenu").classList.contains("show")) return;
+        if (document.getElementById("betSlipPanel").classList.contains("show")) return;
+
+        if (
+          e.target.closest(".header") ||
+          e.target.closest(".bottom-nav") ||
+          e.target.closest(".ad-slider") ||
+          e.target.closest(".side-menu") ||
+          e.target.closest(".bet-slip-panel") ||
+          e.target.closest(".bet-slip-toggle")
+        ) {
+          touchEndX = 0;
+          return;
+        }
+
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }, { passive: true });
+    }
+
+    function handleSwipe() {
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) < 55) return;
+
+      if (diff > 0) selectDay(selectedOffset + 1, true);
+      else selectDay(selectedOffset - 1, true);
+    }
+
+    function showAdSlide(index) {
+      const slides = document.querySelectorAll(".slide");
+      const dots = document.querySelectorAll(".dot");
+
+      slides[adIndex].classList.remove("active");
+      dots[adIndex].classList.remove("active");
+
+      adIndex = (index + slides.length) % slides.length;
+
+      slides[adIndex].classList.add("active");
+      dots[adIndex].classList.add("active");
+    }
+
+    function startSlider() {
+      setInterval(() => showAdSlide(adIndex + 1), 5000);
+    }
+
+    function enableAdSwipe() {
+      const adSlider = document.getElementById("adSlider");
+
+      adSlider.addEventListener("touchstart", e => {
+        adTouchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      adSlider.addEventListener("touchend", e => {
+        adTouchEndX = e.changedTouches[0].screenX;
+        const diff = adTouchEndX - adTouchStartX;
+
+        if (Math.abs(diff) < 45) return;
+
+        if (diff > 0) showAdSlide(adIndex - 1);
+        else showAdSlide(adIndex + 1);
+      }, { passive: true });
+    }
+
+    function closeRewardModal() {
+      document.getElementById("rewardModal").classList.remove("show");
+    }
+
+    renderDateBanner();
+    selectDay(0);
+    enableHomeSwipe();
+    enableAdSwipe();
+    startSlider();
+    startLiveRefresh();
+    renderSlip();
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged,
+      setPersistence,
+      browserLocalPersistence,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      updateDoc,
+      collection,
+      addDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB2ENjViKDRHwwBUGTjrDJMrnrQePGhDqY",
+      authDomain: "kurdliga1.firebaseapp.com",
+      databaseURL: "https://kurdliga1-default-rtdb.firebaseio.com",
+      projectId: "kurdliga1",
+      storageBucket: "kurdliga1.firebasestorage.app",
+      messagingSenderId: "799164130957",
+      appId: "1:799164130957:web:a3ff5ec1ccb026ca59a4c4",
+      measurementId: "G-8TCVRT6GNK"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    await setPersistence(auth, browserLocalPersistence);
+
+    let currentUser = null;
+    let currentUserData = null;
+
+    window.logoutUser = async function() {
+      await signOut(auth);
+      localStorage.removeItem("kurdligaLoggedIn");
+      window.location.href = "login.html";
+    };
+
+    window.executeSlip = async function() {
+      try {
+        if (!currentUser || !currentUserData) {
+          showMessage("هەڵە", "تکایە دووبارە بچۆ ژوورەوە");
+          return;
+        }
+
+        const stake = Number(document.getElementById("stakeInput").value || 0);
+        const totalPoint = getSlipTotalPoint();
+        const possibleWin = Math.floor(stake * totalPoint);
+        const currentCoins = Number(currentUserData.coins || 0);
+
+        if (stake <= 0 || slip.length === 0) {
+          showMessage("هەڵە", "پسولەکە بەتاڵە");
+          return;
+        }
+
+        if (stake > currentCoins) {
+          showMessage("کۆین ناکات", "بڕی کۆینەکەت کەمترە لە بڕی پسولەکە");
+          document.getElementById("betSlipPanel").classList.add("show");
+          document.body.classList.add("no-scroll");
+          return;
+        }
+
+        const archiveData = {
+          userId: currentUser.uid,
+          items: slip,
+          stake,
+          totalPoint: Number(totalPoint.toFixed(2)),
+          possibleWin,
+          status: "pending",
+          createdAt: serverTimestamp()
+        };
+
+        await addDoc(collection(db, "users", currentUser.uid, "predictionArchive"), archiveData);
+
+        const newCoins = currentCoins - stake;
+
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          coins: newCoins
+        });
+
+        currentUserData.coins = newCoins;
+        document.getElementById("coinsText").textContent = newCoins;
+
+        slip = [];
+        document.getElementById("stakeInput").value = "";
+        renderSlip();
+        renderMatches(selectedOffset);
+
+        showMessage("سەرکەوتوو بوو", "پسولەکە جێبەجێ کرا و چووە بەشی ئەرشیف");
+      } catch (error) {
+  console.error("Slip Error:", error);
+
+  showMessage(
+    "هەڵە",
+    error.code + " - " + error.message
+  );
+}
+    };
+
+    function getBaghdadDateInfo() {
+      const now = new Date();
+
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Baghdad",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      }).formatToParts(now);
+
+      const data = {};
+      parts.forEach(part => data[part.type] = part.value);
+
+      return {
+        dateKey: `${data.year}-${data.month}-${data.day}`,
+        hour: Number(data.hour)
+      };
+    }
+
+    async function checkDailyReward(userRef, userData) {
+      const info = getBaghdadDateInfo();
+
+      if (info.hour < 6) return userData;
+      if (userData.lastDailyReward === info.dateKey) return userData;
+
+      const currentCoins = Number(userData.coins || 0);
+      const newCoins = currentCoins + 100;
+
+      await updateDoc(userRef, {
+        coins: newCoins,
+        lastDailyReward: info.dateKey
+      });
+
+      document.getElementById("modalTitle").textContent = "کۆینی ڕۆژانە";
+      document.getElementById("rewardModalText").textContent =
+        "١٠٠ کۆینی ڕۆژانەت زیادکرا";
+
+      document.getElementById("rewardModal").classList.add("show");
+
+      return { ...userData, coins: newCoins, lastDailyReward: info.dateKey };
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      currentUser = user;
+
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) return;
+
+      currentUserData = userSnap.data();
+      currentUserData = await checkDailyReward(userRef, currentUserData);
+
+      document.getElementById("coinsText").textContent = currentUserData.coins || 0;
+      document.getElementById("diamondsText").textContent = currentUserData.diamonds || 0;
+    });
+  </script>
+
+</body>
+</html>
