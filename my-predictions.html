@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>پێشبینیەکانم - Kurdliga</title>
+
+  <style>
+    @font-face { font-family: 'Kurdliga-Regular'; src: url('fonts/kurdliga-Reg.ttf') format('truetype'); }
+    @font-face { font-family: 'Kurdliga-Bold'; src: url('fonts/kurdliga-bold.ttf') format('truetype'); }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #021133;
+      color: #fff;
+      font-family: 'Kurdliga-Regular', sans-serif;
+      padding-top: 76px;
+      padding-bottom: 88px;
+      overflow-x: hidden;
+    }
+
+    body.no-scroll { overflow: hidden; height: 100vh; }
+
+    .header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 76px;
+      background: linear-gradient(145deg, #061a48, #021133);
+      border-bottom: 1px solid rgba(245,247,250,.16);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 3000;
+      box-shadow: 0 10px 25px rgba(0,0,0,.28);
+    }
+
+    .back-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .logo { width: 145px; }
+
+    .wallet-mini {
+      min-width: 92px;
+      text-align: left;
+      line-height: 1.4;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .coin-line,
+    .diamond-line {
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 4px;
+      direction: ltr;
+    }
+
+    .coin-line span,
+    .diamond-line span { color: #00C853; }
+
+    .wallet-divider {
+      height: 1px;
+      background: rgba(180,180,180,.45);
+      margin: 4px 0;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 18px 14px;
+    }
+
+    .search-box {
+      background: linear-gradient(145deg, #061a48, #031940);
+      border: 1px solid rgba(245,247,250,.14);
+      border-radius: 24px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+    }
+
+    .search-title {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 21px;
+      color: #00C853;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .field-label {
+      color: #BFC8D4;
+      font-size: 14px;
+      margin: 12px 4px 8px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .filter-input {
+      width: 100%;
+      height: 52px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: #fff;
+      border-radius: 16px;
+      padding: 0 14px;
+      outline: none;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .range-display {
+      width: 100%;
+      min-height: 52px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: #BFC8D4;
+      border-radius: 16px;
+      padding: 14px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .range-display strong { color: #fff; }
+
+    .get-btn {
+      width: 100%;
+      height: 52px;
+      border: none;
+      border-radius: 16px;
+      background: #00C853;
+      color: #fff;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 18px;
+      margin-top: 14px;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(0,200,83,.22);
+    }
+
+    .hint-text {
+      color: #7A869A;
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.8;
+      margin-top: 10px;
+    }
+
+    .archive-card {
+      background: #061a48;
+      border: 1px solid rgba(245,247,250,.14);
+      border-radius: 22px;
+      margin-bottom: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+      overflow: hidden;
+    }
+
+    .archive-summary { padding: 16px; cursor: pointer; }
+
+    .archive-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+
+    .status {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      background: rgba(255,215,0,.16);
+      color: #FFD700;
+      white-space: nowrap;
+    }
+
+    .status.win { background: rgba(0,200,83,.16); color: #00C853; }
+    .status.lost { background: rgba(255,59,59,.16); color: #ff4d4d; }
+
+    .date-text { color: #BFC8D4; font-size: 12px; }
+
+    .summary-title {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .summary-sub { color: #BFC8D4; font-size: 13px; line-height: 1.7; }
+
+    .archive-content {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+
+    .archive-card.open .archive-content { display: block; }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 14px 0 12px;
+    }
+
+    .info-box {
+      background: rgba(255,255,255,.06);
+      border-radius: 16px;
+      padding: 10px 6px;
+      text-align: center;
+    }
+
+    .info-box span {
+      display: block;
+      color: #BFC8D4;
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    .info-box b {
+      color: #00C853;
+      font-size: 15px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .match-item {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      padding: 12px;
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .match-name {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .pick-line { color: #BFC8D4; font-size: 13px; margin-top: 4px; }
+    .pick-line b { color: #00C853; }
+
+    .game-status {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      background: rgba(255,215,0,.16);
+      color: #FFD700;
+      white-space: nowrap;
+    }
+
+    .game-status.win { background: rgba(0,200,83,.16); color: #00C853; }
+    .game-status.lost { background: rgba(255,59,59,.16); color: #ff4d4d; }
+
+    .empty-box {
+      background: rgba(255,255,255,.06);
+      border: 1px dashed rgba(255,255,255,.20);
+      border-radius: 22px;
+      padding: 34px 16px;
+      text-align: center;
+      color: #BFC8D4;
+      line-height: 1.8;
+      margin-top: 20px;
+    }
+
+    .range-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.66);
+      z-index: 5000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .range-modal.show { display: flex; }
+
+    .range-sheet {
+      width: 100%;
+      max-width: 520px;
+      max-height: 92vh;
+      overflow-y: auto;
+      background: #07131F;
+      border: 1px solid rgba(245,247,250,.18);
+      border-radius: 28px 28px 0 0;
+      padding: 18px 14px 20px;
+      box-shadow: 0 -18px 45px rgba(0,0,0,.45);
+      animation: sheetUp .25s ease;
+    }
+
+    @keyframes sheetUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .quick-ranges {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .quick-btn {
+      height: 44px;
+      border: none;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      color: #BFC8D4;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .quick-btn.active {
+      background: #00C853;
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(0,200,83,.22);
+    }
+
+    .calendar-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 12px 2px;
+    }
+
+    .month-title {
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 20px;
+      color: #fff;
+    }
+
+    .month-nav {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      border: none;
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .weekdays, .days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      text-align: center;
+    }
+
+    .weekdays div {
+      color: #BFC8D4;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 13px;
+      padding: 8px 0;
+    }
+
+    .day-cell {
+      height: 38px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #D8DEE9;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .day-cell.other { opacity: .28; }
+    .day-cell.disabled { opacity: .22; cursor: not-allowed; }
+    .day-cell.in-range { background: rgba(0,200,83,.14); }
+    .day-cell.selected-start,
+    .day-cell.selected-end {
+      background: #00C853;
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(0,200,83,.24);
+    }
+
+    .time-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .time-card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    .time-card label {
+      display: block;
+      color: #BFC8D4;
+      font-size: 12px;
+      margin-bottom: 8px;
+      font-family: 'Kurdliga-Bold', sans-serif;
+    }
+
+    .time-card input {
+      width: 100%;
+      height: 42px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      text-align: center;
+      outline: none;
+    }
+
+    .range-preview {
+      margin-top: 14px;
+      color: #BFC8D4;
+      text-align: center;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      line-height: 1.7;
+    }
+
+    .range-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .apply-range,
+    .reset-range {
+      height: 50px;
+      border-radius: 16px;
+      border: none;
+      color: #fff;
+      font-family: 'Kurdliga-Bold', sans-serif;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    .apply-range { background: #00C853; }
+    .reset-range { background: #26364d; }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 74px;
+      background: rgba(6,26,72,.98);
+      border-top: 1px solid rgba(245,247,250,.16);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      align-items: center;
+      z-index: 3000;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 -10px 25px rgba(0,0,0,.28);
+    }
+
+    .nav-item {
+      color: #BFC8D4;
+      text-decoration: none;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .nav-icon { display: block; font-size: 22px; margin-bottom: 5px; }
+    .nav-item.active { color: #00C853; font-family: 'Kurdliga-Bold', sans-serif; }
+  
+
+    /* =========================================================
+       Kurdliga mobile browser normalization
+       Keeps Chrome / Brave / Samsung Internet / Safari layout
+       visually consistent with the Brave mobile design.
+       ========================================================= */
+    :root {
+      --app-max-width: 560px;
+      --app-header-height: 76px;
+      --app-bottom-nav-height: 74px;
+      --app-side-padding: 14px;
+    }
+
+    html {
+      width: 100%;
+      min-width: 320px;
+      background: #021133;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      width: 100%;
+      min-width: 320px;
+      min-height: 100svh;
+      min-height: 100dvh;
+      background: #021133;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overscroll-behavior-y: none;
+    }
+
+    body.no-scroll {
+      height: 100svh;
+      height: 100dvh;
+    }
+
+    img, svg, video, canvas {
+      max-width: 100%;
+      height: auto;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    .splash,
+    .login-box,
+    .register-box,
+    .forgot-box {
+      width: 100%;
+      max-width: min(430px, calc(100vw - 44px));
+      margin-inline: auto;
+    }
+
+    .header {
+      height: var(--app-header-height);
+      min-height: var(--app-header-height);
+      padding-top: calc(10px + env(safe-area-inset-top, 0px));
+      box-sizing: border-box;
+    }
+
+    body:has(.header) {
+      padding-top: calc(var(--app-header-height) + env(safe-area-inset-top, 0px));
+    }
+
+    .logo {
+      width: clamp(118px, 34vw, 145px);
+      flex: 0 0 auto;
+    }
+
+    .wallet-mini {
+      min-width: clamp(86px, 22vw, 104px);
+      flex: 0 0 auto;
+    }
+
+    .coin-line,
+    .diamond-line {
+      font-size: clamp(15px, 4.2vw, 16px);
+    }
+
+    .menu-btn,
+    .notify-btn,
+    .live-filter-btn,
+    .back-btn {
+      width: clamp(40px, 11vw, 42px);
+      height: clamp(40px, 11vw, 42px);
+      flex: 0 0 auto;
+    }
+
+    .page,
+    .slide-content {
+      width: 100%;
+      max-width: min(var(--app-max-width), calc(100vw - 28px));
+      margin-inline: auto;
+    }
+
+    .page {
+      padding-inline: var(--app-side-padding);
+    }
+
+    .ad-slider,
+    .slide {
+      min-height: clamp(145px, 26svh, 235px);
+    }
+
+    .date-banner,
+    .date-item {
+      height: clamp(70px, 12svh, 76px);
+    }
+
+    .date-title {
+      font-size: clamp(16px, 4.4vw, 17px);
+    }
+
+    .date-sub {
+      font-size: clamp(10px, 3vw, 11px);
+    }
+
+    .competition-card,
+    .match-card,
+    .archive-card,
+    .search-box {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .competition-title {
+      font-size: clamp(19px, 5.3vw, 22px);
+    }
+
+    .match-time-top,
+    .match-time-row {
+      font-size: clamp(24px, 7.2vw, 30px);
+    }
+
+    .match-time-row.live-time {
+      font-size: clamp(30px, 8.6vw, 34px);
+    }
+
+    .team-side .team-name-inline,
+    .team-name {
+      font-size: clamp(16px, 4.5vw, 17px);
+    }
+
+    .points-row {
+      gap: clamp(8px, 2.2vw, 10px);
+    }
+
+    .point-box {
+      min-height: clamp(64px, 16vw, 78px);
+      padding-inline: 6px;
+    }
+
+    .point-title {
+      font-size: clamp(11px, 3.2vw, 12px);
+    }
+
+    .point-value {
+      font-size: clamp(16px, 4.6vw, 18px);
+    }
+
+    .bottom-nav {
+      height: calc(var(--app-bottom-nav-height) + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    body:has(.bottom-nav) {
+      padding-bottom: calc(var(--app-bottom-nav-height) + env(safe-area-inset-bottom, 0px) + 14px);
+    }
+
+    .bet-slip-toggle {
+      bottom: calc(var(--app-bottom-nav-height) + env(safe-area-inset-bottom, 0px) + 10px);
+    }
+
+    .bet-slip-panel {
+      bottom: calc(var(--app-bottom-nav-height) + env(safe-area-inset-bottom, 0px) + 10px);
+      max-height: calc(100dvh - var(--app-header-height) - var(--app-bottom-nav-height) - 30px);
+    }
+
+    .side-overlay,
+    .side-menu {
+      top: calc(var(--app-header-height) + env(safe-area-inset-top, 0px));
+    }
+
+    @media (max-width: 380px) {
+      :root { --app-side-padding: 10px; }
+      .header { padding-inline: 10px; }
+      .logo { width: clamp(108px, 31vw, 132px); }
+      .wallet-mini { min-width: 78px; }
+      .header-left { gap: 6px; }
+      .coin-line, .diamond-line { font-size: 14px; }
+      .point-title { font-size: 10.5px; }
+      .nav-item { font-size: 10.5px; }
+      .nav-icon { font-size: 21px; }
+    }
+
+    @media (min-width: 700px) and (pointer: coarse) {
+      :root { --app-max-width: 560px; }
+      .page, .slide-content { max-width: 560px; }
+    }
+
+  </style>
+
+
+  <script>
+    // Normalize viewport units on mobile browsers whose address bars resize the page.
+    (function () {
+      function setKurdligaViewport() {
+        document.documentElement.style.setProperty('--real-vh', (window.innerHeight * 0.01) + 'px');
+      }
+      setKurdligaViewport();
+      window.addEventListener('resize', setKurdligaViewport, { passive: true });
+      window.addEventListener('orientationchange', setKurdligaViewport, { passive: true });
+    })();
+  </script>
+
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="home.html" class="back-btn">‹</a>
+    <img src="assets/images/logo.png" alt="Kurdliga Logo" class="logo" />
+    <div class="wallet-mini">
+      <div class="coin-line">🪙 <span id="coinsText">0</span></div>
+      <div class="wallet-divider"></div>
+      <div class="diamond-line">💎 <span id="diamondsText">0</span></div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="search-box">
+      <div class="search-title">گەڕانی پسولەکان</div>
+
+      <div class="field-label">ژمارەی پسولە</div>
+      <input type="text" id="betNoInput" class="filter-input" placeholder="# ژمارەی پسولە" />
+
+      <div class="field-label">ماوەی گەڕان</div>
+      <div class="range-display" id="rangeDisplay" onclick="openRangeModal()"></div>
+
+      <button class="get-btn" onclick="applyFilters()">گەڕان</button>
+
+      <div class="hint-text">دەتوانیت بە ژمارەی پسولە یان بە ماوەی بەروار گەڕان بکەیت.</div>
+    </section>
+
+    <div id="archiveList"><div class="empty-box">چاوەڕێ بکە...</div></div>
+  </main>
+
+  <section class="range-modal" id="rangeModal" onclick="closeRangeByOverlay(event)">
+    <div class="range-sheet">
+      <div class="quick-ranges">
+        <button class="quick-btn" id="qToday" onclick="setQuickRange('today')">ئەمڕۆ</button>
+        <button class="quick-btn" id="qYesterday" onclick="setQuickRange('yesterday')">دوێنێ</button>
+        <button class="quick-btn" id="q7" onclick="setQuickRange('last7')">٧ ڕۆژی ڕابردوو</button>
+        <button class="quick-btn" id="q30" onclick="setQuickRange('last30')">٣٠ ڕۆژی ڕابردوو</button>
+        <button class="quick-btn" id="qMonth" onclick="setQuickRange('thisMonth')">ئەم مانگە</button>
+        <button class="quick-btn" id="qCustom" onclick="setQuickActive('custom')">ماوەی تایبەت</button>
+      </div>
+
+      <div class="calendar-head">
+        <button class="month-nav" onclick="changeMonth(-1)">‹</button>
+        <div class="month-title" id="monthTitle"></div>
+        <button class="month-nav" onclick="changeMonth(1)">›</button>
+      </div>
+
+      <div class="weekdays">
+        <div>ی</div><div>د</div><div>س</div><div>چ</div><div>پ</div><div>ه</div><div>ش</div>
+      </div>
+      <div class="days-grid" id="daysGrid"></div>
+
+      <div class="time-row">
+        <div class="time-card">
+          <label>کاتی دەستپێک</label>
+          <input type="time" id="startTimeInput" value="00:00" oninput="updateRangePreview()" />
+        </div>
+        <div class="time-card">
+          <label>کاتی کۆتایی</label>
+          <input type="time" id="endTimeInput" value="23:59" oninput="updateRangePreview()" />
+        </div>
+      </div>
+
+      <div class="range-preview" id="rangePreview"></div>
+
+      <div class="range-actions">
+        <button class="apply-range" onclick="applyRangeFromModal()">جێبەجێکردن</button>
+        <button class="reset-range" onclick="resetRangeModal()">ڕیسێت</button>
+      </div>
+    </div>
+  </section>
+
+  <nav class="bottom-nav">
+    <a href="my-predictions.html" class="nav-item active"><span class="nav-icon">🧾</span>پێشبینیەکانم</a>
+    <a href="#" class="nav-item"><span class="nav-icon">🔄</span>ئاڵوگۆرکردن</a>
+    <a href="#" class="nav-item"><span class="nav-icon">🛒</span>بازاری کردن</a>
+    <a href="leaderboard.html" class="nav-item"><span class="nav-icon">🏆</span>ڕیزبەندی</a>
+  </nav>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc, collection, query, orderBy, where, getDocs, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB2ENjViKDRHwwBUGTjrDJMrnrQePGhDqY",
+      authDomain: "kurdliga1.firebaseapp.com",
+      databaseURL: "https://kurdliga1-default-rtdb.firebaseio.com",
+      projectId: "kurdliga1",
+      storageBucket: "kurdliga1.firebasestorage.app",
+      messagingSenderId: "799164130957",
+      appId: "1:799164130957:web:a3ff5ec1ccb026ca59a4c4",
+      measurementId: "G-8TCVRT6GNK"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentUser = null;
+    let allArchives = [];
+    let selectedStartDate = null;
+    let selectedEndDate = null;
+    let calendarMonth = new Date();
+    const monthNamesKu = ["کانوونی دووەم","شوبات","ئازار","نیسان","ئایار","حوزەیران","تەمموز","ئاب","ئەیلوول","تشرینی یەکەم","تشرینی دووەم","کانوونی یەکەم"];
+
+    function two(n) { return String(n).padStart(2, "0"); }
+    function formatPoint(value) { return value === undefined || value === null || value === "" ? "0.00" : Number(value).toFixed(2); }
+    function formatDateOnly(date) { return `${two(date.getDate())}/${two(date.getMonth() + 1)}/${date.getFullYear()}`; }
+    function formatTime(date) { return `${two(date.getHours())}:${two(date.getMinutes())}`; }
+
+    function formatDate(timestamp) {
+      if (!timestamp || !timestamp.toDate) return "بەروار نەزانراوە";
+      const date = timestamp.toDate();
+      return new Intl.DateTimeFormat("ku-IQ", { year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit" }).format(date);
+    }
+
+    function getStartOfDay(date) { const d = new Date(date); d.setHours(0,0,0,0); return d; }
+    function getEndOfDay(date) { const d = new Date(date); d.setHours(23,59,59,999); return d; }
+
+    function setDefaultRange() {
+      const start = new Date();
+      start.setDate(start.getDate() - 1);
+      selectedStartDate = getStartOfDay(start);
+      selectedEndDate = getEndOfDay(new Date());
+      calendarMonth = new Date(selectedEndDate.getFullYear(), selectedEndDate.getMonth(), 1);
+      setRangeDisplay();
+    }
+
+    function setRangeDisplay() {
+      document.getElementById("rangeDisplay").innerHTML = `<strong>${formatDateOnly(selectedStartDate)} ${formatTime(selectedStartDate)}</strong> - <strong>${formatDateOnly(selectedEndDate)} ${formatTime(selectedEndDate)}</strong>`;
+    }
+
+    function updateRangePreview() {
+      const sTime = document.getElementById("startTimeInput").value || "00:00";
+      const eTime = document.getElementById("endTimeInput").value || "23:59";
+      document.getElementById("rangePreview").textContent = `${formatDateOnly(selectedStartDate)} ${sTime} - ${formatDateOnly(selectedEndDate)} ${eTime}`;
+    }
+
+    window.openRangeModal = function() {
+      document.getElementById("rangeModal").classList.add("show");
+      document.body.classList.add("no-scroll");
+      document.getElementById("startTimeInput").value = formatTime(selectedStartDate);
+      document.getElementById("endTimeInput").value = formatTime(selectedEndDate);
+      renderCalendar();
+      updateRangePreview();
+    };
+
+    window.closeRangeByOverlay = function(event) {
+      if (event.target.id === "rangeModal") closeRangeModal();
+    };
+
+    function closeRangeModal() {
+      document.getElementById("rangeModal").classList.remove("show");
+      document.body.classList.remove("no-scroll");
+    }
+
+    window.setQuickActive = function(type) {
+      ["qToday","qYesterday","q7","q30","qMonth","qCustom"].forEach(id => document.getElementById(id).classList.remove("active"));
+      const map = { today:"qToday", yesterday:"qYesterday", last7:"q7", last30:"q30", thisMonth:"qMonth", custom:"qCustom" };
+      if (map[type]) document.getElementById(map[type]).classList.add("active");
+    };
+
+    window.setQuickRange = function(type) {
+      setQuickActive(type);
+      const now = new Date();
+      if (type === "today") { selectedStartDate = getStartOfDay(now); selectedEndDate = getEndOfDay(now); }
+      if (type === "yesterday") { const y = new Date(); y.setDate(y.getDate() - 1); selectedStartDate = getStartOfDay(y); selectedEndDate = getEndOfDay(y); }
+      if (type === "last7") { const s = new Date(); s.setDate(s.getDate() - 6); selectedStartDate = getStartOfDay(s); selectedEndDate = getEndOfDay(now); }
+      if (type === "last30") { const s = new Date(); s.setDate(s.getDate() - 29); selectedStartDate = getStartOfDay(s); selectedEndDate = getEndOfDay(now); }
+      if (type === "thisMonth") { selectedStartDate = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0); selectedEndDate = getEndOfDay(now); }
+      calendarMonth = new Date(selectedEndDate.getFullYear(), selectedEndDate.getMonth(), 1);
+      document.getElementById("startTimeInput").value = formatTime(selectedStartDate);
+      document.getElementById("endTimeInput").value = formatTime(selectedEndDate);
+      renderCalendar();
+      updateRangePreview();
+    };
+
+    window.changeMonth = function(amount) {
+      calendarMonth.setMonth(calendarMonth.getMonth() + amount);
+      renderCalendar();
+    };
+
+    function sameDay(a,b) { return a && b && a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+    function stripTime(date) { return new Date(date.getFullYear(), date.getMonth(), date.getDate()); }
+
+    function renderCalendar() {
+      document.getElementById("monthTitle").textContent = `${monthNamesKu[calendarMonth.getMonth()]} ${calendarMonth.getFullYear()}`;
+      const grid = document.getElementById("daysGrid");
+      const first = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
+      const start = new Date(first);
+      start.setDate(first.getDate() - first.getDay());
+      let html = "";
+      const sDay = stripTime(selectedStartDate);
+      const eDay = stripTime(selectedEndDate);
+
+      for (let i = 0; i < 42; i++) {
+        const d = new Date(start);
+        d.setDate(start.getDate() + i);
+        const other = d.getMonth() !== calendarMonth.getMonth() ? "other" : "";
+        const selectedStart = sameDay(d, selectedStartDate) ? "selected-start" : "";
+        const selectedEnd = sameDay(d, selectedEndDate) ? "selected-end" : "";
+        const inRange = stripTime(d) >= sDay && stripTime(d) <= eDay ? "in-range" : "";
+        html += `<div class="day-cell ${other} ${inRange} ${selectedStart} ${selectedEnd}" onclick="pickDate('${d.toISOString()}')">${d.getDate()}</div>`;
+      }
+      grid.innerHTML = html;
+    }
+
+    window.pickDate = function(iso) {
+      setQuickActive("custom");
+      const d = new Date(iso);
+      const startDay = stripTime(selectedStartDate);
+      const endDay = stripTime(selectedEndDate);
+
+      if (!selectedStartDate || (startDay.getTime() !== endDay.getTime() && stripTime(d).getTime() !== startDay.getTime())) {
+        selectedStartDate = getStartOfDay(d);
+        selectedEndDate = getEndOfDay(d);
+      } else if (stripTime(d) < startDay) {
+        selectedEndDate = getEndOfDay(selectedStartDate);
+        selectedStartDate = getStartOfDay(d);
+      } else {
+        selectedEndDate = getEndOfDay(d);
+      }
+
+      document.getElementById("startTimeInput").value = "00:00";
+      document.getElementById("endTimeInput").value = "23:59";
+      renderCalendar();
+      updateRangePreview();
+    };
+
+    window.resetRangeModal = function() {
+      setDefaultRange();
+      setQuickActive("custom");
+      document.getElementById("startTimeInput").value = "00:00";
+      document.getElementById("endTimeInput").value = "23:59";
+      renderCalendar();
+      updateRangePreview();
+    };
+
+    window.applyRangeFromModal = function() {
+      const sTime = (document.getElementById("startTimeInput").value || "00:00").split(":");
+      const eTime = (document.getElementById("endTimeInput").value || "23:59").split(":");
+      selectedStartDate.setHours(Number(sTime[0]), Number(sTime[1]), 0, 0);
+      selectedEndDate.setHours(Number(eTime[0]), Number(eTime[1]), 59, 999);
+      if (selectedStartDate > selectedEndDate) {
+        const temp = selectedStartDate;
+        selectedStartDate = selectedEndDate;
+        selectedEndDate = temp;
+      }
+      setRangeDisplay();
+      closeRangeModal();
+      if (currentUser) loadArchive(currentUser);
+    };
+
+    function getGameStatus(item) {
+      if (item.gameStatus === "win" || item.status === "win" || item.isWin === true) return "win";
+      if (item.gameStatus === "lost" || item.status === "lost" || item.isWin === false) return "lost";
+      return "pending";
+    }
+
+    function getGameStatusText(status) { if (status === "win") return "براوە"; if (status === "lost") return "دۆڕاو"; return "چاوەڕێ"; }
+    function getSlipStatus(items) { if (!items || items.length === 0) return "pending"; const statuses = items.map(getGameStatus); if (statuses.includes("pending")) return "pending"; if (statuses.every(s => s === "win")) return "win"; return "lost"; }
+    function getSlipStatusText(status) { if (status === "win") return "باری پسولە: براوە"; if (status === "lost") return "باری پسولە: سوتاوە"; return "باری پسولە: چاوەڕێ"; }
+    function getStatusClass(status) { if (status === "win") return "win"; if (status === "lost") return "lost"; return ""; }
+
+    window.toggleCard = function(id) { document.getElementById(id).classList.toggle("open"); };
+
+    window.applyFilters = function() {
+      const betNo = document.getElementById("betNoInput").value.trim().replace("#", "").toLowerCase();
+      let filtered = allArchives;
+      if (betNo) filtered = filtered.filter(item => String(item.betNo || item.id || "").toLowerCase().includes(betNo));
+      renderArchive(filtered);
+    };
+
+    async function loadUserInfo(user) {
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      if (!userSnap.exists()) return;
+      const data = userSnap.data();
+      document.getElementById("coinsText").textContent = data.coins || 0;
+      document.getElementById("diamondsText").textContent = data.diamonds || 0;
+    }
+
+    async function loadArchive(user) {
+      const archiveList = document.getElementById("archiveList");
+      archiveList.innerHTML = `<div class="empty-box">چاوەڕێ بکە...</div>`;
+
+      try {
+        const archiveRef = collection(db, "users", user.uid, "predictionArchive");
+        const q = query(
+          archiveRef,
+          where("createdAt", ">=", Timestamp.fromDate(selectedStartDate)),
+          where("createdAt", "<=", Timestamp.fromDate(selectedEndDate)),
+          orderBy("createdAt", "desc")
+        );
+        const snap = await getDocs(q);
+        allArchives = [];
+        snap.forEach(docSnap => allArchives.push({ id: docSnap.id, ...docSnap.data() }));
+        renderArchive(allArchives);
+      } catch (error) {
+        archiveList.innerHTML = `<div class="empty-box">هەڵە ڕوویدا: ${error.code || ""}<br>${error.message || ""}</div>`;
+      }
+    }
+
+    function renderArchive(list) {
+      const archiveList = document.getElementById("archiveList");
+      if (!list || list.length === 0) {
+        archiveList.innerHTML = `<div class="empty-box">هیچ پسولەیەک لەم ماوەیەدا نەدۆزرایەوە.</div>`;
+        return;
+      }
+
+      archiveList.innerHTML = "";
+      list.forEach((data) => {
+        const items = data.items || [];
+        const slipStatus = getSlipStatus(items);
+        const cardId = "archiveCard_" + data.id;
+        const betNo = data.betNo || data.id.slice(0, 8);
+        const matchesHtml = items.map(item => {
+          const gameStatus = getGameStatus(item);
+          return `<div class="match-item"><div><div class="match-name">${item.matchName || ""}</div><div class="pick-line">${item.pickTitle || ""} | پۆینت: <b>${formatPoint(item.point)}</b></div></div><span class="game-status ${getStatusClass(gameStatus)}">${getGameStatusText(gameStatus)}</span></div>`;
+        }).join("");
+
+        archiveList.innerHTML += `
+          <div class="archive-card" id="${cardId}">
+            <div class="archive-summary" onclick="toggleCard('${cardId}')">
+              <div class="archive-top"><span class="status ${getStatusClass(slipStatus)}">${getSlipStatusText(slipStatus)}</span><span class="date-text">${formatDate(data.createdAt)}</span></div>
+              <div class="summary-title">پسولە #${betNo}</div>
+              <div class="summary-sub">${items.length} یاری | کۆین: ${data.stake || 0} | تۆتال: ${formatPoint(data.totalPoint)}</div>
+            </div>
+            <div class="archive-content">
+              <div class="info-grid">
+                <div class="info-box"><span>کۆین</span><b>${data.stake || 0}</b></div>
+                <div class="info-box"><span>تۆتال پۆینت</span><b>${formatPoint(data.totalPoint)}</b></div>
+                <div class="info-box"><span>بردنەوەی پێشبینی</span><b>${data.possibleWin || 0}</b></div>
+              </div>
+              ${matchesHtml}
+            </div>
+          </div>`;
+      });
+    }
+
+    setDefaultRange();
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { window.location.href = "login.html"; return; }
+      currentUser = user;
+      await loadUserInfo(user);
+      await loadArchive(user);
+    });
+  </script>
+</body>
+</html>
